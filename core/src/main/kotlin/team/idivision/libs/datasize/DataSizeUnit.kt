@@ -21,14 +21,14 @@ internal const val TERA_SCALE: Long = GIGA_SCALE * BINARY_BASE
 
 /**
  * The list of possible size measurement units, in which a data size can be expressed.
- * The smallest time unit is [BYTES] and the largest is [TERABYTES].
+ * The smallest time unit is [Bytes] and the largest is [Terabytes].
  */
 public enum class DataSizeUnit(private val scale: Long) {
-    TERABYTES(TERA_SCALE),
-    GIGABYTES(GIGA_SCALE),
-    MEGABYTES(MEGA_SCALE),
-    KILOBYTES(KILO_SCALE),
-    BYTES(BYTE_SCALE);
+    Terabytes(TERA_SCALE),
+    Gigabytes(GIGA_SCALE),
+    Megabytes(MEGA_SCALE),
+    Kilobytes(KILO_SCALE),
+    Bytes(BYTE_SCALE);
 
 
     /** Converts the given size [value] of the current [scale] into the specified [unit]. */
@@ -102,18 +102,18 @@ internal fun convertDataSizeUnit(
 
 internal fun DataSizeUnit.shortName(): String =
     when (this) {
-        DataSizeUnit.TERABYTES -> "TB"
-        DataSizeUnit.GIGABYTES -> "GB"
-        DataSizeUnit.MEGABYTES -> "MB"
-        DataSizeUnit.KILOBYTES -> "KB"
-        DataSizeUnit.BYTES -> "B"
+        DataSizeUnit.Terabytes -> "TB"
+        DataSizeUnit.Gigabytes -> "GB"
+        DataSizeUnit.Megabytes -> "MB"
+        DataSizeUnit.Kilobytes -> "KB"
+        DataSizeUnit.Bytes -> "B"
     }
 
 internal fun DataSizeUnit.base(): Int =
     when (this) {
-        DataSizeUnit.TERABYTES -> 4
-        DataSizeUnit.GIGABYTES -> 3
-        DataSizeUnit.MEGABYTES -> 2
-        DataSizeUnit.KILOBYTES -> 1
-        DataSizeUnit.BYTES -> 0
+        DataSizeUnit.Terabytes -> 4
+        DataSizeUnit.Gigabytes -> 3
+        DataSizeUnit.Megabytes -> 2
+        DataSizeUnit.Kilobytes -> 1
+        DataSizeUnit.Bytes -> 0
     }

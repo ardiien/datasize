@@ -22,13 +22,13 @@ class DataSizeTest {
     @Test
     fun `negative number in toDataSize init throws IllegalStateException`() {
         assertThrows(IllegalStateException::class.java) {
-            (-3).toDataSize(DataSizeUnit.KILOBYTES)
+            (-3).toDataSize(DataSizeUnit.Kilobytes)
         }
     }
 
     @Test
     fun `zero byte object in number expression returns zero`() {
-        val subject = DataSize.Companion.ZERO
+        val subject = DataSize.Zero
 
         val bytes = subject.inBytes
         val kilobytes = subject.inKilobytes
@@ -46,10 +46,10 @@ class DataSizeTest {
     @Test
     fun `bytes convert to bytes`() {
         val expectedBytes = 104857600L // 100 Mb
-        val subject = DataSize.Companion.convert(
+        val subject = DataSize.convert(
             expectedBytes.toDouble(),
-            DataSizeUnit.BYTES,
-            DataSizeUnit.BYTES,
+            DataSizeUnit.Bytes,
+            DataSizeUnit.Bytes,
         )
 
         val result = subject.bytes.inBytes
@@ -59,10 +59,10 @@ class DataSizeTest {
     @Test
     fun `bytes convert to megabytes`() {
         val expectedBytes = 104857600L // 100 Mb
-        val subject = DataSize.Companion.convert(
+        val subject = DataSize.convert(
             expectedBytes.toDouble(),
-            DataSizeUnit.BYTES,
-            DataSizeUnit.MEGABYTES,
+            DataSizeUnit.Bytes,
+            DataSizeUnit.Megabytes,
         )
 
         val result = subject.megabytes.inBytes
@@ -73,10 +73,10 @@ class DataSizeTest {
     fun `megabytes convert to bytes`() {
         val expectedBytes = 104857600L
         val expectedBytesInMegabytes = 100.0
-        val subject = DataSize.Companion.convert(
+        val subject = DataSize.convert(
             expectedBytesInMegabytes,
-            DataSizeUnit.MEGABYTES,
-            DataSizeUnit.BYTES,
+            DataSizeUnit.Megabytes,
+            DataSizeUnit.Bytes,
         )
 
         val result = subject.bytes.inBytes
@@ -86,7 +86,7 @@ class DataSizeTest {
     @Test
     fun `bytes express with toDataSize as bytes`() {
         val expectedBytes = 104857600L // 100 Mb
-        val subject = expectedBytes.toDataSize(DataSizeUnit.BYTES)
+        val subject = expectedBytes.toDataSize(DataSizeUnit.Bytes)
 
         val result = subject.inBytes
         assertEquals(expectedBytes, result)
@@ -96,7 +96,7 @@ class DataSizeTest {
     fun `megabytes express with toDataSize as bytes`() {
         val expectedBytes = 123207680L
         val expectedMegaBytes = 117.5
-        val subject = expectedMegaBytes.toDataSize(DataSizeUnit.MEGABYTES)
+        val subject = expectedMegaBytes.toDataSize(DataSizeUnit.Megabytes)
 
         val resultBytes = subject.inBytes
         assertEquals(expectedBytes, resultBytes)
@@ -111,7 +111,7 @@ class DataSizeTest {
         val expectedKilobytes = 120320.0 // 117.5 Mb
 
         val subject = expectedBytes.bytes
-        val result = subject.toDouble(DataSizeUnit.KILOBYTES)
+        val result = subject.toDouble(DataSizeUnit.Kilobytes)
 
         assertEquals(expectedKilobytes, result, 0.01)
     }
@@ -122,7 +122,7 @@ class DataSizeTest {
         val expectedMegabytes = 117
 
         val subject = expectedBytes.bytes
-        val result = subject.toInt(DataSizeUnit.MEGABYTES)
+        val result = subject.toInt(DataSizeUnit.Megabytes)
 
         assertEquals(expectedMegabytes, result)
     }
@@ -133,7 +133,7 @@ class DataSizeTest {
         val expectedKilobytes = 123207680L
 
         val subject = expectedKilobytes.kilobytes
-        val result = subject.toLong(DataSizeUnit.BYTES)
+        val result = subject.toLong(DataSizeUnit.Bytes)
 
         assertEquals(expectedBytes, result)
     }
@@ -213,7 +213,7 @@ class DataSizeTest {
     @Test
     fun `operator div object by zero throws err if used ZERO`() {
         assertThrows(IllegalArgumentException::class.java) {
-            1.kilobytes / DataSize.Companion.ZERO
+            1.kilobytes / DataSize.Zero
         }
     }
 
@@ -228,7 +228,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toString with DataSizeUnit no decimals`() {
         val expected = "100 MB"
-        val result = 100.megabytes.toString(DataSizeUnit.MEGABYTES)
+        val result = 100.megabytes.toString(DataSizeUnit.Megabytes)
 
         assertEquals(expected, result)
     }
@@ -236,7 +236,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toString with DataSizeUnit and decimals`() {
         val expected = "100,55 MB"
-        val result = 100.55.megabytes.toString(DataSizeUnit.MEGABYTES, decimals = 2)
+        val result = 100.55.megabytes.toString(DataSizeUnit.Megabytes, decimals = 2)
 
         assertEquals(expected, result)
     }
@@ -244,7 +244,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toString with kilobytes DataSizeUnit no decimals`() {
         val expected = "102.400 KB"
-        val result = 100.megabytes.toString(DataSizeUnit.KILOBYTES)
+        val result = 100.megabytes.toString(DataSizeUnit.Kilobytes)
 
         assertEquals(expected, result)
     }
@@ -252,7 +252,7 @@ class DataSizeTest {
     @Test
     fun `terabytes toString with gigabytes DataSizeUnit no decimals`() {
         val expected = "1024 GB"
-        val result = 1.terabytes.toString(DataSizeUnit.GIGABYTES)
+        val result = 1.terabytes.toString(DataSizeUnit.Gigabytes)
 
         assertEquals(expected, result)
     }
@@ -260,7 +260,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toDecimalString with DataSizeUnit no decimals`() {
         val expected = "500 MB"
-        val result = 476.84.megabytes.toDecimalString(DataSizeUnit.MEGABYTES)
+        val result = 476.84.megabytes.toDecimalString(DataSizeUnit.Megabytes)
 
         assertEquals(expected, result)
     }
@@ -268,7 +268,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toDecimalString with DataSizeUnit and decimals`() {
         val expected = "512,5 MB"
-        val result = 488.755.megabytes.toDecimalString(DataSizeUnit.MEGABYTES, decimals = 1)
+        val result = 488.755.megabytes.toDecimalString(DataSizeUnit.Megabytes, decimals = 1)
 
         assertEquals(expected, result)
     }
@@ -276,7 +276,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toDecimalString with kilobytes DataSizeUnit no decimals`() {
         val expected = "1000 KB"
-        val result = 0.954.megabytes.toDecimalString(DataSizeUnit.KILOBYTES)
+        val result = 0.954.megabytes.toDecimalString(DataSizeUnit.Kilobytes)
 
         assertEquals(expected, result)
     }
@@ -284,7 +284,7 @@ class DataSizeTest {
     @Test
     fun `terabytes toDecimalString with gigabytes DataSizeUnit no decimals`() {
         val expected = "255 GB"
-        val result = 0.232.terabytes.toDecimalString(DataSizeUnit.GIGABYTES)
+        val result = 0.232.terabytes.toDecimalString(DataSizeUnit.Gigabytes)
 
         assertEquals(expected, result)
     }
@@ -292,7 +292,7 @@ class DataSizeTest {
     @Test
     fun `megabytes toBinaryUnit of megabytes`() {
         val expected = 476.84
-        val result = toBinaryUnit(500.0, DataSizeUnit.MEGABYTES)
+        val result = toBinaryUnit(500.0, DataSizeUnit.Megabytes)
 
         assertEquals(expected, result, 0.01)
     }
@@ -300,7 +300,7 @@ class DataSizeTest {
     @Test
     fun `gigabytes toBinaryUnit of terabytes`() {
         val expected = 0.232
-        val subject = toBinaryUnit(255, DataSizeUnit.GIGABYTES).gigabytes
+        val subject = toBinaryUnit(255, DataSizeUnit.Gigabytes).gigabytes
         val result = subject.inTerabytes
 
         assertEquals(expected, result, 0.01)
@@ -312,10 +312,10 @@ class DataSizeTest {
         val subjectKilobytes =
             toBinaryUnit(
                 // technically possible, but requires more precision.
-                toDecimalUnit(976.5621, DataSizeUnit.KILOBYTES),
-                DataSizeUnit.KILOBYTES,
+                toDecimalUnit(976.5621, DataSizeUnit.Kilobytes),
+                DataSizeUnit.Kilobytes,
             ).kilobytes
-        val subjectMegabytes = toBinaryUnit(1, DataSizeUnit.MEGABYTES).megabytes
+        val subjectMegabytes = toBinaryUnit(1, DataSizeUnit.Megabytes).megabytes
         val result = subjectKilobytes + subjectMegabytes
 
         assertEquals(expected, result.inBytes)
@@ -339,7 +339,7 @@ class DataSizeTest {
     @Test
     fun `show correct decimalSeparator`() {
         val expected = "1,1 MB"
-        val result = 1.1.megabytes.toString(unit = DataSizeUnit.MEGABYTES, decimals = 1)
+        val result = 1.1.megabytes.toString(unit = DataSizeUnit.Megabytes, decimals = 1)
 
         assertEquals(expected, result)
     }
@@ -347,7 +347,7 @@ class DataSizeTest {
     @Test
     fun `show correct groupingSeparator`() {
         val expected = "10.000 MB"
-        val result = 10_000.megabytes.toString(unit = DataSizeUnit.MEGABYTES, decimals = 1)
+        val result = 10_000.megabytes.toString(unit = DataSizeUnit.Megabytes, decimals = 1)
 
         assertEquals(expected, result)
     }
@@ -355,7 +355,7 @@ class DataSizeTest {
     @Test
     fun `show correct groupingSeparator with floating point`() {
         val expected = "100.000,5 MB"
-        val result = 100_000.5.megabytes.toString(unit = DataSizeUnit.MEGABYTES, decimals = 1)
+        val result = 100_000.5.megabytes.toString(unit = DataSizeUnit.Megabytes, decimals = 1)
 
         assertEquals(expected, result)
     }
@@ -363,7 +363,7 @@ class DataSizeTest {
     @Test
     fun `hide groupingSeparator when groupingSize less then 3`() {
         val expected = "1000 MB"
-        val result = 1000.megabytes.toString(unit = DataSizeUnit.MEGABYTES, decimals = 1)
+        val result = 1000.megabytes.toString(unit = DataSizeUnit.Megabytes, decimals = 1)
         assertEquals(expected, result)
     }
 

@@ -34,7 +34,7 @@ public value class DataSize internal constructor(
     private val rawValue: Long
 ) : Comparable<DataSize> {
     private val sizeUnit
-        get() = DataSizeUnit.BYTES
+        get() = DataSizeUnit.Bytes
 
     init {
         check(rawValue in 0..MAX_SIZE) {
@@ -44,75 +44,75 @@ public value class DataSize internal constructor(
 
     public companion object {
         /** The size equal to exactly 0 bytes. */
-        public val ZERO: DataSize = DataSize(rawValue = 0)
+        public val Zero: DataSize = DataSize(rawValue = 0)
 
         /** The size whose value is positive infinity. It is useful for representing unlimited size. */
-        public val INFINITE: DataSize = DataSize(rawValue = MAX_SIZE)
+        public val Infinite: DataSize = DataSize(rawValue = MAX_SIZE)
 
 
         /** Returns a [DataSize] equal to this [Long] number of terabytes. */
         public inline val Long.terabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.TERABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Terabytes)
 
         /** Returns a [DataSize] equal to this [Int] number of terabytes. */
         public inline val Int.terabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.TERABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Terabytes)
 
         /** Returns a [DataSize] equal to this [Double] number of terabytes. */
         public inline val Double.terabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.TERABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Terabytes)
 
 
         /** Returns a [DataSize] equal to this [Long] number of gigabytes. */
         public inline val Long.gigabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.GIGABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Gigabytes)
 
         /** Returns a [DataSize] equal to this [Int] number of gigabytes. */
         public inline val Int.gigabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.GIGABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Gigabytes)
 
         /** Returns a [DataSize] equal to this [Double] number of gigabytes. */
         public inline val Double.gigabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.GIGABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Gigabytes)
 
 
         /** Returns a [DataSize] equal to this [Long] number of megabytes. */
         public inline val Long.megabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.MEGABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Megabytes)
 
         /** Returns a [DataSize] equal to this [Int] number of megabytes. */
         public inline val Int.megabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.MEGABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Megabytes)
 
         /** Returns a [DataSize] equal to this [Double] number of megabytes. */
         public inline val Double.megabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.MEGABYTES)
+            get() = toDataSize(unit = DataSizeUnit.Megabytes)
 
 
         /** Returns a [DataSize] equal to this [Long] number of kilobytes. */
         public inline val Long.kilobytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.KILOBYTES)
+            get() = toDataSize(unit = DataSizeUnit.Kilobytes)
 
         /** Returns a [DataSize] equal to this [Int] number of kilobytes. */
         public inline val Int.kilobytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.KILOBYTES)
+            get() = toDataSize(unit = DataSizeUnit.Kilobytes)
 
         /** Returns a [DataSize] equal to this [Double] number of kilobytes. */
         public inline val Double.kilobytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.KILOBYTES)
+            get() = toDataSize(unit = DataSizeUnit.Kilobytes)
 
 
         /** Returns a [DataSize] equal to this [Long] number of bytes. */
         public inline val Long.bytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.BYTES)
+            get() = toDataSize(unit = DataSizeUnit.Bytes)
 
         /** Returns a [DataSize] equal to this [Int] number of bytes. */
         public inline val Int.bytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.BYTES)
+            get() = toDataSize(unit = DataSizeUnit.Bytes)
 
         /** Returns a [DataSize] equal to this [Double] number of bytes. */
         public inline val Double.bytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.BYTES)
+            get() = toDataSize(unit = DataSizeUnit.Bytes)
 
 
         /** Returns a number directly converted from [sourceUnit] to [targetUnit] type. */
@@ -183,7 +183,7 @@ public value class DataSize internal constructor(
     }
 
     public operator fun times(scale: Int): DataSize {
-        if (scale == 0) return ZERO
+        if (scale == 0) return Zero
 
         val result = rawValue * scale
         return dataSizeOfNormalized(value = result)
@@ -212,10 +212,10 @@ public value class DataSize internal constructor(
 
 
     /** Returns true, if the data size value is infinite. */
-    public fun isInfinite(): Boolean = rawValue == INFINITE.rawValue
+    public fun isInfinite(): Boolean = rawValue == Infinite.rawValue
 
     /** Returns true, if the data size value is zero. */
-    public fun isZero(): Boolean = rawValue == ZERO.rawValue
+    public fun isZero(): Boolean = rawValue == Zero.rawValue
 
     override fun compareTo(other: DataSize): Int =
         this.rawValue.compareTo(other.rawValue)
@@ -254,23 +254,23 @@ public value class DataSize internal constructor(
 
     /** The value of this [DataSize] expressed as a [Double] number of terabytes. */
     public val inTerabytes: Double
-        get() = toDouble(unit = DataSizeUnit.TERABYTES)
+        get() = toDouble(unit = DataSizeUnit.Terabytes)
 
     /** The value of this [DataSize] expressed as a [Double] number of gigabytes. */
     public val inGigabytes: Double
-        get() = toDouble(unit = DataSizeUnit.GIGABYTES)
+        get() = toDouble(unit = DataSizeUnit.Gigabytes)
 
     /** The value of this [DataSize] expressed as a [Double] number of megabytes. */
     public val inMegabytes: Double
-        get() = toDouble(unit = DataSizeUnit.MEGABYTES)
+        get() = toDouble(unit = DataSizeUnit.Megabytes)
 
     /** The value of this [DataSize] expressed as a [Double] number of kilobytes. */
     public val inKilobytes: Double
-        get() = toDouble(unit = DataSizeUnit.KILOBYTES)
+        get() = toDouble(unit = DataSizeUnit.Kilobytes)
 
     /** The value of this [DataSize] expressed as a [Long] number of bytes. */
     public val inBytes: Long
-        get() = toLong(unit = DataSizeUnit.BYTES)
+        get() = toLong(unit = DataSizeUnit.Bytes)
 
     /**
      * Returns a string representation of this data size value expressed in the given [unit]
@@ -340,7 +340,7 @@ public fun Double.toDataSize(unit: DataSizeUnit): DataSize {
     val value = convertDataSizeUnit(
         value = this,
         sourceUnit = unit,
-        targetUnit = DataSizeUnit.BYTES,
+        targetUnit = DataSizeUnit.Bytes,
     ).roundToLong()
 
     return DataSize(value)
@@ -355,7 +355,7 @@ public fun Int.toDataSize(unit: DataSizeUnit): DataSize {
     val value = convertDataSizeUnit(
         value = this.toLong(),
         sourceUnit = unit,
-        targetUnit = DataSizeUnit.BYTES,
+        targetUnit = DataSizeUnit.Bytes,
     )
 
     return DataSize(value)
@@ -370,7 +370,7 @@ public fun Long.toDataSize(unit: DataSizeUnit): DataSize {
     val value = convertDataSizeUnit(
         value = this,
         sourceUnit = unit,
-        targetUnit = DataSizeUnit.BYTES,
+        targetUnit = DataSizeUnit.Bytes,
     )
 
     return DataSize(value)
@@ -390,6 +390,6 @@ private fun dataSizeOfNormalized(value: Long) =
 
 private fun dataSizeOf(value: Long) = DataSize(value)
 
-/** Returns the specified [DataSize] if not `null`, or [DataSize.ZERO] otherwise. */
+/** Returns the specified [DataSize] if not `null`, or [DataSize.Zero] otherwise. */
 @Suppress("NOTHING_TO_INLINE")
-public inline fun DataSize?.orZero(): DataSize = this ?: DataSize.ZERO
+public inline fun DataSize?.orZero(): DataSize = this ?: DataSize.Zero

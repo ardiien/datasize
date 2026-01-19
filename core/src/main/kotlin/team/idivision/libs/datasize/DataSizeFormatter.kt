@@ -19,11 +19,11 @@ public object DataSizeFormatter {
     @JvmSynthetic
     public fun unitFrom(value: DataSize): DataSizeUnit =
         when {
-            value.inBytes > TERA_SCALE -> DataSizeUnit.TERABYTES
-            value.inBytes > GIGA_SCALE -> DataSizeUnit.GIGABYTES
-            value.inBytes > MEGA_SCALE -> DataSizeUnit.MEGABYTES
-            value.inBytes > KILO_SCALE -> DataSizeUnit.KILOBYTES
-            else -> DataSizeUnit.BYTES
+            value.inBytes > TERA_SCALE -> DataSizeUnit.Terabytes
+            value.inBytes > GIGA_SCALE -> DataSizeUnit.Gigabytes
+            value.inBytes > MEGA_SCALE -> DataSizeUnit.Megabytes
+            value.inBytes > KILO_SCALE -> DataSizeUnit.Kilobytes
+            else -> DataSizeUnit.Bytes
         }
 
     /**

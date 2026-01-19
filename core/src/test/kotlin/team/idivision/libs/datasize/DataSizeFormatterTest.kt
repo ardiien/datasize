@@ -13,7 +13,7 @@ class DataSizeFormatterTest {
 
     @Test
     fun `Bytes is returned as data size unit when expected`() {
-        val expected = DataSizeUnit.BYTES
+        val expected = DataSizeUnit.Bytes
         val size = 500.bytes.inBytes
         val actualFromDataSize = DataSizeFormatter.unitFrom(size.bytes)
         val actualFromRawValue = DataSizeFormatter.unitFrom(size)
@@ -23,7 +23,7 @@ class DataSizeFormatterTest {
 
     @Test
     fun `Kilobytes is returned as data size unit when expected`() {
-        val expected = DataSizeUnit.KILOBYTES
+        val expected = DataSizeUnit.Kilobytes
         val size = 500.kilobytes.inBytes
         val actualFromDataSize = DataSizeFormatter.unitFrom(size.bytes)
         val actualFromRawValue = DataSizeFormatter.unitFrom(size)
@@ -33,7 +33,7 @@ class DataSizeFormatterTest {
 
     @Test
     fun `Megabytes is returned as data size unit when expected`() {
-        val expected = DataSizeUnit.MEGABYTES
+        val expected = DataSizeUnit.Megabytes
         val size = 500.megabytes.inBytes
         val actualFromDataSize = DataSizeFormatter.unitFrom(size.bytes)
         val actualFromRawValue = DataSizeFormatter.unitFrom(size)
@@ -43,7 +43,7 @@ class DataSizeFormatterTest {
 
     @Test
     fun `Gigabytes is returned as data size unit when expected`() {
-        val expected = DataSizeUnit.GIGABYTES
+        val expected = DataSizeUnit.Gigabytes
         val size = 500.gigabytes.inBytes
         val actualFromDataSize = DataSizeFormatter.unitFrom(size.bytes)
         val actualFromRawValue = DataSizeFormatter.unitFrom(size)
@@ -53,7 +53,7 @@ class DataSizeFormatterTest {
 
     @Test
     fun `Terabytes is returned as data size unit when expected`() {
-        val expected = DataSizeUnit.TERABYTES
+        val expected = DataSizeUnit.Terabytes
         val size = 500.terabytes.inBytes
         val actualFromDataSize = DataSizeFormatter.unitFrom(size.bytes)
         val actualFromRawValue = DataSizeFormatter.unitFrom(size)
@@ -68,12 +68,12 @@ class DataSizeFormatterTest {
         val actualFromDataSize =
             DataSizeFormatter.format(
                 value = size.bytes,
-                unit = DataSizeUnit.GIGABYTES,
+                unit = DataSizeUnit.Gigabytes,
                 decimals = 0
             )
         val actualFromRawValue = DataSizeFormatter.format(
             value = size,
-            unit = DataSizeUnit.GIGABYTES,
+            unit = DataSizeUnit.Gigabytes,
             decimals = 0
         )
         assertEquals(expected, actualFromDataSize)
@@ -87,12 +87,12 @@ class DataSizeFormatterTest {
         val actualFromDataSize =
             DataSizeFormatter.format(
                 value = size.bytes,
-                unit = DataSizeUnit.GIGABYTES,
+                unit = DataSizeUnit.Gigabytes,
                 decimals = 1
             )
         val actualFromRawValue = DataSizeFormatter.format(
             value = size,
-            unit = DataSizeUnit.GIGABYTES,
+            unit = DataSizeUnit.Gigabytes,
             decimals = 1
         )
         assertEquals(expected, actualFromDataSize)
@@ -106,12 +106,12 @@ class DataSizeFormatterTest {
         val actualFromDataSize =
             DataSizeFormatter.format(
                 value = size.bytes,
-                unit = DataSizeUnit.GIGABYTES,
+                unit = DataSizeUnit.Gigabytes,
                 decimals = 2
             )
         val actualFromRawValue = DataSizeFormatter.format(
             value = size,
-            unit = DataSizeUnit.GIGABYTES,
+            unit = DataSizeUnit.Gigabytes,
             decimals = 2
         )
         assertEquals(expected, actualFromDataSize)
