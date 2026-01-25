@@ -12,7 +12,7 @@ kotlin {
 
     explicitApi()
     compilerOptions {
-        optIn.add("team.idivision.libs.datasize.ExperimentalDataSizeApi")
+        optIn.add("io.github.ardiien.datasize.ExperimentalDataSizeApi")
     }
 
     sourceSets.all {

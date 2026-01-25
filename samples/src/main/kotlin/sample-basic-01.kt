@@ -1,4 +1,4 @@
-import team.idivision.libs.datasize.DataSize.Companion.kilobytes
+import io.github.ardiien.datasize.DataSize.Companion.kilobytes
 
 
 fun main() {

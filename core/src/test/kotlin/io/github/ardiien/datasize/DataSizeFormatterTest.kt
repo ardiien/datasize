@@ -1,10 +1,16 @@
-package team.idivision.libs.datasize
+/*
+ * Copyright 2026 ardiien
+ * Licensed under the Apache License, Version 2.0.
+ * See http://www.apache.org/licenses/LICENSE-2.0
+ */
 
-import team.idivision.libs.datasize.DataSize.Companion.bytes
-import team.idivision.libs.datasize.DataSize.Companion.gigabytes
-import team.idivision.libs.datasize.DataSize.Companion.kilobytes
-import team.idivision.libs.datasize.DataSize.Companion.megabytes
-import team.idivision.libs.datasize.DataSize.Companion.terabytes
+package io.github.ardiien.datasize
+
+import io.github.ardiien.datasize.DataSize.Companion.bytes
+import io.github.ardiien.datasize.DataSize.Companion.gigabytes
+import io.github.ardiien.datasize.DataSize.Companion.kilobytes
+import io.github.ardiien.datasize.DataSize.Companion.megabytes
+import io.github.ardiien.datasize.DataSize.Companion.terabytes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

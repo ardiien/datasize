@@ -1,5 +1,5 @@
-import team.idivision.libs.datasize.DataSize.Companion.megabytes
-import team.idivision.libs.datasize.DataSizeUnit
+import io.github.ardiien.datasize.DataSize.Companion.megabytes
+import io.github.ardiien.datasize.DataSizeUnit
 
 
 fun main() {

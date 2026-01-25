@@ -3,9 +3,9 @@
  * Licensed under the Apache License, Version 2.0.
  * See http://www.apache.org/licenses/LICENSE-2.0
  */
-package team.idivision.libs.datasize
+package io.github.ardiien.datasize
 
-import team.idivision.libs.datasize.DataSize.Companion.bytes
+import io.github.ardiien.datasize.DataSize.Companion.bytes
 
 
 /** A utility class for formatting data size values in a human-readable form. */

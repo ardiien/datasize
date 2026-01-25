@@ -1,7 +1,7 @@
-import team.idivision.libs.datasize.DataSize.Companion.kilobytes
-import team.idivision.libs.datasize.DataSize.Companion.megabytes
-import team.idivision.libs.datasize.max
-import team.idivision.libs.datasize.min
+import io.github.ardiien.datasize.DataSize.Companion.kilobytes
+import io.github.ardiien.datasize.DataSize.Companion.megabytes
+import io.github.ardiien.datasize.max
+import io.github.ardiien.datasize.min
 
 
 fun main() {

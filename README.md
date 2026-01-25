@@ -26,7 +26,7 @@ The `DataSize` has extensions available on numeric types like `Int`, `Long`, and
 Here is a small example.
 
 ```kotlin
-import team.idivision.libs.datasize.*
+import io.github.ardiien.datasize.*
 
 fun main() {
     // Supported units: bytes, kilobytes, megabytes, gigabytes, and terabytes.
@@ -44,7 +44,7 @@ fun main() {
 The `DataSize` class supports the following arithmetic operations
 
 ```kotlin
-import team.idivision.libs.datasize.*
+import io.github.ardiien.datasize.*
 
 fun main() {
     // Explore all overrides of the "operator fun" in DataSize class.
@@ -74,7 +74,7 @@ Also, it has some other useful methods like:
 - `isInfinite` and `isZero` to check boundaries of the `DataSize` instances.
 
 ```kotlin
-import team.idivision.libs.datasize.*
+import io.github.ardiien.datasize.*
 
 fun main() {
     val sortedList = listOf(
@@ -117,7 +117,7 @@ It's important to note that there's a difference between `decimal == 0` and `dec
 clamped between 0 and 2. Any value greater than 2 will be coerced to 2 during evaluation.
 
 ```kotlin
-import team.idivision.libs.datasize.*
+import io.github.ardiien.datasize.*
 
 fun main() {
     val value = 55.563.kilobytes

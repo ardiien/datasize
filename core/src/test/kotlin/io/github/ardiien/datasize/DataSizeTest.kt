@@ -1,11 +1,17 @@
-package team.idivision.libs.datasize
+/*
+ * Copyright 2026 ardiien
+ * Licensed under the Apache License, Version 2.0.
+ * See http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+package io.github.ardiien.datasize
 
 import org.junit.jupiter.api.Assertions.assertThrows
-import team.idivision.libs.datasize.DataSize.Companion.bytes
-import team.idivision.libs.datasize.DataSize.Companion.gigabytes
-import team.idivision.libs.datasize.DataSize.Companion.kilobytes
-import team.idivision.libs.datasize.DataSize.Companion.megabytes
-import team.idivision.libs.datasize.DataSize.Companion.terabytes
+import io.github.ardiien.datasize.DataSize.Companion.bytes
+import io.github.ardiien.datasize.DataSize.Companion.gigabytes
+import io.github.ardiien.datasize.DataSize.Companion.kilobytes
+import io.github.ardiien.datasize.DataSize.Companion.megabytes
+import io.github.ardiien.datasize.DataSize.Companion.terabytes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -258,6 +264,7 @@ class DataSizeTest {
     }
 
     @Test
+    @OptIn(ExperimentalDataSizeApi::class)
     fun `megabytes toDecimalString with DataSizeUnit no decimals`() {
         val expected = "500 MB"
         val result = 476.84.megabytes.toDecimalString(DataSizeUnit.Megabytes)
@@ -266,6 +273,7 @@ class DataSizeTest {
     }
 
     @Test
+    @OptIn(ExperimentalDataSizeApi::class)
     fun `megabytes toDecimalString with DataSizeUnit and decimals`() {
         val expected = "512,5 MB"
         val result = 488.755.megabytes.toDecimalString(DataSizeUnit.Megabytes, decimals = 1)
@@ -274,6 +282,7 @@ class DataSizeTest {
     }
 
     @Test
+    @OptIn(ExperimentalDataSizeApi::class)
     fun `megabytes toDecimalString with kilobytes DataSizeUnit no decimals`() {
         val expected = "1000 KB"
         val result = 0.954.megabytes.toDecimalString(DataSizeUnit.Kilobytes)
@@ -282,6 +291,7 @@ class DataSizeTest {
     }
 
     @Test
+    @OptIn(ExperimentalDataSizeApi::class)
     fun `terabytes toDecimalString with gigabytes DataSizeUnit no decimals`() {
         val expected = "255 GB"
         val result = 0.232.terabytes.toDecimalString(DataSizeUnit.Gigabytes)
@@ -307,6 +317,7 @@ class DataSizeTest {
     }
 
     @Test
+    @OptIn(ExperimentalDataSizeApi::class)
     fun `kilobytes toDecimalUnit plus megabytes toBinaryUnit`() {
         val expected = 2_000_000L
         val subjectKilobytes =

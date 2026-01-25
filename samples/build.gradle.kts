@@ -6,7 +6,7 @@ kotlin {
     jvmToolchain(17)
 
     compilerOptions {
-        optIn.add("team.idivision.libs.datasize.ExperimentalDataSizeApi")
+        optIn.add("io.github.ardiien.datasize.ExperimentalDataSizeApi")
     }
 }
 
