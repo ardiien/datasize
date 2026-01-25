@@ -1,0 +1,64 @@
+name: Feature Request / Enhancement
+description: Suggest an idea or propose a design improvement
+title:
+labels:
+  - "enhancement"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an enhancement.
+        Please describe the problem and your proposed solution clearly.
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case / problem statement
+      description: |
+        What problem are you trying to solve?
+        Why is this feature needed?
+      placeholder: Describe your use case and motivation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: |
+        Describe the solution or design you'd like to see.
+        API ideas, behavior, or examples are welcome.
+      placeholder: How should this feature work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        Describe any alternative solutions or workarounds you've considered.
+      placeholder: Other approaches or existing workarounds.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: |
+        Links, screenshots, prior art, or related issues.
+      placeholder: Any extra information that helps.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: This request fits the scope of the project
+          required: true

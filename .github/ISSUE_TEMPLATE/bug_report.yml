@@ -1,0 +1,96 @@
+name: Bug Report
+description: Report a bug to help improve the library
+title:
+labels:
+  - "bug"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+        Please fill out the form below as completely as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Provide steps, code snippets, or test data that reproduce the issue.
+      placeholder: |
+        1. Call function ...
+        2. See error ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+      placeholder: The library should...
+    validations:
+      required: true
+
+  - type: input
+    id: kotlin-version
+    attributes:
+      label: Kotlin version
+      placeholder: e.g. 1.9.22
+    validations:
+      required: true
+
+  - type: input
+    id: library-version
+    attributes:
+      label: Library version
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: gradle-version
+    attributes:
+      label: Gradle version
+      placeholder: e.g. 8.6
+    validations:
+      required: false
+
+  - type: input
+    id: ide-version
+    attributes:
+      label: IDE (if relevant)
+      placeholder: IntelliJ IDEA 2024.1 / Android Studio Hedgehog
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Additional environment details
+      description: |
+        OS, JDK version, CI environment, or anything else relevant.
+      placeholder: |
+        OS: macOS 14.2
+        JDK: Temurin 17
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues
+          required: true
+        - label: I can reproduce this issue with the latest version
+          required: true
