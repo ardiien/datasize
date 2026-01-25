@@ -2,6 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-Apache%20License%202.0-fedcba.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.3.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.ardiien.datasize/datasize/1.0.0)](https://central.sonatype.com/artifact/io.github.ardiien.datasize/datasize/1.0.0)
+![Build](https://img.shields.io/github/actions/workflow/status/ardiien/datasize/datasize.yml?branch=main&style=flat&color=limegreen&logo=github)
 
 The `DataSize` value class represents a quantity of digital information and provides a rich set of utilities.
 Use extension function to create the `DataSize` representation. It's important to know that all values are stored in
