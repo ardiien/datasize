@@ -30,5 +30,8 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ runner.os }}-
 
+      - name: Check API
+        run: ./gradlew apiCheck
+
       - name: Run tests
         run: ./gradlew clean test

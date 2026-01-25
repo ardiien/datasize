@@ -1,0 +1,100 @@
+public final class io/github/ardiien/datasize/DataSize : java/lang/Comparable {
+	public static final field Companion Lio/github/ardiien/datasize/DataSize$Companion;
+	public static final synthetic fun box-impl (J)Lio/github/ardiien/datasize/DataSize;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-BuKYR8w (J)I
+	public static fun compareTo-BuKYR8w (JJ)I
+	public static final fun div-BuKYR8w (JJ)D
+	public static final fun div-_mO8CwU (JD)J
+	public static final fun div-_mO8CwU (JI)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public static final fun getInBytes-impl (J)J
+	public static final fun getInGigabytes-impl (J)D
+	public static final fun getInKilobytes-impl (J)D
+	public static final fun getInMegabytes-impl (J)D
+	public static final fun getInTerabytes-impl (J)D
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public static final fun isInfinite-impl (J)Z
+	public static final fun isZero-impl (J)Z
+	public static final fun minus-nBzHbaQ (JJ)J
+	public static final fun plus-nBzHbaQ (JJ)J
+	public static final fun rem-nBzHbaQ (JJ)J
+	public static final fun times-_mO8CwU (JD)J
+	public static final fun times-_mO8CwU (JI)J
+	public static final fun toDecimalString-impl (JLio/github/ardiien/datasize/DataSizeUnit;I)Ljava/lang/String;
+	public static synthetic fun toDecimalString-impl$default (JLio/github/ardiien/datasize/DataSizeUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public static final fun toDouble-impl (JLio/github/ardiien/datasize/DataSizeUnit;)D
+	public static final fun toInt-impl (JLio/github/ardiien/datasize/DataSizeUnit;)I
+	public static final fun toLong-impl (JLio/github/ardiien/datasize/DataSizeUnit;)J
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public static final fun toString-impl (JLio/github/ardiien/datasize/DataSizeUnit;I)Ljava/lang/String;
+	public static synthetic fun toString-impl$default (JLio/github/ardiien/datasize/DataSizeUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class io/github/ardiien/datasize/DataSize$Companion {
+	public final fun convert (DLio/github/ardiien/datasize/DataSizeUnit;Lio/github/ardiien/datasize/DataSizeUnit;I)D
+	public static synthetic fun convert$default (Lio/github/ardiien/datasize/DataSize$Companion;DLio/github/ardiien/datasize/DataSizeUnit;Lio/github/ardiien/datasize/DataSizeUnit;IILjava/lang/Object;)D
+	public final fun getBytes-_mO8CwU (D)J
+	public final fun getBytes-_mO8CwU (I)J
+	public final fun getBytes-_mO8CwU (J)J
+	public final fun getGigabytes-_mO8CwU (D)J
+	public final fun getGigabytes-_mO8CwU (I)J
+	public final fun getGigabytes-_mO8CwU (J)J
+	public final fun getInfinite-3VZmxlE ()J
+	public final fun getKilobytes-_mO8CwU (D)J
+	public final fun getKilobytes-_mO8CwU (I)J
+	public final fun getKilobytes-_mO8CwU (J)J
+	public final fun getMegabytes-_mO8CwU (D)J
+	public final fun getMegabytes-_mO8CwU (I)J
+	public final fun getMegabytes-_mO8CwU (J)J
+	public final fun getTerabytes-_mO8CwU (D)J
+	public final fun getTerabytes-_mO8CwU (I)J
+	public final fun getTerabytes-_mO8CwU (J)J
+	public final fun getZero-3VZmxlE ()J
+}
+
+public final class io/github/ardiien/datasize/DataSizeFormatter {
+	public static final field INSTANCE Lio/github/ardiien/datasize/DataSizeFormatter;
+	public static final fun format (JLio/github/ardiien/datasize/DataSizeUnit;I)Ljava/lang/String;
+	public static synthetic fun format$default (JLio/github/ardiien/datasize/DataSizeUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public final synthetic fun format-wBTIb-E (JLio/github/ardiien/datasize/DataSizeUnit;I)Ljava/lang/String;
+	public static synthetic fun format-wBTIb-E$default (Lio/github/ardiien/datasize/DataSizeFormatter;JLio/github/ardiien/datasize/DataSizeUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public static final fun unitFrom (J)Lio/github/ardiien/datasize/DataSizeUnit;
+	public final synthetic fun unitFrom-BuKYR8w (J)Lio/github/ardiien/datasize/DataSizeUnit;
+}
+
+public final class io/github/ardiien/datasize/DataSizeKt {
+	public static final fun max-yHBNY8A (JJ)J
+	public static final fun min-yHBNY8A (JJ)J
+	public static final fun orZero-SwkpY8w (Lio/github/ardiien/datasize/DataSize;)J
+	public static final fun toDataSize (DLio/github/ardiien/datasize/DataSizeUnit;)J
+	public static final fun toDataSize (ILio/github/ardiien/datasize/DataSizeUnit;)J
+	public static final fun toDataSize (JLio/github/ardiien/datasize/DataSizeUnit;)J
+}
+
+public final class io/github/ardiien/datasize/DataSizeUnit : java/lang/Enum {
+	public static final field Bytes Lio/github/ardiien/datasize/DataSizeUnit;
+	public static final field Gigabytes Lio/github/ardiien/datasize/DataSizeUnit;
+	public static final field Kilobytes Lio/github/ardiien/datasize/DataSizeUnit;
+	public static final field Megabytes Lio/github/ardiien/datasize/DataSizeUnit;
+	public static final field Terabytes Lio/github/ardiien/datasize/DataSizeUnit;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/ardiien/datasize/DataSizeUnit;
+	public static fun values ()[Lio/github/ardiien/datasize/DataSizeUnit;
+}
+
+public final class io/github/ardiien/datasize/DataSizeUnitKt {
+	public static final fun toBinaryUnit (DLio/github/ardiien/datasize/DataSizeUnit;)D
+	public static final fun toBinaryUnit (ILio/github/ardiien/datasize/DataSizeUnit;)D
+	public static final fun toDecimalUnit (DLio/github/ardiien/datasize/DataSizeUnit;)D
+	public static final fun toDecimalUnit (ILio/github/ardiien/datasize/DataSizeUnit;)D
+}
+
+public abstract interface annotation class io/github/ardiien/datasize/ExperimentalDataSizeApi : java/lang/annotation/Annotation {
+}
+
