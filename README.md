@@ -13,12 +13,39 @@ on [IBM Storage Insights](https://www.ibm.com/docs/en/storage-insights?topic=ove
 
 ## Table of Contents
 
+* [Setup](#setup)
 * [Basics](#basics)
     * [Operations](#operations)
     * [Comparing](#comparing)
 * [Formatting](#formatting)
 * [Precision](#precision)
 * [More to Explore](#more-to-explore)
+
+## Setup
+
+Kotlin DSL:
+
+```kotlin
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.ardiien.datasize:datasize:<version>")
+}
+```       
+
+Groovy DSL:
+
+```gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.ardiien.datasize:datasize:<version>'
+}
+```
 
 ## Basics
 
