@@ -19,5 +19,5 @@ dependencyResolutionManagement {
 rootProject.name = "datasize"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include(":core")
+include(":datasize-core")
 include(":samples")
