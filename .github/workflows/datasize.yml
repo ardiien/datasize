@@ -2,9 +2,9 @@ name: datasize
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "release/**"]
   pull_request:
-    branches: ["main", "feat/**"]
+    branches: ["main", "feat/**", "release/**"]
 
 jobs:
   build:

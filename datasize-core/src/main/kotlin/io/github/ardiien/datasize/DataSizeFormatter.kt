@@ -5,65 +5,36 @@
  */
 package io.github.ardiien.datasize
 
-import io.github.ardiien.datasize.DataSize.Companion.bytes
+import io.github.ardiien.datasize.unit.DataSizeUnit
 
 
-/** A utility class for formatting data size values in a human-readable form. */
-public object DataSizeFormatter {
-
-    /**
-     * Returns [DataSizeUnit] from [value] depending on the threshold.
-     *
-     * @throws IllegalStateException value is not within 0 <= value <= [MAX_SIZE]
-     */
-    @JvmSynthetic
-    public fun unitFrom(value: DataSize): DataSizeUnit =
-        when {
-            value.inBytes > TERA_SCALE -> DataSizeUnit.Terabytes
-            value.inBytes > GIGA_SCALE -> DataSizeUnit.Gigabytes
-            value.inBytes > MEGA_SCALE -> DataSizeUnit.Megabytes
-            value.inBytes > KILO_SCALE -> DataSizeUnit.Kilobytes
-            else -> DataSizeUnit.Bytes
-        }
+/** Provides utilities for formatting [DataSize] values into human-readable strings. */
+public interface DataSizeFormatter {
 
     /**
-     * Returns a string representation of this data size [value] expressed in the given [unit]
-     * and formatted with the specified [decimals] number of digits after decimal point.
+     * Returns the most appropriate [DataSizeUnit] for the given [value] based on its magnitude.
+     * The selected unit is the largest unit whose byte value does not exceed the given [value].
      *
-     * @return String representation of [value] in a custom format.
-     * @throws IllegalStateException value is not within 0 <= value <= [MAX_SIZE]
-     * @throws IllegalArgumentException if [decimals] is less than zero.
-     * @see DataSize.toString
+     * @throws IllegalStateException if the value is not within the supported range
      */
-    @JvmSynthetic
+    public fun unitFrom(value: DataSize): DataSizeUnit
+
+    /**
+     * Returns a string representation of the given [value] expressed in the specified [unit]
+     * and formatted with the given number of fractional [fractionDigits].
+     *
+     * If [unit] is not provided, a suitable unit is selected automatically using [unitFrom].
+     *
+     * @param value the data size to format.
+     * @param unit the unit to express the value in.
+     * @param fractionDigits the number of digits to display after the decimal point.
+     *
+     * @throws IllegalStateException if the value is not within the supported range.
+     * @throws IllegalArgumentException if [fractionDigits] is negative.
+     */
     public fun format(
         value: DataSize,
         unit: DataSizeUnit = unitFrom(value),
-        decimals: Int = 0,
-    ): String = value.toString(unit, decimals)
-
-    /**
-     * Java-use only.
-     * For Kotlin, use unitFrom(value: DataSize) instead.
-     *
-     * @return [DataSizeUnit] from [value] depending on the threshold.
-     * @throws IllegalStateException value is not within 0 <= value <= [MAX_SIZE]
-     */
-    @JvmStatic
-    @Throws(IllegalStateException::class)
-    public fun unitFrom(value: Long): DataSizeUnit = unitFrom(value.bytes)
-
-    /**
-     * Java-use only.
-     * For Kotlin, use format(value: DataSize, unit: DataSizeUnit, decimals: Int) instead.
-     *
-     * @return String representation of [value] in a custom format.
-     */
-    @JvmStatic
-    @Throws(IllegalStateException::class)
-    public fun format(
-        value: Long,
-        unit: DataSizeUnit = unitFrom(value),
-        decimals: Int = 0,
-    ): String = format(value.bytes, unit, decimals)
+        fractionDigits: Int = 0,
+    ): String
 }

@@ -2,11 +2,13 @@
 bcv = "0.18.1"
 dokka = "2.1.0"
 kotlin = "2.3.0"
+kotlinCollections = "0.4.0"
 shadow = "8.3.9"
 publish = "0.36.0"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinCollections" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 [plugins]

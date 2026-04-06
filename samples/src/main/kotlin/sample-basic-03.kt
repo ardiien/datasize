@@ -1,21 +1,20 @@
-import io.github.ardiien.datasize.DataSize.Companion.kilobytes
-import io.github.ardiien.datasize.DataSize.Companion.megabytes
+import io.github.ardiien.datasize.DataSize.Companion.binary
 import io.github.ardiien.datasize.max
 import io.github.ardiien.datasize.min
 
 
 fun main() {
     val sortedList = listOf(
-        1.kilobytes, 1.megabytes, 20.kilobytes
+        1.binary.kibibytes, 1.binary.mebibytes, 20.binary.kibibytes
     ).sorted()
 
-    val gt = 15.kilobytes > 1.kilobytes
-    val lte = 15.kilobytes <= 14.kilobytes
-    val eq = 15.kilobytes == 15.kilobytes
-    val neq = 15.kilobytes != 5.kilobytes
+    val gt = 15.binary.kibibytes > 1.binary.kibibytes
+    val lte = 15.binary.kibibytes <= 14.binary.kibibytes
+    val eq = 15.binary.kibibytes == 15.binary.kibibytes
+    val neq = 15.binary.kibibytes != 5.binary.kibibytes
 
-    val min = min(2.megabytes, 2.kilobytes)
-    val max = max(2.megabytes, 2.kilobytes)
+    val min = min(2.binary.mebibytes, 2.binary.kibibytes)
+    val max = max(2.binary.mebibytes, 2.binary.kibibytes)
 
     println(sortedList)
 
