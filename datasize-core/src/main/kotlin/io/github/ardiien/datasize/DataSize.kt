@@ -106,12 +106,6 @@ public class DataSize internal constructor(
         /** Returns a [DecimalArrayDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
         public inline val ByteArray.decimal: DecimalArrayDataSizeBuilder
             get() = DecimalArrayDataSizeBuilder(this.size)
-
-        /** Returns a new [DataSize] converted from the current [unit] to new [targetUnit] replacing the base. */
-        public fun convert(value: DataSize, targetUnit: DataSizeUnit): DataSize {
-            val result = convertDataSizeUnit(value.rawValue, value.unit, targetUnit)
-            return DataSize(result, targetUnit)
-        }
     }
 
 

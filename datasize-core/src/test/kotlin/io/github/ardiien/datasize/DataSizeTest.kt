@@ -69,43 +69,6 @@ class DataSizeTest {
     }
 
     @Test
-    fun `bytes to bytes keeps value`() {
-        val expectedBytes = 104857600L // 100 Mb
-        val subject = DataSize.convert(
-            value = expectedBytes.binary.bytes,
-            targetUnit = BinaryUnit.Byte,
-        )
-
-        val actual = subject.inBytes
-        assertEquals(expectedBytes, actual)
-    }
-
-    @Test
-    fun `bytes to mebibytes keeps bytes`() {
-        val expectedBytes = 104857600L // 100 Mb
-        val subject = DataSize.convert(
-            value = expectedBytes.binary.bytes,
-            targetUnit = BinaryUnit.Mebibyte,
-        )
-
-        val actual = subject.inBytes
-        assertEquals(expectedBytes, actual)
-    }
-
-    @Test
-    fun `mebibytes to bytes converts correctly`() {
-        val expectedBytes = 104857600L // 100 Mb
-
-        val subject = DataSize.convert(
-            100.binary.mebibytes,
-            BinaryUnit.Byte,
-        )
-
-        val actual = subject.inBytes
-        assertEquals(expectedBytes, actual)
-    }
-
-    @Test
     fun `toDataSize bytes keeps value`() {
         val expectedBytes = 104857600L // 100 Mb
         val subject = expectedBytes.binary.toDataSize(BinaryUnit.Byte)

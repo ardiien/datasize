@@ -35,7 +35,6 @@ public final class io/github/ardiien/datasize/DataSize : java/lang/Comparable {
 }
 
 public final class io/github/ardiien/datasize/DataSize$Companion {
-	public final fun convert (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;)Lio/github/ardiien/datasize/DataSize;
 	public final fun getBinary (D)Lio/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder;
 	public final fun getBinary (I)Lio/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder;
 	public final fun getBinary (J)Lio/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder;
