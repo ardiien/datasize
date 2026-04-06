@@ -10,9 +10,6 @@ Use extension function to create the `DataSize` representation. It's important t
 `bytes`.
 To explore all available features and implementation details, check out the full class documentation.
 
-All calculations are based
-on [IBM Storage Insights](https://www.ibm.com/docs/en/storage-insights?topic=overview-units-measurement-storage-data).
-
 ## Table of Contents
 
 * [Setup](#setup)
@@ -24,6 +21,8 @@ on [IBM Storage Insights](https://www.ibm.com/docs/en/storage-insights?topic=ove
 * [More to Explore](#more-to-explore)
 
 ## Setup
+The latest version of the library <br/> 
+[![Latest Maven](https://badges.mvnrepository.com/badge/io.github.ardiien.datasize/datasize/badge.svg?label=Maven)](https://mvnrepository.com/artifact/io.github.ardiien.datasize/datasize)
 
 Kotlin DSL:
 
@@ -51,18 +50,18 @@ dependencies {
 
 ## Basics
 
-The `DataSize` has extensions available on numeric types like `Int`, `Long`, and `Double`.
+The `DataSize` has extensions available on numeric types like `Int`, `Long`, and `Double`. Also, supports `ByteArray`.
 Here is a small example.
 
 ```kotlin
 import io.github.ardiien.datasize.*
 
 fun main() {
-    // Supported units: bytes, kilobytes, megabytes, gigabytes, and terabytes.
+    // Supported units: bytes, kilobytes, kibibytes, megabytes, mebibytes, etc.
 
-    val kilobyteFromInt = 1.kilobytes       // 1024
-    val kilobyteFromDouble = 1.0.kilobytes  // 1024
-    val kilobyteFromLong = 1L.kilobytes     // 1024
+    val kilobyteFromInt = 1.binary.kibibytes        // 1024
+    val kilobyteFromDouble = 1.0.decimal.kilobytes  // 1024
+    val kilobyteFromLong = 1L.binary.kibibytes      // 1024
 }
 ```
 
@@ -78,12 +77,12 @@ import io.github.ardiien.datasize.*
 fun main() {
     // Explore all overrides of the "operator fun" in DataSize class.
 
-    val addition = 5.megabytes + 15.megabytes       // 20 MB
-    val substraction = 105.megabytes - 5.megabytes  // 100 MB
+    val addition = 5.binary.mebibytes + 15.binary.mebibytes         // 20 MB
+    val substraction = 105.decimal.megabytes - 5.decimal.megabytes  // 100 MB
 
-    val multiplication = 5.megabytes * 2            // 10 MB
-    val division = 15.megabytes / 2                 // 7,5 MB
-    val remainder = 11.megabytes % 2.megabytes      // 1 MB
+    val multiplication = 5.decimal.megabytes * 2                    // 10 MB
+    val division = 15.binary.mebibytes / 2                          // 7,5 MB
+    val remainder = 11.decimal.megabytes % 2.decimal.megabytes      // 1 MB
 }
 ```
 
@@ -107,16 +106,16 @@ import io.github.ardiien.datasize.*
 
 fun main() {
     val sortedList = listOf(
-        1.kilobytes, 1.megabytes, 20.kilobytes  // [1024, 20480, 1048576]
+      1.binary.kibibytes, 1.binary.mebibytes, 20.binary.kibibytes  // [1024, 20480, 1048576]
     ).sorted()
 
-    val gt = 15.kilobytes > 1.kilobytes         // true
-    val lte = 15.kilobytes <= 14.kilobytes      // false
-    val eq = 15.kilobytes == 15.kilobytes       // true
-    val neq = 15.kilobytes != 5.kilobytes       // true
+    val gt = 15.binary.kibibytes > 1.binary.kibibytes              // true
+    val lte = 15.binary.kibibytes <= 14.binary.kibibytes           // false
+    val eq = 15.binary.kibibytes == 15.binary.kibibytes            // true
+    val neq = 15.binary.kibibytes != 5.binary.kibibytes            // true
 
-    val min = min(2.megabytes, 2.kilobytes)     // 2048
-    val max = max(2.megabytes, 2.kilobytes)     // 2097152
+    val min = min(2.binary.mebibytes, 2.binary.kibibytes)          // 2048
+    val max = max(2.binary.mebibytes, 2.binary.kibibytes)          // 2097152
 }
 ```
 
@@ -129,12 +128,8 @@ bits (0s and 1s). You can have a certain number of bits, but you can't have a ne
 
 ## Formatting
 
-The `DataSize` class supports formatting in both Decimal (`1000`) as _experimental_ and Binary (`1024`) base
-representations. By default, `DataSizeUnit` uses the **Binary** base.
-Currently, there is no way to select the base for the `DataSize`. To convert `DataSize` Binary to Decimal, use
-`DataSize.toDecimalString` helper function exclusively for display purposes.
-
-To remove boilerplate and repeated code, you can use the utility class `DataSizeFormatter`. There are two types of
+The `DataSize` class supports formatting in both Decimal (`1000`) and Binary (`1024`) base
+representations. To remove boilerplate and repeated code, you can use the utility class `DataSizeFormatter`. There are two types of
 operations:
 
 1. `format` – transforms a `DataSize` instance or raw bytes into a formatted `String`
@@ -149,11 +144,12 @@ clamped between 0 and 2. Any value greater than 2 will be coerced to 2 during ev
 import io.github.ardiien.datasize.*
 
 fun main() {
-    val value = 55.563.kilobytes
+    val formatter = DefaultDataSizeFormatter(DefaultDataSizeFormatter.createFormat())
+    val value = 55.563.binary.kibibytes
 
-    val defaultPrecision = DataSizeFormatter.format(value, decimals = 0)      // 56 KB, default
-    val betterPrecision = DataSizeFormatter.format(value, decimals = 1)       // 55,6 KB
-    val maxAvailablePrecision = DataSizeFormatter.format(value, decimals = 2) // 55,56 KB, max allowed
+    val defaultPrecision = formatter.format(value, fractionDigits = 0)       // 56 KB, default
+    val betterPrecision = formatter.format(value, fractionDigits = 1)        // 55,6 KB
+    val maxAvailablePrecision = formatter.format(value, fractionDigits = 2)  // 55,56 KB, max allowed
 }
 ```
 

@@ -35,6 +35,8 @@ tasks.test {
 
 dependencies {
     implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.collections)
+
     testImplementation(libs.kotlin.test)
 }
 
