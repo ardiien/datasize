@@ -17,7 +17,7 @@ class DefaultDataSizeFormatterTest {
     private val formatter: DefaultDataSizeFormatter = DefaultDataSizeFormatter(DefaultDataSizeFormatter.createFormat())
 
     @Test
-    fun `Bytes is returned as data size unit when expected`() {
+    fun `bytes returns Byte unit`() {
         val expected = BinaryUnit.Byte
 
         val subject = 500.binary.bytes
@@ -27,7 +27,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Kilobytes is returned as data size unit when expected`() {
+    fun `kibibytes returns Kibibyte unit`() {
         val expected = BinaryUnit.Kibibyte
 
         val subject = 500.binary.kibibytes
@@ -37,7 +37,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Megabytes is returned as data size unit when expected`() {
+    fun `mebibytes returns Mebibyte unit`() {
         val expected = BinaryUnit.Mebibyte
 
         val subject = 500.binary.mebibytes
@@ -47,7 +47,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Gigabytes is returned as data size unit when expected`() {
+    fun `gibibytes returns Gibibyte unit`() {
         val expected = BinaryUnit.Gibibyte
 
         val subject = 500.binary.gibibytes
@@ -57,7 +57,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Terabytes is returned as data size unit when expected`() {
+    fun `tebibytes returns Tebibyte unit`() {
         val expected = BinaryUnit.Tebibyte
 
         val subject = 500.binary.tebibytes
@@ -67,7 +67,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Petabytes is returned as data size unit when expected`() {
+    fun `pebibytes returns Pebibyte unit`() {
         val expected = BinaryUnit.Pebibyte
 
         val subject = 500.binary.pebibytes
@@ -77,7 +77,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Format method returns correct string with 0 fraction digits`() {
+    fun `format with zero fraction digits returns correct string`() {
         val expected = "5 GB"
 
         val size = 5.32.binary.gibibytes
@@ -91,7 +91,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Format method returns correct string with 1 fraction digit`() {
+    fun `format with one fraction digit returns correct string`() {
         val expected = "5,3 GB"
 
         val size = 5.32.binary.gibibytes
@@ -105,7 +105,7 @@ class DefaultDataSizeFormatterTest {
     }
 
     @Test
-    fun `Format method returns correct string with 2 fraction digits`() {
+    fun `format with two fraction digits returns correct string`() {
         val expected = "5,32 GB"
 
         val size = 5.32.binary.gibibytes

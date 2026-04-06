@@ -17,7 +17,7 @@ import kotlin.test.Test
 class DataSizeTest {
 
     @Test
-    fun `negative number in DataSizeUnit init throws IllegalStateException`() {
+    fun `negative value throws on DataSizeUnit init`() {
         assertThrows(IllegalStateException::class.java) {
             (-3).decimal.kilobytes
         }
@@ -27,7 +27,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `negative number in toDataSize init throws IllegalStateException`() {
+    fun `negative value throws on toDataSize`() {
         assertThrows(IllegalStateException::class.java) {
             (-3).decimal.toDataSize(DecimalUnit.Kilobyte)
         }
@@ -37,7 +37,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `zero byte object in number expression returns zero`() {
+    fun `zero DataSize returns zero for all units`() {
         val subjectBinary = DataSize.binary.Zero
         val subjectDecimal = DataSize.decimal.Zero
 
@@ -69,7 +69,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `bytes convert to bytes`() {
+    fun `bytes to bytes keeps value`() {
         val expectedBytes = 104857600L // 100 Mb
         val subject = DataSize.convert(
             value = expectedBytes.binary.bytes,
@@ -81,7 +81,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `bytes convert to megabytes`() {
+    fun `bytes to mebibytes keeps bytes`() {
         val expectedBytes = 104857600L // 100 Mb
         val subject = DataSize.convert(
             value = expectedBytes.binary.bytes,
@@ -93,7 +93,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes convert to bytes`() {
+    fun `mebibytes to bytes converts correctly`() {
         val expectedBytes = 104857600L // 100 Mb
 
         val subject = DataSize.convert(
@@ -106,7 +106,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `bytes express with toDataSize as bytes`() {
+    fun `toDataSize bytes keeps value`() {
         val expectedBytes = 104857600L // 100 Mb
         val subject = expectedBytes.binary.toDataSize(BinaryUnit.Byte)
 
@@ -115,7 +115,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes express with toDataSize as bytes`() {
+    fun `toDataSize mebibytes converts correctly`() {
         val expectedBytes = 123207680L
         val expectedMegaBytes = 117.5
         val subject = expectedMegaBytes.binary.toDataSize(BinaryUnit.Mebibyte)
@@ -128,7 +128,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `bytes convert with toDouble to kilobytes`() {
+    fun `bytes toDouble kibibytes converts correctly`() {
         val expectedBytes = 123207680L
         val expectedKilobytes = 120320.0 // 117.5 Mb
 
@@ -139,7 +139,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `bytes convert with toInt to megabytes`() {
+    fun `bytes toInt mebibytes truncates correctly`() {
         val expectedBytes = 123207680L
         val expectedMegabytes = 117
 
@@ -150,7 +150,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `kilobytes convert with toLong to bytes`() {
+    fun `kibibytes toLong bytes converts correctly`() {
         val expectedBytes = 126164664320L
         val expectedKilobytes = 123207680L
 
@@ -161,7 +161,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator plus adds kilobytes`() {
+    fun `plus adds kibibytes correctly`() {
         val expectedBytes = 4096L
         val subject = 2.binary.kibibytes + 2.binary.kibibytes
 
@@ -170,7 +170,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator minus subtracts megabytes`() {
+    fun `minus subtracts mebibytes correctly`() {
         val expectedBytes = 2097152L
         val subject = 4.binary.mebibytes - 2.binary.mebibytes
 
@@ -179,7 +179,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator times whole number multiplication megabytes`() {
+    fun `times int multiplies megabytes`() {
         val expectedMegabytes = 20.0
         val subject = 2.decimal.megabytes * 10
 
@@ -188,7 +188,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator times decimal point multiplication kilobytes`() {
+    fun `times decimal multiplies kilobytes`() {
         val expectedKilobytes = 3.0
         val subject = 2.decimal.kilobytes * 1.5
 
@@ -197,7 +197,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator div whole number divides kilobytes`() {
+    fun `div int divides kibibytes`() {
         val expectedKilobytes = 5.0
         val subject = 10.binary.kibibytes / 2
 
@@ -206,7 +206,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator div decimal point divides megabytes`() {
+    fun `div decimal divides megabytes`() {
         val expectedMegabytes = 7.33
         val subject = 11.decimal.megabytes / 1.5
 
@@ -215,7 +215,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator div object divides bytes`() {
+    fun `div DataSize by DataSize returns correct bytes`() {
         val expectedBytes = 10L
         val result = 1.binary.kibibytes / 100.binary.bytes
 
@@ -223,7 +223,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator div object by zero throws IllegalArgumentException`() {
+    fun `div by zero scalar throws`() {
         assertThrows(IllegalArgumentException::class.java) {
             1.binary.kibibytes / 0
         }
@@ -240,7 +240,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator div object by zero throws err if used ZERO`() {
+    fun `div by zero DataSize throws`() {
         assertThrows(IllegalArgumentException::class.java) {
             1.binary.kibibytes / DataSize.binary.Zero
         }
@@ -250,7 +250,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `operator div DataSizeUnit divided by DataSizeUnit`() {
+    fun `div units returns correct result`() {
         val expected = 10_485L
         val result = 1.binary.tebibytes / 100.binary.mebibytes
 
@@ -258,7 +258,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `compareTo returns correct value`() {
+    fun `compareTo orders correctly`() {
         val expectedLess = -1
         val expectedEqual = 0
         val expectedGreater = 1
@@ -273,7 +273,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes toString with DataSizeUnit no decimals`() {
+    fun `toString megabytes no decimals`() {
         val expected = "100 MB"
         val result = 100.decimal.megabytes.toString(DecimalUnit.Megabyte)
 
@@ -281,7 +281,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes toString with DataSizeUnit and decimals`() {
+    fun `toString mebibytes with decimals`() {
         val expected = "100,55 MB"
         val result = 100.55.binary.mebibytes.toString(BinaryUnit.Mebibyte, fractionDigits = 2)
 
@@ -289,7 +289,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes toString with kilobytes DataSizeUnit no decimals`() {
+    fun `toString mebibytes as kibibytes`() {
         val expected = "102 400 KB"
         val result = 100.binary.mebibytes.toString(BinaryUnit.Kibibyte)
 
@@ -297,7 +297,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `terabytes toString with gigabytes DataSizeUnit no decimals`() {
+    fun `toString tebibytes as gibibytes`() {
         val expected = "1024 GB"
         val result = 1.binary.tebibytes.toString(BinaryUnit.Gibibyte)
 
@@ -305,7 +305,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes toString with DataSizeUnit swap no decimals`() {
+    fun `toString mebibytes as decimal megabytes`() {
         val expected = "500 MB"
         val result = 476.84.binary.mebibytes.toString(DecimalUnit.Megabyte)
 
@@ -313,7 +313,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes toString with DataSizeUnit swap and decimals`() {
+    fun `toString mebibytes as decimal megabytes with decimals`() {
         val expected = "512,5 MB"
         val result = 488.755.binary.mebibytes.toString(DecimalUnit.Megabyte, fractionDigits = 1)
 
@@ -321,7 +321,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `megabytes toString with kilobytes DataSizeUnit swap no decimals`() {
+    fun `toString mebibytes as decimal kilobytes`() {
         val expected = "1000 KB"
         val result = 0.954.binary.mebibytes.toString(DecimalUnit.Kilobyte)
 
@@ -329,7 +329,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `terabytes toString with gigabytes DataSizeUnit swap no decimals`() {
+    fun `toString tebibytes as decimal gigabytes`() {
         val expected = "255 GB"
         val result = 0.232.binary.tebibytes.toString(DecimalUnit.Gigabyte)
 
@@ -337,7 +337,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `ByteArray converts to megabytes correctly`() {
+    fun `ByteArray converts to DataSize correctly`() {
         val expected = "50 MB"
         val result = ByteArray(50 * 1024 * 1024).binary.bytes.toString(BinaryUnit.Mebibyte)
 
@@ -345,7 +345,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `show correct decimalSeparator`() {
+    fun `decimal separator formats correctly`() {
         val expected = "1,1 MB"
         val result = 1.1.binary.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
 
@@ -353,7 +353,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `show correct groupingSeparator`() {
+    fun `grouping separator formats correctly`() {
         val expected = "10 000 MB"
         val result = 10_000.binary.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
 
@@ -361,7 +361,7 @@ class DataSizeTest {
     }
 
     @Test
-    fun `show correct groupingSeparator with floating point`() {
+    fun `grouping with decimals formats correctly`() {
         val expected = "100 000,5 MB"
         val result = 100_000.5.binary.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
 
@@ -369,44 +369,44 @@ class DataSizeTest {
     }
 
     @Test
-    fun `hide groupingSeparator when groupingSize less then 3`() {
+    fun `no grouping when size less than three`() {
         val expected = "1000 MB"
         val result = 1000.binary.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
         assertEquals(expected, result)
     }
 
     @Test
-    fun `orZero returns 0 bytes when value is null`() {
+    fun `orBinaryZero returns zero bytes for null`() {
         val x: DataSize? = null
         assertEquals(0, x.orBinaryZero().inBytes)
     }
 
     @Test
-    fun `orZero returns 0 kilobytes when value is null`() {
+    fun `orDecimalZero returns zero kilobytes for null`() {
         val x: DataSize? = null
         assertEquals(0.0, x.orDecimalZero().inKilobytes, 0.0)
     }
 
     @Test
-    fun `orZero returns 0 megabytes when value is null`() {
+    fun `orBinaryZero returns zero mebibytes for null`() {
         val x: DataSize? = null
         assertEquals(0.0, x.orBinaryZero().inMebibytes, 0.0)
     }
 
     @Test
-    fun `orZero returns 0 gigabytes when value is null`() {
+    fun `orDecimalZero returns zero gigabytes for null`() {
         val x: DataSize? = null
         assertEquals(0.0, x.orDecimalZero().inGigabytes, 0.0)
     }
 
     @Test
-    fun `orZero returns 0 terabytes when value is null`() {
+    fun `orBinaryZero returns zero terabytes for null`() {
         val x: DataSize? = null
         assertEquals(0.0, x.orBinaryZero().inTerabytes, 0.0)
     }
 
     @Test
-    fun `orZero returns 0 petabytes when value is null`() {
+    fun `orDecimalZero returns zero petabytes for null`() {
         val x: DataSize? = null
         assertEquals(0.0, x.orDecimalZero().inPetabytes, 0.0)
     }
