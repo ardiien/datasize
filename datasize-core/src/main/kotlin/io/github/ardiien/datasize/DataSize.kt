@@ -5,133 +5,118 @@
  */
 package io.github.ardiien.datasize
 
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
+import io.github.ardiien.datasize.builder.BinaryArrayDataSizeBuilder
+import io.github.ardiien.datasize.builder.BinaryNumberDataSizeBuilder
+import io.github.ardiien.datasize.builder.DecimalArrayDataSizeBuilder
+import io.github.ardiien.datasize.builder.DecimalNumberDataSizeBuilder
+import io.github.ardiien.datasize.formatter.DefaultDataSizeFormatter
+import io.github.ardiien.datasize.unit.BinaryUnit
+import io.github.ardiien.datasize.unit.DataSizeUnit
+import io.github.ardiien.datasize.unit.DecimalUnit
+import io.github.ardiien.datasize.unit.DivisionMathContext
+import io.github.ardiien.datasize.unit.UnitMathContext
+import io.github.ardiien.datasize.unit.convertDataSizeUnit
+import io.github.ardiien.datasize.unit.isBinaryUnit
+import io.github.ardiien.datasize.unit.isDecimalUnit
+import java.math.BigDecimal
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 
 /**
  * Represents a data size in various units (e.g., bytes, kilobytes, megabytes, etc.).
  *
  * This class provides methods for conversion between different data size units.
- * To construct a [DataSize] use either the extension function [toDataSize],
+ * To construct a [DataSize] use either the function `toDataSize`,
  * or the extension properties bytes, kilobytes, and megabytes, available on
  * Int, Long, and Double numeric types.
  *
  * To get the value of this [DataSize] expressed in a particular [DataSizeUnit]s use the functions
  * toInt, toLong, and toDouble or the properties inBytes, inKilobytes, and inMegabytes.
- *
- * For more information about unit calculations, see [Storage Insights](https://www.ibm.com/docs/en/storage-insights?topic=overview-units-measurement-storage-data).
  */
-@JvmInline
-public value class DataSize internal constructor(
-    private val rawValue: Long
+public class DataSize internal constructor(
+    internal val rawValue: BigDecimal,
+    internal val unit: DataSizeUnit,
 ) : Comparable<DataSize> {
-    private val sizeUnit
-        get() = DataSizeUnit.Bytes
 
     init {
-        check(rawValue in 0..MAX_SIZE) {
+        check(rawValue in BigDecimal.ZERO..MAX_SIZE) {
             "DataSize must be in range 0 <= $rawValue <= $MAX_SIZE."
         }
     }
 
-    public companion object {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DataSize) return false
+
+        return this.rawValue.compareTo(other.rawValue) == 0
+    }
+
+    override fun hashCode(): Int = rawValue.hashCode()
+
+    @Suppress("ClassName")
+    public object binary {
+
         /** The size equal to exactly 0 bytes. */
-        public val Zero: DataSize = DataSize(rawValue = 0)
+        public val Zero: DataSize = DataSize(rawValue = BigDecimal.ZERO, unit = BinaryUnit.Byte)
 
         /** The size whose value is positive infinity. It is useful for representing unlimited size. */
-        public val Infinite: DataSize = DataSize(rawValue = MAX_SIZE)
+        public val Infinite: DataSize = DataSize(rawValue = MAX_SIZE, unit = BinaryUnit.Byte)
+    }
 
+    @Suppress("ClassName")
+    public object decimal {
 
-        /** Returns a [DataSize] equal to this [Long] number of terabytes. */
-        public inline val Long.terabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Terabytes)
+        /** The size equal to exactly 0 bytes. */
+        public val Zero: DataSize = DataSize(rawValue = BigDecimal.ZERO, unit = DecimalUnit.Byte)
 
-        /** Returns a [DataSize] equal to this [Int] number of terabytes. */
-        public inline val Int.terabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Terabytes)
+        /** The size whose value is positive infinity. It is useful for representing unlimited size. */
+        public val Infinite: DataSize = DataSize(rawValue = MAX_SIZE, unit = DecimalUnit.Byte)
+    }
 
-        /** Returns a [DataSize] equal to this [Double] number of terabytes. */
-        public inline val Double.terabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Terabytes)
+    public companion object {
 
+        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        public inline val Long.binary: BinaryNumberDataSizeBuilder
+            get() = BinaryNumberDataSizeBuilder(this)
 
-        /** Returns a [DataSize] equal to this [Long] number of gigabytes. */
-        public inline val Long.gigabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Gigabytes)
+        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this [Int] value later interpreted as [DataSize]. */
+        public inline val Int.binary: BinaryNumberDataSizeBuilder
+            get() = BinaryNumberDataSizeBuilder(this)
 
-        /** Returns a [DataSize] equal to this [Int] number of gigabytes. */
-        public inline val Int.gigabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Gigabytes)
+        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this [Double] value later interpreted as [DataSize]. */
+        public inline val Double.binary: BinaryNumberDataSizeBuilder
+            get() = BinaryNumberDataSizeBuilder(this)
 
-        /** Returns a [DataSize] equal to this [Double] number of gigabytes. */
-        public inline val Double.gigabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Gigabytes)
+        /** Returns a [BinaryArrayDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        public inline val ByteArray.binary: BinaryArrayDataSizeBuilder
+            get() = BinaryArrayDataSizeBuilder(this.size)
 
+        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        public inline val Long.decimal: DecimalNumberDataSizeBuilder
+            get() = DecimalNumberDataSizeBuilder(this)
 
-        /** Returns a [DataSize] equal to this [Long] number of megabytes. */
-        public inline val Long.megabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Megabytes)
+        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this [Int] value later interpreted as [DataSize]. */
+        public inline val Int.decimal: DecimalNumberDataSizeBuilder
+            get() = DecimalNumberDataSizeBuilder(this)
 
-        /** Returns a [DataSize] equal to this [Int] number of megabytes. */
-        public inline val Int.megabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Megabytes)
+        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this [Double] value later interpreted as [DataSize]. */
+        public inline val Double.decimal: DecimalNumberDataSizeBuilder
+            get() = DecimalNumberDataSizeBuilder(this)
 
-        /** Returns a [DataSize] equal to this [Double] number of megabytes. */
-        public inline val Double.megabytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Megabytes)
+        /** Returns a [DecimalArrayDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        public inline val ByteArray.decimal: DecimalArrayDataSizeBuilder
+            get() = DecimalArrayDataSizeBuilder(this.size)
 
-
-        /** Returns a [DataSize] equal to this [Long] number of kilobytes. */
-        public inline val Long.kilobytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Kilobytes)
-
-        /** Returns a [DataSize] equal to this [Int] number of kilobytes. */
-        public inline val Int.kilobytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Kilobytes)
-
-        /** Returns a [DataSize] equal to this [Double] number of kilobytes. */
-        public inline val Double.kilobytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Kilobytes)
-
-
-        /** Returns a [DataSize] equal to this [Long] number of bytes. */
-        public inline val Long.bytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Bytes)
-
-        /** Returns a [DataSize] equal to this [Int] number of bytes. */
-        public inline val Int.bytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Bytes)
-
-        /** Returns a [DataSize] equal to this [Double] number of bytes. */
-        public inline val Double.bytes: DataSize
-            get() = toDataSize(unit = DataSizeUnit.Bytes)
-
-
-        /** Returns a number directly converted from [sourceUnit] to [targetUnit] type. */
-        public fun convert(
-            value: Double,
-            sourceUnit: DataSizeUnit,
-            targetUnit: DataSizeUnit,
-            precision: Int = 2,
-        ): Double = convertDataSizeUnit(value, sourceUnit, targetUnit)
-            .roundTo(precision)
-
-        private fun Double.roundTo(precision: Int): Double {
-            val factor = 10.0.pow(precision.toDouble())
-            return floor(this * factor) / factor
+        /** Returns a new [DataSize] converted from the current [unit] to new [targetUnit] replacing the base. */
+        public fun convert(value: DataSize, targetUnit: DataSizeUnit): DataSize {
+            val result = convertDataSizeUnit(value.rawValue, value.unit, targetUnit)
+            return DataSize(result, targetUnit)
         }
     }
 
+
     public operator fun rem(other: DataSize): DataSize =
-        dataSizeOf(this.rawValue.rem(other.rawValue))
+        normalizedDataSizeOf(rawValue.remainder(other.rawValue, DivisionMathContext), unit)
 
     /**
      * Divides the [rawValue] by the given [scale] and returns the result as [DataSize].
@@ -142,8 +127,8 @@ public value class DataSize internal constructor(
     public operator fun div(scale: Int): DataSize {
         require(scale > 0) { "scale $scale must be a positive value to perform division" }
 
-        val result = rawValue / scale
-        return dataSizeOf(value = result)
+        val result = rawValue.divide(BigDecimal(scale, UnitMathContext), DivisionMathContext)
+        return normalizedDataSizeOf(result, unit)
     }
 
     /**
@@ -161,32 +146,30 @@ public value class DataSize internal constructor(
 
         require(scale > 0) { "scale $scale must be a positive value to perform division" }
 
-        val unit = sizeUnit
-        val result = toDouble(unit) / scale
-        return result.toDataSize(unit = unit)
+        val result = rawValue.divide(BigDecimal(scale, UnitMathContext), DivisionMathContext)
+        return normalizedDataSizeOf(result, unit)
     }
 
     /**
-     * Divides the [rawValue], converted to a [Double], by the given [DataSize],
-     * and returns the result as a [Double] in the larger [sizeUnit] of the two.
+     * Divides the [rawValue] by the given [DataSize], and returns the result.
      *
      * @param other The divisor for the operation. Must be a positive data size unit.
      * @throws IllegalArgumentException if [other] is equal to zero.
      */
-    public operator fun div(other: DataSize): Double {
-        require(other.rawValue > 0) {
-            "data size unit $other must be a positive value to perform division"
+    public operator fun div(other: DataSize): DataSize {
+        require(other.rawValue > BigDecimal.ZERO) {
+            "data size $other must be a positive value to perform division"
         }
 
-        val coarserUnit = maxOf(this.sizeUnit, other.sizeUnit)
-        return this.toDouble(coarserUnit) / other.toDouble(coarserUnit)
+        val result = rawValue.divide(other.rawValue, DivisionMathContext)
+        return normalizedDataSizeOf(result, unit)
     }
 
     public operator fun times(scale: Int): DataSize {
-        if (scale == 0) return Zero
+        if (scale == 0) return if (isBinary()) binary.Zero else decimal.Zero
 
-        val result = rawValue * scale
-        return dataSizeOfNormalized(value = result)
+        val result = rawValue.multiply(BigDecimal(scale, UnitMathContext), UnitMathContext)
+        return normalizedDataSizeOf(result, unit)
     }
 
     public operator fun times(scale: Double): DataSize {
@@ -195,30 +178,45 @@ public value class DataSize internal constructor(
             return times(intScale)
         }
 
-        val unit = sizeUnit
-        val result = toDouble(unit) * scale
-        return result.toDataSize(unit = unit)
+        val result = rawValue.multiply(BigDecimal(scale, UnitMathContext), UnitMathContext)
+        return normalizedDataSizeOf(result, unit)
+    }
+
+    public operator fun times(other: DataSize): DataSize {
+        require(other.rawValue > BigDecimal.ZERO) {
+            "data size $other must be a positive value to perform multiplication"
+        }
+
+        val result = rawValue.multiply(other.rawValue, UnitMathContext)
+        return normalizedDataSizeOf(result, unit)
     }
 
     public operator fun plus(other: DataSize): DataSize {
         val result = rawValue + other.rawValue
-        return dataSizeOfNormalized(value = result)
+        return normalizedDataSizeOf(result, unit)
     }
 
     public operator fun minus(other: DataSize): DataSize {
         val result = rawValue - other.rawValue
-        return dataSizeOfNormalized(value = result)
+        return normalizedDataSizeOf(result, unit)
     }
 
 
     /** Returns true, if the data size value is infinite. */
-    public fun isInfinite(): Boolean = rawValue == Infinite.rawValue
+    public fun isInfinite(): Boolean =
+        if (isBinary()) rawValue == binary.Infinite.rawValue else rawValue == decimal.Infinite.rawValue
 
     /** Returns true, if the data size value is zero. */
-    public fun isZero(): Boolean = rawValue == Zero.rawValue
+    public fun isZero(): Boolean =
+        if (isBinary()) rawValue == binary.Zero.rawValue else rawValue == decimal.Zero.rawValue
 
-    override fun compareTo(other: DataSize): Int =
-        this.rawValue.compareTo(other.rawValue)
+    /** Returns true, if the data size unit is [DecimalUnit]. */
+    public fun isDecimal(): Boolean = unit.isDecimalUnit()
+
+    /** Returns true, if the data size unit is [BinaryUnit]. */
+    public fun isBinary(): Boolean = unit.isBinaryUnit()
+
+    override fun compareTo(other: DataSize): Int = this.rawValue.compareTo(other.rawValue)
 
 
     /**
@@ -227,10 +225,10 @@ public value class DataSize internal constructor(
      */
     public fun toDouble(unit: DataSizeUnit): Double =
         convertDataSizeUnit(
-            value = rawValue.coerceIn(0, MAX_SIZE).toDouble(),
-            sourceUnit = sizeUnit,
+            value = rawValue,
+            sourceUnit = this.unit,
             targetUnit = unit,
-        )
+        ).stripTrailingZeros().toDouble()
 
     /**
      * Returns the value of this data size expressed as a [Int] number of the specified [DataSizeUnit].
@@ -238,158 +236,107 @@ public value class DataSize internal constructor(
      */
     public fun toInt(unit: DataSizeUnit): Int =
         convertDataSizeUnit(
-            value = rawValue.coerceIn(0, MAX_SIZE),
-            sourceUnit = sizeUnit,
+            value = rawValue,
+            sourceUnit = this.unit,
             targetUnit = unit,
-        ).toInt()
+        ).stripTrailingZeros().toInt()
 
     /** Returns the value of this data size expressed as a [Long] number of the specified [DataSizeUnit]. */
     public fun toLong(unit: DataSizeUnit): Long =
         convertDataSizeUnit(
-            value = rawValue.coerceIn(0, MAX_SIZE),
-            sourceUnit = sizeUnit,
+            value = rawValue,
+            sourceUnit = this.unit,
             targetUnit = unit,
-        )
+        ).stripTrailingZeros().toLong()
 
+
+    /** The value of this [DataSize] expressed as a [Double] number of pebibytes. */
+    public val inPebibytes: Double
+        get() = toDouble(BinaryUnit.Pebibyte)
+
+    /** The value of this [DataSize] expressed as a [Double] number of petabytes. */
+    public val inPetabytes: Double
+        get() = toDouble(DecimalUnit.Petabyte)
+
+    /** The value of this [DataSize] expressed as a [Double] number of tebibytes. */
+    public val inTebibytes: Double
+        get() = toDouble(BinaryUnit.Tebibyte)
 
     /** The value of this [DataSize] expressed as a [Double] number of terabytes. */
     public val inTerabytes: Double
-        get() = toDouble(unit = DataSizeUnit.Terabytes)
+        get() = toDouble(DecimalUnit.Terabyte)
+
+    /** The value of this [DataSize] expressed as a [Double] number of gibibytes. */
+    public val inGibibytes: Double
+        get() = toDouble(BinaryUnit.Gibibyte)
 
     /** The value of this [DataSize] expressed as a [Double] number of gigabytes. */
     public val inGigabytes: Double
-        get() = toDouble(unit = DataSizeUnit.Gigabytes)
+        get() = toDouble(DecimalUnit.Gigabyte)
+
+    /** The value of this [DataSize] expressed as a [Double] number of mebibytes. */
+    public val inMebibytes: Double
+        get() = toDouble(BinaryUnit.Mebibyte)
 
     /** The value of this [DataSize] expressed as a [Double] number of megabytes. */
     public val inMegabytes: Double
-        get() = toDouble(unit = DataSizeUnit.Megabytes)
+        get() = toDouble(DecimalUnit.Megabyte)
+
+    /** The value of this [DataSize] expressed as a [Double] number of kibibytes. */
+    public val inKibibytes: Double
+        get() = toDouble(BinaryUnit.Kibibyte)
 
     /** The value of this [DataSize] expressed as a [Double] number of kilobytes. */
     public val inKilobytes: Double
-        get() = toDouble(unit = DataSizeUnit.Kilobytes)
+        get() = toDouble(DecimalUnit.Kilobyte)
 
     /** The value of this [DataSize] expressed as a [Long] number of bytes. */
     public val inBytes: Long
-        get() = toLong(unit = DataSizeUnit.Bytes)
+        get() = toLong(if (isBinary()) BinaryUnit.Byte else DecimalUnit.Byte)
+
+    override fun toString(): String = when {
+        isInfinite() -> "Infinity"
+        isBinary() -> toLong(BinaryUnit.Byte).toString()
+        isDecimal() -> toLong(DecimalUnit.Byte).toString()
+        else -> "0"
+    }
 
     /**
      * Returns a string representation of this data size value expressed in the given [unit]
-     * and formatted with the specified [decimals] number of digits after decimal point.
+     * and formatted with the specified [fractionDigits] number of digits after decimal point.
      *
      * Special case:
      *  - an infinite data size is formatted as `"Infinity"` without a unit.
      *
-     * @param decimals the number of digits after decimal point to show. The value must be non-negative.
-     *        No more than 2 decimals will be shown, even if a larger number is requested.
+     * @param fractionDigits the number of digits after decimal point to show. The value must be non-negative.
+     *        No more than 2 decimals will be shown, even if a larger number is requested with default formatter.
      * @return the value of data size in the specified [unit] followed by that unit abbreviated name: `B`, `KB`, `MB`, `GB`, or `TB`.
-     * @throws IllegalArgumentException if [decimals] is less than zero.
+     * @throws IllegalArgumentException if [fractionDigits] is less than zero.
      */
-    public fun toString(unit: DataSizeUnit, decimals: Int = 0): String {
-        require(decimals >= 0) { "decimals must not be negative, but was $decimals" }
-
-        val number = toDouble(unit)
-        if (number.isInfinite()) return number.toString()
-
-        return "${createFormatForDecimals(number, decimals.coerceAtMost(2)).format(number)} ${unit.shortName()}"
-    }
-
-    /**
-     * Returns a string representation of this data size value in decimal base expressed in the given [unit]
-     * and formatted with the specified [decimals] number of digits after decimal point.
-     *
-     * Special case:
-     *  - an infinite data size is formatted as `"Infinity"` without a unit.
-     *
-     * @param decimals the number of digits after decimal point to show. The value must be non-negative.
-     *        No more than 2 decimals will be shown, even if a larger number is requested.
-     * @return the value of data size in the specified [unit] followed by that unit abbreviated name: `B`, `KB`, `MB`, `GB`, or `TB`.
-     * @throws IllegalArgumentException if [decimals] is less than zero.
-     */
-    @ExperimentalDataSizeApi
-    public fun toDecimalString(unit: DataSizeUnit, decimals: Int = 0): String {
-        require(decimals >= 0) { "decimals must be not negative, but was $decimals" }
-
-        val number = toDecimalUnit(toDouble(unit), unit)
-        if (number.isInfinite()) return number.toString()
-
-        return "${createFormatForDecimals(number, decimals.coerceAtMost(2)).format(number)} ${unit.shortName()}"
-    }
-
-    private fun createFormatForDecimals(number: Double, decimals: Int) =
-        DecimalFormat("0").apply {
-            if (decimals > 0) maximumFractionDigits = decimals
-            roundingMode = RoundingMode.HALF_UP
-            decimalFormatSymbols = DecimalFormatSymbols().apply {
-                decimalSeparator = ','
-                groupingSeparator = '.'
-                isGroupingUsed = number >= 10000
-                groupingSize = 3
-            }
-        }
+    public fun toString(
+        unit: DataSizeUnit,
+        fractionDigits: Int = 0,
+        formatter: DataSizeFormatter = DefaultDataSizeFormatter(DefaultDataSizeFormatter.createFormat()),
+    ): String = formatter.format(this, unit, fractionDigits)
 }
 
-/**
- * Returns [DataSize] converted from a double with [DataSizeUnit] type.
- *
- * @throws IllegalArgumentException value is Not-a-Number(NaN) or infinite.
- * @throws IllegalStateException value is not within 0 <= value <= [MAX_SIZE]
- */
-public fun Double.toDataSize(unit: DataSizeUnit): DataSize {
-    require(!this.isNaN() && !this.isInfinite()) { "DataSizeUnit value cannot be NaN or Infinite." }
+// Maximum representable value (~9 exabytes).
+internal val MAX_SIZE: BigDecimal = BigDecimal(Long.MAX_VALUE, UnitMathContext)
 
-    val value = convertDataSizeUnit(
-        value = this,
-        sourceUnit = unit,
-        targetUnit = DataSizeUnit.Bytes,
-    ).roundToLong()
+private fun normalizedDataSizeOf(value: BigDecimal, unit: DataSizeUnit): DataSize =
+    DataSize(value.coerceIn(BigDecimal.ZERO, MAX_SIZE), unit)
 
-    return DataSize(value)
-}
 
-/**
- * Returns [DataSize] converted from an integer with [DataSizeUnit] type.
- *
- * @throws IllegalStateException value is not within 0 <= value <= [MAX_SIZE]
- */
-public fun Int.toDataSize(unit: DataSizeUnit): DataSize {
-    val value = convertDataSizeUnit(
-        value = this.toLong(),
-        sourceUnit = unit,
-        targetUnit = DataSizeUnit.Bytes,
-    )
+/** Returns the larger of two [DataSize] values (byte-based comparison). */
+public fun max(a: DataSize, b: DataSize): DataSize = if (a.rawValue >= b.rawValue) a else b
 
-    return DataSize(value)
-}
+/** Returns the smaller of two [DataSize] values (byte-based comparison). */
+public fun min(a: DataSize, b: DataSize): DataSize = if (a.rawValue <= b.rawValue) a else b
 
-/**
- * Returns [DataSize] converted from a long with [DataSizeUnit] type.
- *
- * @throws IllegalStateException value is not within 0 <= value <= [MAX_SIZE]
- */
-public fun Long.toDataSize(unit: DataSizeUnit): DataSize {
-    val value = convertDataSizeUnit(
-        value = this,
-        sourceUnit = unit,
-        targetUnit = DataSizeUnit.Bytes,
-    )
-
-    return DataSize(value)
-}
-
-public fun max(a: DataSize, b: DataSize): DataSize =
-    dataSizeOf(max(a.inBytes, b.inBytes))
-
-public fun min(a: DataSize, b: DataSize): DataSize =
-    dataSizeOf(min(a.inBytes, b.inBytes))
-
-// Max size of 8 exabytes should be enough.
-internal const val MAX_SIZE = Long.MAX_VALUE
-
-private fun dataSizeOfNormalized(value: Long) =
-    dataSizeOf(value.coerceIn(0, MAX_SIZE))
-
-private fun dataSizeOf(value: Long) = DataSize(value)
-
-/** Returns the specified [DataSize] if not `null`, or [DataSize.Zero] otherwise. */
+/** Returns value or binary zero if null.*/
 @Suppress("NOTHING_TO_INLINE")
-public inline fun DataSize?.orZero(): DataSize = this ?: DataSize.Zero
+public inline fun DataSize?.orBinaryZero(): DataSize = this ?: DataSize.binary.Zero
+
+/** Returns value or decimal zero if null.*/
+@Suppress("NOTHING_TO_INLINE")
+public inline fun DataSize?.orDecimalZero(): DataSize = this ?: DataSize.decimal.Zero
