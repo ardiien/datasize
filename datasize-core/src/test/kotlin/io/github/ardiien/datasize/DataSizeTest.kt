@@ -215,14 +215,6 @@ class DataSizeTest {
     }
 
     @Test
-    fun `div DataSize by DataSize returns correct bytes`() {
-        val expectedBytes = 10L
-        val result = 1.binary.kibibytes / 100.binary.bytes
-
-        assertEquals(expectedBytes, result.inBytes)
-    }
-
-    @Test
     fun `div by zero scalar throws`() {
         assertThrows(IllegalArgumentException::class.java) {
             1.binary.kibibytes / 0
@@ -237,24 +229,6 @@ class DataSizeTest {
         assertThrows(IllegalArgumentException::class.java) {
             1.decimal.kilobytes / 0.0
         }
-    }
-
-    @Test
-    fun `div by zero DataSize throws`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            1.binary.kibibytes / DataSize.binary.Zero
-        }
-        assertThrows(IllegalArgumentException::class.java) {
-            1.decimal.kilobytes / DataSize.decimal.Zero
-        }
-    }
-
-    @Test
-    fun `div units returns correct result`() {
-        val expected = 10_485L
-        val result = 1.binary.tebibytes / 100.binary.mebibytes
-
-        assertEquals(expected, result.inBytes)
     }
 
     @Test

@@ -150,21 +150,6 @@ public class DataSize internal constructor(
         return normalizedDataSizeOf(result, unit)
     }
 
-    /**
-     * Divides the [rawValue] by the given [DataSize], and returns the result.
-     *
-     * @param other The divisor for the operation. Must be a positive data size unit.
-     * @throws IllegalArgumentException if [other] is equal to zero.
-     */
-    public operator fun div(other: DataSize): DataSize {
-        require(other.rawValue > BigDecimal.ZERO) {
-            "data size $other must be a positive value to perform division"
-        }
-
-        val result = rawValue.divide(other.rawValue, DivisionMathContext)
-        return normalizedDataSizeOf(result, unit)
-    }
-
     public operator fun times(scale: Int): DataSize {
         if (scale == 0) return if (isBinary()) binary.Zero else decimal.Zero
 
@@ -179,15 +164,6 @@ public class DataSize internal constructor(
         }
 
         val result = rawValue.multiply(BigDecimal(scale, UnitMathContext), UnitMathContext)
-        return normalizedDataSizeOf(result, unit)
-    }
-
-    public operator fun times(other: DataSize): DataSize {
-        require(other.rawValue > BigDecimal.ZERO) {
-            "data size $other must be a positive value to perform multiplication"
-        }
-
-        val result = rawValue.multiply(other.rawValue, UnitMathContext)
         return normalizedDataSizeOf(result, unit)
     }
 

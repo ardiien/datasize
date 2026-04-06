@@ -4,7 +4,6 @@ public final class io/github/ardiien/datasize/DataSize : java/lang/Comparable {
 	public synthetic fun compareTo (Ljava/lang/Object;)I
 	public final fun div (D)Lio/github/ardiien/datasize/DataSize;
 	public final fun div (I)Lio/github/ardiien/datasize/DataSize;
-	public final fun div (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getInBytes ()J
 	public final fun getInGibibytes ()D
@@ -27,7 +26,6 @@ public final class io/github/ardiien/datasize/DataSize : java/lang/Comparable {
 	public final fun rem (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
 	public final fun times (D)Lio/github/ardiien/datasize/DataSize;
 	public final fun times (I)Lio/github/ardiien/datasize/DataSize;
-	public final fun times (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
 	public final fun toDouble (Lio/github/ardiien/datasize/unit/DataSizeUnit;)D
 	public final fun toInt (Lio/github/ardiien/datasize/unit/DataSizeUnit;)I
 	public final fun toLong (Lio/github/ardiien/datasize/unit/DataSizeUnit;)J
