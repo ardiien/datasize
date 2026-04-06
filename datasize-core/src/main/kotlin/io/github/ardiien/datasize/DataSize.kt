@@ -5,6 +5,8 @@
  */
 package io.github.ardiien.datasize
 
+import io.github.ardiien.datasize.DataSize.Companion.binary
+import io.github.ardiien.datasize.DataSize.Companion.decimal
 import io.github.ardiien.datasize.builder.BinaryArrayDataSizeBuilder
 import io.github.ardiien.datasize.builder.BinaryNumberDataSizeBuilder
 import io.github.ardiien.datasize.builder.DecimalArrayDataSizeBuilder
@@ -23,15 +25,19 @@ import kotlin.math.roundToInt
 
 
 /**
- * Represents a data size in various units (e.g., bytes, kilobytes, megabytes, etc.).
+ * Represents a data size as a numeric value expressed in bytes with an associated [DataSizeUnit].
  *
- * This class provides methods for conversion between different data size units.
- * To construct a [DataSize] use either the function `toDataSize`,
- * or the extension properties bytes, kilobytes, and megabytes, available on
- * Int, Long, and Double numeric types.
+ * A [DataSize] is a value object whose magnitude is defined by its underlying byte value.
+ * All comparisons and arithmetic operations are performed using this canonical representation,
+ * regardless of the unit used to construct the instance.
  *
- * To get the value of this [DataSize] expressed in a particular [DataSizeUnit]s use the functions
- * toInt, toLong, and toDouble or the properties inBytes, inKilobytes, and inMegabytes.
+ * Instances are created via builder extensions:
+ * - [Long.binary], [Int.binary], [Double.binary], [ByteArray.binary].
+ * - [Long.decimal], [Int.decimal], [Double.decimal], [ByteArray.decimal].
+ *
+ * Conversion to other units is available through:
+ * - [toInt], [toLong], [toDouble].
+ * - [inBytes], [inKilobytes], [inMegabytes], and related properties.
  */
 public class DataSize internal constructor(
     internal val rawValue: BigDecimal,
@@ -44,6 +50,10 @@ public class DataSize internal constructor(
         }
     }
 
+    /**
+     * Returns `true` if both values represent the same number of bytes.
+     * The unit is not considered for equality.
+     */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is DataSize) return false
@@ -51,8 +61,14 @@ public class DataSize internal constructor(
         return this.rawValue.compareTo(other.rawValue) == 0
     }
 
+    /**
+     * Returns a hash code based on the underlying byte value.
+     *
+     * The unit is not included to preserve consistency with [equals].
+     */
     override fun hashCode(): Int = rawValue.hashCode()
 
+    /** Predefined values for the binary (IEC) unit system. */
     @Suppress("ClassName")
     public object binary {
 
@@ -63,6 +79,7 @@ public class DataSize internal constructor(
         public val Infinite: DataSize = DataSize(rawValue = MAX_SIZE, unit = BinaryUnit.Byte)
     }
 
+    /** Predefined values for the decimal (SI) unit system. */
     @Suppress("ClassName")
     public object decimal {
 
@@ -75,35 +92,35 @@ public class DataSize internal constructor(
 
     public companion object {
 
-        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this value. */
         public inline val Long.binary: BinaryNumberDataSizeBuilder
             get() = BinaryNumberDataSizeBuilder(this)
 
-        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this [Int] value later interpreted as [DataSize]. */
+        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this value. */
         public inline val Int.binary: BinaryNumberDataSizeBuilder
             get() = BinaryNumberDataSizeBuilder(this)
 
-        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this [Double] value later interpreted as [DataSize]. */
+        /** Returns a [BinaryNumberDataSizeBuilder] initialized with this value. */
         public inline val Double.binary: BinaryNumberDataSizeBuilder
             get() = BinaryNumberDataSizeBuilder(this)
 
-        /** Returns a [BinaryArrayDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        /** Returns a [BinaryArrayDataSizeBuilder] initialized with this value. */
         public inline val ByteArray.binary: BinaryArrayDataSizeBuilder
             get() = BinaryArrayDataSizeBuilder(this.size)
 
-        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this value. */
         public inline val Long.decimal: DecimalNumberDataSizeBuilder
             get() = DecimalNumberDataSizeBuilder(this)
 
-        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this [Int] value later interpreted as [DataSize]. */
+        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this value. */
         public inline val Int.decimal: DecimalNumberDataSizeBuilder
             get() = DecimalNumberDataSizeBuilder(this)
 
-        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this [Double] value later interpreted as [DataSize]. */
+        /** Returns a [DecimalNumberDataSizeBuilder] initialized with this value. */
         public inline val Double.decimal: DecimalNumberDataSizeBuilder
             get() = DecimalNumberDataSizeBuilder(this)
 
-        /** Returns a [DecimalArrayDataSizeBuilder] initialized with this [Long] value later interpreted as [DataSize]. */
+        /** Returns a [DecimalArrayDataSizeBuilder] initialized with this value. */
         public inline val ByteArray.decimal: DecimalArrayDataSizeBuilder
             get() = DecimalArrayDataSizeBuilder(this.size)
     }
@@ -172,26 +189,27 @@ public class DataSize internal constructor(
     }
 
 
-    /** Returns true, if the data size value is infinite. */
+    /** Returns `true` if this value represents the maximum supported size. */
     public fun isInfinite(): Boolean =
         if (isBinary()) rawValue == binary.Infinite.rawValue else rawValue == decimal.Infinite.rawValue
 
-    /** Returns true, if the data size value is zero. */
+    /** Returns `true` if this value is equal to zero bytes. */
     public fun isZero(): Boolean =
         if (isBinary()) rawValue == binary.Zero.rawValue else rawValue == decimal.Zero.rawValue
 
-    /** Returns true, if the data size unit is [DecimalUnit]. */
+    /** Returns `true` if this instance uses a decimal (SI) unit. */
     public fun isDecimal(): Boolean = unit.isDecimalUnit()
 
-    /** Returns true, if the data size unit is [BinaryUnit]. */
+    /** Returns `true` if this instance uses a binary (IEC) unit. */
     public fun isBinary(): Boolean = unit.isBinaryUnit()
 
+    /** Compares this value with another [DataSize] based on byte magnitude. */
     override fun compareTo(other: DataSize): Int = this.rawValue.compareTo(other.rawValue)
 
 
     /**
-     * Returns the value of this data size expressed as a [Double] number of the specified [DataSizeUnit].
-     * The operation may involve rounding when the result cannot be represented exactly with a [Double] number.
+     * Returns this value expressed as a [Double] in the specified [unit].
+     * Precision may be lost for large values due to floating-point representation.
      */
     public fun toDouble(unit: DataSizeUnit): Double =
         convertDataSizeUnit(
@@ -201,8 +219,8 @@ public class DataSize internal constructor(
         ).stripTrailingZeros().toDouble()
 
     /**
-     * Returns the value of this data size expressed as a [Int] number of the specified [DataSizeUnit].
-     * If the result doesn't fit in the range of [Int] type, it is coerced into that range.
+     * Returns this value expressed as an [Int] in the specified [unit].
+     * Values outside the [Int] range are coerced.
      */
     public fun toInt(unit: DataSizeUnit): Int =
         convertDataSizeUnit(
@@ -211,7 +229,7 @@ public class DataSize internal constructor(
             targetUnit = unit,
         ).stripTrailingZeros().toInt()
 
-    /** Returns the value of this data size expressed as a [Long] number of the specified [DataSizeUnit]. */
+    /** Returns this value expressed as a [Long] in the specified [unit]. */
     public fun toLong(unit: DataSizeUnit): Long =
         convertDataSizeUnit(
             value = rawValue,
@@ -220,50 +238,56 @@ public class DataSize internal constructor(
         ).stripTrailingZeros().toLong()
 
 
-    /** The value of this [DataSize] expressed as a [Double] number of pebibytes. */
+    /** Returns this value expressed in pebibytes. */
     public val inPebibytes: Double
         get() = toDouble(BinaryUnit.Pebibyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of petabytes. */
+    /** Returns this value expressed in petabytes. */
     public val inPetabytes: Double
         get() = toDouble(DecimalUnit.Petabyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of tebibytes. */
+    /** Returns this value expressed in tebibytes. */
     public val inTebibytes: Double
         get() = toDouble(BinaryUnit.Tebibyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of terabytes. */
+    /** Returns this value expressed in terabytes. */
     public val inTerabytes: Double
         get() = toDouble(DecimalUnit.Terabyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of gibibytes. */
+    /** Returns this value expressed in gibibytes. */
     public val inGibibytes: Double
         get() = toDouble(BinaryUnit.Gibibyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of gigabytes. */
+    /** Returns this value expressed in gigabytes. */
     public val inGigabytes: Double
         get() = toDouble(DecimalUnit.Gigabyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of mebibytes. */
+    /** Returns this value expressed in mebibytes. */
     public val inMebibytes: Double
         get() = toDouble(BinaryUnit.Mebibyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of megabytes. */
+    /** Returns this value expressed in megabytes. */
     public val inMegabytes: Double
         get() = toDouble(DecimalUnit.Megabyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of kibibytes. */
+    /** Returns this value expressed in kibibytes. */
     public val inKibibytes: Double
         get() = toDouble(BinaryUnit.Kibibyte)
 
-    /** The value of this [DataSize] expressed as a [Double] number of kilobytes. */
+    /** Returns this value expressed in kilobytes. */
     public val inKilobytes: Double
         get() = toDouble(DecimalUnit.Kilobyte)
 
-    /** The value of this [DataSize] expressed as a [Long] number of bytes. */
+    /** Returns this value expressed in bytes. */
     public val inBytes: Long
         get() = toLong(if (isBinary()) BinaryUnit.Byte else DecimalUnit.Byte)
 
+    /**
+     * Returns a string representation of this value in bytes.
+     *
+     * - Returns `"Infinity"` for infinite values.
+     * - Otherwise returns the byte value without unit suffix.
+     */
     override fun toString(): String = when {
         isInfinite() -> "Infinity"
         isBinary() -> toLong(BinaryUnit.Byte).toString()
@@ -272,16 +296,18 @@ public class DataSize internal constructor(
     }
 
     /**
-     * Returns a string representation of this data size value expressed in the given [unit]
-     * and formatted with the specified [fractionDigits] number of digits after decimal point.
+     * Returns a formatted string representation of this value.
+     *
+     * The value is converted to the specified [unit] and formatted using [formatter].
      *
      * Special case:
-     *  - an infinite data size is formatted as `"Infinity"` without a unit.
+     * - Infinite values are formatted as `"Infinity"` without a unit.
      *
-     * @param fractionDigits the number of digits after decimal point to show. The value must be non-negative.
-     *        No more than 2 decimals will be shown, even if a larger number is requested with default formatter.
-     * @return the value of data size in the specified [unit] followed by that unit abbreviated name: `B`, `KB`, `MB`, `GB`, or `TB`.
-     * @throws IllegalArgumentException if [fractionDigits] is less than zero.
+     * @param unit the unit to express the value in.
+     * @param fractionDigits number of digits after the decimal point (must be non-negative).
+     * @param formatter formatting strategy used to produce the output.
+     *
+     * @throws IllegalArgumentException if [fractionDigits] is negative.
      */
     public fun toString(
         unit: DataSizeUnit,
