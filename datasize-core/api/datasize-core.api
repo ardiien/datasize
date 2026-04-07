@@ -74,6 +74,11 @@ public final class io/github/ardiien/datasize/DataSizeKt {
 	public static final fun orDecimalZero (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
 }
 
+public abstract interface class io/github/ardiien/datasize/DataSizeUnitLocalizer {
+	public abstract fun abbreviation (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
+	public abstract fun name (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
+}
+
 public abstract interface annotation class io/github/ardiien/datasize/ExperimentalDataSizeApi : java/lang/annotation/Annotation {
 }
 
@@ -111,22 +116,22 @@ public final class io/github/ardiien/datasize/builder/DecimalNumberDataSizeBuild
 	public final fun toDataSize (Lio/github/ardiien/datasize/unit/DecimalUnit;)Lio/github/ardiien/datasize/DataSize;
 }
 
-public final class io/github/ardiien/datasize/formatter/DefaultDataSizeFormatter : io/github/ardiien/datasize/DataSizeFormatter {
-	public static final field Companion Lio/github/ardiien/datasize/formatter/DefaultDataSizeFormatter$Companion;
-	public fun <init> (Ljava/text/DecimalFormat;)V
+public final class io/github/ardiien/datasize/formatter/SimpleDataSizeFormatter : io/github/ardiien/datasize/DataSizeFormatter {
+	public static final field Companion Lio/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion;
+	public fun <init> (Ljava/text/DecimalFormat;Lio/github/ardiien/datasize/DataSizeUnitLocalizer;)V
 	public fun format (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;I)Ljava/lang/String;
 	public fun unitFrom (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/unit/DataSizeUnit;
 }
 
-public final class io/github/ardiien/datasize/formatter/DefaultDataSizeFormatter$Companion {
+public final class io/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion {
 	public final fun createFormat (Ljava/math/RoundingMode;IZLjava/text/DecimalFormatSymbols;)Ljava/text/DecimalFormat;
-	public static synthetic fun createFormat$default (Lio/github/ardiien/datasize/formatter/DefaultDataSizeFormatter$Companion;Ljava/math/RoundingMode;IZLjava/text/DecimalFormatSymbols;ILjava/lang/Object;)Ljava/text/DecimalFormat;
+	public static synthetic fun createFormat$default (Lio/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion;Ljava/math/RoundingMode;IZLjava/text/DecimalFormatSymbols;ILjava/lang/Object;)Ljava/text/DecimalFormat;
 	public final fun createFormatSymbols (CC)Ljava/text/DecimalFormatSymbols;
-	public static synthetic fun createFormatSymbols$default (Lio/github/ardiien/datasize/formatter/DefaultDataSizeFormatter$Companion;CCILjava/lang/Object;)Ljava/text/DecimalFormatSymbols;
+	public static synthetic fun createFormatSymbols$default (Lio/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion;CCILjava/lang/Object;)Ljava/text/DecimalFormatSymbols;
 }
 
 public abstract class io/github/ardiien/datasize/unit/BinaryUnit : io/github/ardiien/datasize/unit/DataSizeUnit {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun entries ()Lkotlinx/collections/immutable/ImmutableList;
 }
 
@@ -173,9 +178,7 @@ public final class io/github/ardiien/datasize/unit/BinaryUnit$Tebibyte : io/gith
 }
 
 public abstract class io/github/ardiien/datasize/unit/DataSizeUnit {
-	public final fun abbreviation ()Ljava/lang/String;
 	public fun entries ()Lkotlinx/collections/immutable/ImmutableList;
-	public final fun name ()Ljava/lang/String;
 	public final fun value ()Ljava/math/BigDecimal;
 }
 
@@ -185,7 +188,7 @@ public final class io/github/ardiien/datasize/unit/DataSizeUnitKt {
 }
 
 public abstract class io/github/ardiien/datasize/unit/DecimalUnit : io/github/ardiien/datasize/unit/DataSizeUnit {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun entries ()Lkotlinx/collections/immutable/ImmutableList;
 }
 
@@ -229,5 +232,11 @@ public final class io/github/ardiien/datasize/unit/DecimalUnit$Terabyte : io/git
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/unit/localaizer/SimpleDataSizeUnitLocalizer : io/github/ardiien/datasize/DataSizeUnitLocalizer {
+	public fun <init> ()V
+	public fun abbreviation (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
+	public fun name (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
 }
 

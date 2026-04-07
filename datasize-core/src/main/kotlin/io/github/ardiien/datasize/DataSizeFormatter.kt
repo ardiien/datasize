@@ -9,6 +9,7 @@ import io.github.ardiien.datasize.unit.DataSizeUnit
 
 
 /** Provides utilities for formatting [DataSize] values into human-readable strings. */
+@ExperimentalDataSizeApi
 public interface DataSizeFormatter {
 
     /**

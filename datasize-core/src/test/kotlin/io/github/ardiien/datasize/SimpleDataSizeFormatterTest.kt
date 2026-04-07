@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 class SimpleDataSizeFormatterTest {
 
-    private val formatter: SimpleDataSizeFormatter = SimpleDataSizeFormatter(SimpleDataSizeFormatter.createFormat())
+    private val formatter: SimpleDataSizeFormatter = DefaultDataSizeUnitFormatter
 
     @Test
     fun `bytes returns Byte unit`() {

@@ -2,12 +2,14 @@ import io.github.ardiien.datasize.DataSize
 import io.github.ardiien.datasize.DataSize.Companion.binary
 import io.github.ardiien.datasize.DataSizeFormatter
 import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
+import io.github.ardiien.datasize.unit.localaizer.SimpleDataSizeUnitLocalizer
 import java.text.DecimalFormat
 
 
 fun main() {
     val format: DecimalFormat = SimpleDataSizeFormatter.createFormat()
-    val formatter: DataSizeFormatter = SimpleDataSizeFormatter(format)
+    val localizer = SimpleDataSizeUnitLocalizer()
+    val formatter: DataSizeFormatter = SimpleDataSizeFormatter(format, localizer)
     val value: DataSize = 55.563.binary.kibibytes
 
     val defaultPrecision: String = formatter.format(value, fractionDigits = 0)

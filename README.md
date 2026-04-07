@@ -171,7 +171,8 @@ import io.github.ardiien.datasize.*
 
 fun main() {
     val format: DecimalFormat = SimpleDataSizeFormatter.createFormat()
-    val formatter: DataSizeFormatter = SimpleDataSizeFormatter(format)
+    val localizer = SimpleDataSizeUnitLocalizer()
+    val formatter: DataSizeFormatter = SimpleDataSizeFormatter(format, localizer)
     val value: DataSize = 55.563.binary.kibibytes
   
     val defaultPrecision: String = formatter.format(value, fractionDigits = 0)

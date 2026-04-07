@@ -20,6 +20,7 @@ import io.github.ardiien.datasize.unit.UnitMathContext
 import io.github.ardiien.datasize.unit.convertDataSizeUnit
 import io.github.ardiien.datasize.unit.isBinaryUnit
 import io.github.ardiien.datasize.unit.isDecimalUnit
+import io.github.ardiien.datasize.unit.localaizer.SimpleDataSizeUnitLocalizer
 import java.math.BigDecimal
 import kotlin.math.roundToInt
 
@@ -290,8 +291,8 @@ public class DataSize internal constructor(
      */
     override fun toString(): String = when {
         isInfinite() -> "Infinity"
-        isBinary() -> toLong(BinaryUnit.Byte).toString()
-        isDecimal() -> toLong(DecimalUnit.Byte).toString()
+        isBinary() -> inBytes.toString()
+        isDecimal() -> inBytes.toString()
         else -> "0"
     }
 
@@ -312,7 +313,7 @@ public class DataSize internal constructor(
     public fun toString(
         unit: DataSizeUnit,
         fractionDigits: Int = 0,
-        formatter: DataSizeFormatter = SimpleDataSizeFormatter(SimpleDataSizeFormatter.createFormat()),
+        formatter: DataSizeFormatter = DefaultDataSizeUnitFormatter,
     ): String = formatter.format(this, unit, fractionDigits)
 }
 
@@ -336,3 +337,8 @@ public inline fun DataSize?.orBinaryZero(): DataSize = this ?: DataSize.binary.Z
 /** Returns value or decimal zero if null.*/
 @Suppress("NOTHING_TO_INLINE")
 public inline fun DataSize?.orDecimalZero(): DataSize = this ?: DataSize.decimal.Zero
+
+internal val DefaultDataSizeUnitFormatter = SimpleDataSizeFormatter(
+    format = SimpleDataSizeFormatter.createFormat(),
+    localizer = SimpleDataSizeUnitLocalizer()
+)
