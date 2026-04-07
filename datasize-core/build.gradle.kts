@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.ardiien.datasize"
-version = "2.0.0-alpha01"
+version = "2.0.0-alpha02"
 
 java {
     withSourcesJar()
