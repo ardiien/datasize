@@ -13,7 +13,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 
-public class DefaultDataSizeFormatter(private val formatter: DecimalFormat) : DataSizeFormatter {
+public class SimpleDataSizeFormatter(private val formatter: DecimalFormat) : DataSizeFormatter {
 
     /**
      * Returns the most appropriate [DataSizeUnit] for the given [value] based on its magnitude.

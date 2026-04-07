@@ -6,15 +6,15 @@
 package io.github.ardiien.datasize
 
 import io.github.ardiien.datasize.DataSize.Companion.binary
-import io.github.ardiien.datasize.formatter.DefaultDataSizeFormatter
+import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
 import io.github.ardiien.datasize.unit.BinaryUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 
-class DefaultDataSizeFormatterTest {
+class SimpleDataSizeFormatterTest {
 
-    private val formatter: DefaultDataSizeFormatter = DefaultDataSizeFormatter(DefaultDataSizeFormatter.createFormat())
+    private val formatter: SimpleDataSizeFormatter = SimpleDataSizeFormatter(SimpleDataSizeFormatter.createFormat())
 
     @Test
     fun `bytes returns Byte unit`() {

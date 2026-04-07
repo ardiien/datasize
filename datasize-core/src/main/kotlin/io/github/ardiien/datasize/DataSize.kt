@@ -11,7 +11,7 @@ import io.github.ardiien.datasize.builder.BinaryArrayDataSizeBuilder
 import io.github.ardiien.datasize.builder.BinaryNumberDataSizeBuilder
 import io.github.ardiien.datasize.builder.DecimalArrayDataSizeBuilder
 import io.github.ardiien.datasize.builder.DecimalNumberDataSizeBuilder
-import io.github.ardiien.datasize.formatter.DefaultDataSizeFormatter
+import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
 import io.github.ardiien.datasize.unit.BinaryUnit
 import io.github.ardiien.datasize.unit.DataSizeUnit
 import io.github.ardiien.datasize.unit.DecimalUnit
@@ -312,7 +312,7 @@ public class DataSize internal constructor(
     public fun toString(
         unit: DataSizeUnit,
         fractionDigits: Int = 0,
-        formatter: DataSizeFormatter = DefaultDataSizeFormatter(DefaultDataSizeFormatter.createFormat()),
+        formatter: DataSizeFormatter = SimpleDataSizeFormatter(SimpleDataSizeFormatter.createFormat()),
     ): String = formatter.format(this, unit, fractionDigits)
 }
 
