@@ -11,6 +11,7 @@ To explore all available features and implementation details, check out the full
 
 ## Table of Contents
 
+* [Background](#background)
 * [Setup](#setup)
 * [Basics](#basics)
     * [Operations](#operations)
@@ -19,7 +20,22 @@ To explore all available features and implementation details, check out the full
 * [Precision](#precision)
 * [More to Explore](#more-to-explore)
 
+## Background
+
+Working with data sizes is surprisingly confusing due to inconsistent terminology.
+
+In the [International System of Units](https://en.wikipedia.org/wiki/Byte#Multiple-byte_units) (SI), prefixes like `kilo` strictly mean `1000`. However, in many areas of software, 
+"kilobyte" is commonly used to represent `1024` bytes instead. This mismatch has persisted for decades and leads to ambiguity,
+incorrect assumptions, and subtle bugs in calculations.
+
+To address this, more precise terms such as [kibibyte](https://en.wikipedia.org/wiki/Binary_prefix) (KiB = 1024 bytes), [mebibytes](https://en.wikipedia.org/wiki/Binary_prefix) (MiB), and so on were introduced.
+Despite being technically correct, these terms are still not widely recognized or consistently used, which only adds to the confusion.
+
+This library aims to solve that problem by providing a clear, explicit, and accurate way to represent and work with data sizes
+by removing ambiguity and ensuring correct calculations.
+
 ## Setup
+
 The latest version of the library <br/>
 [![Maven Central](https://img.shields.io/github/v/tag/ardiien/datasize?label=datasize&color=64748B)](https://central.sonatype.com/artifact/io.github.ardiien.datasize/datasize) <br/>
 
