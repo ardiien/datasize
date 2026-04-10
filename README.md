@@ -5,9 +5,9 @@
 [![Maven Central](https://img.shields.io/github/v/tag/ardiien/datasize?label=datasize&color=64748B)](https://central.sonatype.com/artifact/io.github.ardiien.datasize/datasize)
 ![Build](https://img.shields.io/github/actions/workflow/status/ardiien/datasize/datasize.yml?branch=main&style=flat&color=limegreen&logo=github)
 
-The `DataSize` value class represents a quantity of digital information and provides a rich set of utilities.
-Use extension function to create the `DataSize` representation. It's important to know that all values are stored as `bytes`. All calculations are performed on `bytes`.
-To explore all available features and implementation details, check out the full class documentation.
+The `DataSize` value class represents a quantity of digital information and provides a set of utilities for working with it.
+Use extension properties to create `DataSize` instances. All values are stored internally as bytes, and all calculations
+are performed using this canonical representation.  For full details and additional capabilities, refer to the class documentation.
 
 ## Table of Contents
 
@@ -22,28 +22,28 @@ To explore all available features and implementation details, check out the full
 
 ## Background
 
-Working with data sizes is surprisingly confusing due to inconsistent terminology.
+Working with data sizes can be confusing due to inconsistent terminology.
 
-In the [International System of Units](https://en.wikipedia.org/wiki/Byte#Multiple-byte_units) (SI), prefixes like `kilo` strictly mean `1000`. However, in many areas of software, 
-"kilobyte" is commonly used to represent `1024` bytes instead. This mismatch has persisted for decades and leads to ambiguity,
-incorrect assumptions, and subtle bugs in calculations.
+In the [International System of Units](https://en.wikipedia.org/wiki/Byte#Multiple-byte_units) (SI), prefixes such as
+`kilo` strictly mean `1000`. However, in many areas of software, "kilobyte" is often used to represent `1024` bytes. 
+This inconsistency leads to ambiguity and incorrect assumptions.
 
-To address this, more precise terms such as [kibibyte](https://en.wikipedia.org/wiki/Binary_prefix) (KiB = 1024 bytes), [mebibytes](https://en.wikipedia.org/wiki/Binary_prefix) (MiB), and so on were introduced.
-Despite being technically correct, these terms are still not widely recognized or consistently used, which only adds to the confusion.
+To address this, more precise terms such as [kibibyte](https://en.wikipedia.org/wiki/Binary_prefix) (KiB = 1024 bytes),
+[mebibyte](https://en.wikipedia.org/wiki/Binary_prefix) (MiB), and others were introduced.
+Despite being technically correct, these terms are not always consistently used.
 
-This library aims to solve that problem by providing a clear, explicit, and accurate way to represent and work with data sizes
-by removing ambiguity and ensuring correct calculations.
+This library provides a clear and explicit way to represent and work with data sizes, removing ambiguity and ensuring correct calculations.
 
 ## Setup
 
-The latest version of the library <br/>
-[![Maven Central](https://img.shields.io/github/v/tag/ardiien/datasize?label=datasize&color=64748B)](https://central.sonatype.com/artifact/io.github.ardiien.datasize/datasize) <br/>
+Latest version:  
+[![Maven Central](https://img.shields.io/github/v/tag/ardiien/datasize?label=datasize&color=64748B)](https://central.sonatype.com/artifact/io.github.ardiien.datasize/datasize)
 
 Kotlin DSL:
 
 ```kotlin
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -65,28 +65,27 @@ dependencies {
 
 ## Basics
 
-The `DataSize` has extensions available on numeric types like `Int`, `Long`, and `Double`. Also, supports `ByteArray`.
-Here is a small example.
+`DataSize` provides extension properties for numeric types such as `Int`, `Long`, and `Double`, as well as for `ByteArray`.
 
 ```kotlin
 import io.github.ardiien.datasize.*
 
 fun main() {
-    val kilobyteFromInt: DataSize = 1.binary.kibibytes
+    val kilobyteFromInt: DataSize = 1.kibibytes
     val fromInt: Long = kilobyteFromInt.inBytes
     println(fromInt)    // 1024
 
-    val kilobyteFromDouble: DataSize = 1.0.decimal.kilobytes
+    val kilobyteFromDouble: DataSize = 1.0.kilobytes
     val fromDouble: Long = kilobyteFromDouble.inBytes
     println(fromDouble) // 1000
 
-    val kilobyteFromLong: DataSize = 1L.binary.kibibytes
+    val kilobyteFromLong: DataSize = 1L.kibibytes
     val fromLong: Long = kilobyteFromLong.inBytes
     println(fromLong)   // 1024
 }
 ```
 
-> You can explore more samples [here](samples/src/main/kotlin).
+> More examples are available in [samples/src/main/kotlin](samples/src/main/kotlin).
 
 ### Operations
 
@@ -96,91 +95,87 @@ The `DataSize` class supports the following arithmetic operations
 import io.github.ardiien.datasize.*
 
 fun main() {
-    val addition: DataSize = 5.binary.mebibytes + 15.binary.mebibytes
+    val addition: DataSize = 5.mebibytes + 15.mebibytes
     val additionPreview: String = addition.toString(BinaryUnit.Mebibyte, fractionDigits = 1)
     println(additionPreview)        // 20 MB
-  
-    val substraction: DataSize = 105.decimal.megabytes - 5.decimal.megabytes
+
+    val substraction: DataSize = 105.megabytes - 5.megabytes
     val substractionPreview: String = substraction.toString(DecimalUnit.Megabyte, fractionDigits = 1)
     println(substractionPreview)    // 100 MB
-  
-    val multiplication: DataSize = 5.decimal.megabytes * 2
+
+    val multiplication: DataSize = 5.megabytes * 2
     val multiplicationPreview: String = multiplication.toString(DecimalUnit.Megabyte, fractionDigits = 1)
     println(multiplicationPreview)  // 10 MB
-  
-    val division: DataSize = 15.binary.mebibytes / 2
+
+    val division: DataSize = 15.mebibytes / 2
     val divisionPreview: String = division.toString(BinaryUnit.Mebibyte, fractionDigits = 1)
     println(divisionPreview)        // 7,5 MB
-  
-    val remainder: DataSize = 11.decimal.megabytes % 2.decimal.megabytes
+
+    val remainder: DataSize = 11.megabytes % 2.megabytes
     val remainderPreview: String = remainder.toString(DecimalUnit.Megabyte, fractionDigits = 1)
     println(remainderPreview)       // 1 MB
 }
 ```
 
 > ⚠️ Note<br/>
-> The result of any arithmetic operation
-> - Must not exceed `DataSize.Infinite`
-> - Must not be less than `DataSize.Zero`
+> The result of any arithmetic operation:
+> - must not be less than `DataSize.Zero`.
+> - is normalized to avoid negative values or overflow.
 
 ### Comparing
 
-The `DataSize` class implements the `Comparable` interface, enabling direct comparison between instances using standard
-operators, and allows to have natural ordering.
+`DataSize` implements `Comparable`, enabling direct comparison and natural ordering.
 
-Also, it has some other useful methods like:
+Utility functions:
 
-- `min` and `max` as standard comparison utilities to determine the smaller or larger of two `DataSize` instances.
-- `isInfinite` and `isZero` to check boundaries of the `DataSize` instances.
+- `min` and `max` return the smaller or larger of two `DataSize` instances.
+- `isZero` checks whether the value equals `DataSize.Zero`.
 
 ```kotlin
 import io.github.ardiien.datasize.*
 
 fun main() {
-    val sortedList = listOf<DataSize>(1.binary.kibibytes, 1.binary.mebibytes, 20.binary.kibibytes).sorted()
+    val sortedList = listOf<DataSize>(1.kibibytes, 1.mebibytes, 20.kibibytes).sorted()
     println(sortedList)   // [1024, 20480, 1048576]
-  
-    val gt: Boolean = 15.binary.kibibytes > 1.binary.kibibytes
+
+    val gt: Boolean = 15.kibibytes > 1.kibibytes
     println(gt)           // true
-  
-    val lte: Boolean = 15.binary.kibibytes <= 14.binary.kibibytes
+
+    val lte: Boolean = 15.kibibytes <= 14.kibibytes
     println(lte)          // false
-  
-    val eq: Boolean = 15.binary.kibibytes == 15.binary.kibibytes
+
+    val eq: Boolean = 15.kibibytes == 15.kibibytes
     println(eq)           // true
-  
-    val neq: Boolean = 15.binary.kibibytes != 5.binary.kibibytes
+
+    val neq: Boolean = 15.kibibytes != 5.kibibytes
     println(neq)          // true
-  
-  
-    val min: DataSize = min(2.binary.mebibytes, 2.binary.kibibytes)
+
+    val min: DataSize = min(2.mebibytes, 2.kibibytes)
     println(min)          // 2048
-  
-    val max: DataSize = max(2.binary.mebibytes, 2.binary.kibibytes)
+
+    val max: DataSize = max(2.mebibytes, 2.kibibytes)
     println(max)          // 2097152
 }
 ```
 
-For negative values or low-level operations, use the `inBytes` method to retrieve the raw byte representation on a
-`DataSize` instance.
+For low-level access, use inBytes to retrieve the raw value.
+
 It may seem counterintuitive, but storage capacity is always a positive value because it represents the amount of data
 that can be stored, and it's impossible to store a negative amount of data.
-A negative size would imply the ability to somehow "un-store" data, which cannot be done. Digital data is represented by
-bits (0s and 1s). You can have a certain number of bits, but you can't have a negative number of bits.
+A negative size would imply the ability to somehow "un-store" data, which cannot be done. Digital data is represented by bits (0s and 1s).
+You can have a certain number of bits, but you can't have a negative number of bits.
 
 ## Formatting
 
-The `DataSize` class supports formatting in both Decimal (`1000`|`SI`) and Binary (`1024`|`IEC`) base
-representations. To remove boilerplate and repeated code, you can use the utility class `DataSizeFormatter`. There are two types of
-operations:
+The `DataSize` class supports formatting in both Decimal (`1000`|`SI`) and Binary (`1024`|`IEC`) systems.
+To remove boilerplate and repeated code, you can use the utility class `DataSizeFormatter`. There are two types of operations:
 
-1. `format` – transforms a `DataSize` instance or raw bytes into a formatted `String`
-2. `unitFrom` – identifies the appropriate `DataSizeUnit` to get the highest scale for `format`
+1. `binaryFormat` – transforms a `DataSize` instance into a formatted `String` using Binary (`1024`|`IEC`) system.
+2. `decimalFormat` – transforms a `DataSize` instance into a formatted `String` using Decimal (`1000`|`SI`) system.
 
 ### Precision
 
-It's important to note that there's a difference between `decimal == 0` and `decimal > 0`. The `decimal` range is
-clamped between 0 and 2. Any value greater than 2 will be coerced to 2 during evaluation.
+Fractional precision is controlled via `fractionDigits` property. Values are clamped to a maximum of **2 fractional digits**.
 
 ```kotlin
 import io.github.ardiien.datasize.*
@@ -189,25 +184,24 @@ fun main() {
     val format: DecimalFormat = SimpleDataSizeFormatter.createFormat()
     val localizer = SimpleDataSizeUnitLocalizer()
     val formatter: DataSizeFormatter = SimpleDataSizeFormatter(format, localizer)
-    val value: DataSize = 55.563.binary.kibibytes
-  
-    val defaultPrecision: String = formatter.format(value, fractionDigits = 0)
+    val value: DataSize = 55.563.kibibytes
+
+    val defaultPrecision: String = formatter.binaryFormat(value, fractionDigits = 0)
     println(defaultPrecision)       // 56 KB, default
-  
-    val betterPrecision: String = formatter.format(value, fractionDigits = 1)
+
+    val betterPrecision: String = formatter.binaryFormat(value, fractionDigits = 1)
     println(betterPrecision)        // 55,6 KB
-  
-    val maxAvailablePrecision: String = formatter.format(value, fractionDigits = 2)
+
+    val maxAvailablePrecision: String = formatter.binaryFormat(value, fractionDigits = 2)
     println(maxAvailablePrecision)  // 55,56 KB, max allowed
 }
 ```
 
 > ⚠️ Note<br/>
-> The larger the number without a decimal point, the greater the rounding up. For instance, `format(1.6.terabytes, decimals = 0)`
-> results in 2 TB output.
+> Larger values without fractional digits may be rounded.<br/>
+> For example, `1.6.terabytes` with `fractionDigits = 0` results in `2 TB`.
 
 ## More to Explore
 
-For more examples and usage patterns, refer to `DataSizeTest`, `DataSizeFormatterTest`, and real-world usage of digital
+For more examples and usage patterns, refer to `DataSizeTest`, `SimpleDataSizeFormatterTest`, and real-world usage of digital
 data size utilities across features.
-These resources provide practical insights into how data size is handled, formatted, and tested.

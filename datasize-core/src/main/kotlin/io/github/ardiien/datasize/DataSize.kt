@@ -5,23 +5,24 @@
  */
 package io.github.ardiien.datasize
 
+import io.github.ardiien.datasize.DataSize.Companion.Zero
 import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
 import io.github.ardiien.datasize.localizer.SimpleDataSizeUnitLocalizer
 import kotlin.math.roundToLong
 
 
 /**
- * Represents a data size as a numeric value expressed in bytes with an associated [DataSizeUnit].
+ * Represents a data size as a numeric value expressed in bytes.
  *
  * A [DataSize] is a value object whose magnitude is defined by its underlying byte value.
  * All comparisons and arithmetic operations are performed using this canonical representation,
  * regardless of the unit used to construct the instance.
  *
- * No checks are performed to ensure values correspond to whole bits, so `1.1.bytes` is allowed
- * even though it has little practical meaning. If this behavior is not desired, it must be enforced externally.
+ * No checks are performed to ensure values correspond to whole bits, so fractional values
+ * such as `1.1.bytes` are not allowed. If this behavior is not desired, it must be enforced externally.
  *
  * Conversion to other units is available through:
- * - [toInt], [toLong], [toDouble].
+ * - [toLong], [toDouble].
  * - [inBytes], [inKibibytes], [inKilobytes], and related properties.
  */
 @JvmInline
@@ -35,7 +36,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
 
     public companion object {
 
-        /** The size equal to exactly 0 bytes. */
+        /** A [DataSize] equal to exactly 0 bytes. */
         public val Zero: DataSize = DataSize(rawValue = 0L)
 
         /** Returns a [DataSize] representing this value in petabytes. */
@@ -86,22 +87,37 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
         public inline val Long.bytes: DataSize
             get() = toDataSize(unit = ByteUnit.Byte)
 
-        /** Returns a [DataSize] representing this value in bytes. */
+        /** Returns a [DataSize] representing the size of this array in bytes. */
         public inline val ByteArray.bytes: DataSize
             get() = this.size.toDataSize(unit = ByteUnit.Byte)
 
+        /**
+         * Converts this numeric value to a [DataSize] using the specified [unit].
+         *
+         * @param unit the unit in which the numeric value is expressed.
+         * @return a [DataSize] representing the converted value in bytes.
+         */
         public fun Number.toDataSize(unit: DataSizeUnit): DataSize {
             val value = numberToDataSize(value = this, from = unit)
             return DataSize(value)
         }
     }
 
-
+    /**
+     * Returns the remainder of dividing this value by [other].
+     * The result is normalized to ensure it is not negative.
+     */
     public operator fun rem(other: DataSize): DataSize {
         val newValue = rawValue.rem(other.rawValue)
         return normalizedDataSizeOf(newValue)
     }
 
+    /**
+     * Returns the result of dividing this value by [other].
+     * The result is normalized to ensure it is not negative.
+     *
+     * @throws IllegalArgumentException if [other] is not positive.
+     */
     public operator fun div(other: Int): DataSize {
         require(other > 0) { "$other must be a positive value to perform division." }
 
@@ -109,18 +125,32 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
         return normalizedDataSizeOf(newValue)
     }
 
+    /**
+     * Returns the result of multiplying this value by [other].
+     * If [other] is zero, [Zero] is returned.
+     *
+     * The result is normalized to ensure it is not negative or does not exceed [Long.MAX_VALUE].
+     */
     public operator fun times(other: Int): DataSize {
         if (other == 0) return Zero
 
         val newValue = rawValue * other
-        return normalizedDataSizeOf(newValue)
+        return normalizedDataSizeOf(newValue.coerceAtMost(Long.MAX_VALUE))
     }
 
+    /**
+     * Returns the sum of this value and [other].
+     * The result is normalized to ensure it is not negative or does not exceed [Long.MAX_VALUE].
+     */
     public operator fun plus(other: DataSize): DataSize {
         val newValue = rawValue + other.rawValue
-        return normalizedDataSizeOf(newValue)
+        return normalizedDataSizeOf(newValue.coerceAtMost(Long.MAX_VALUE))
     }
 
+    /**
+     * Returns the difference between this value and [other].
+     * The result is normalized to ensure it is not negative.
+     */
     public operator fun minus(other: DataSize): DataSize {
         val newValue = rawValue - other.rawValue
         return normalizedDataSizeOf(newValue)
@@ -132,17 +162,15 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
     /** Compares this value with another [DataSize] based on byte magnitude. */
     override fun compareTo(other: DataSize): Int = this.rawValue.compareTo(other.rawValue)
 
-
     /**
-     * Returns this value expressed as a [Double] in the specified unit.
+     * Returns this value expressed as a [Double] in the specified [unit].
      * Precision may be lost for large values due to floating-point representation.
      */
     public fun toDouble(unit: DataSizeUnit): Double =
         dataSizeToDouble(value = rawValue, to = unit)
 
-    /** Returns this value expressed as a [Long] in the specified unit. */
+    /** Returns this value expressed as a [Long] in bytes. */
     public fun toLong(): Long = rawValue
-
 
     /** Returns this value expressed in pebibytes. */
     public val inPebibytes: Double
@@ -214,6 +242,16 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
     }
 }
 
+/** Returns the larger of two [DataSize] values based on byte magnitude. */
+public fun max(a: DataSize, b: DataSize): DataSize = if (a.rawValue >= b.rawValue) a else b
+
+/** Returns the smaller of two [DataSize] values based on byte magnitude. */
+public fun min(a: DataSize, b: DataSize): DataSize = if (a.rawValue <= b.rawValue) a else b
+
+/** Returns this value or [DataSize.Zero] if it is `null`. */
+@Suppress("NOTHING_TO_INLINE")
+public inline fun DataSize?.orZero(): DataSize = this ?: DataSize.Zero
+
 private fun normalizedDataSizeOf(value: Long): DataSize =
     DataSize(value.coerceAtLeast(0L))
 
@@ -244,16 +282,6 @@ private fun numberToDataSize(
 
 private fun dataSizeToDouble(value: Long, to: DataSizeUnit): Double =
     value.toDouble() * ByteUnit.Byte.value() / to.value()
-
-/** Returns the larger of two [DataSize] values (byte-based comparison). */
-public fun max(a: DataSize, b: DataSize): DataSize = if (a.rawValue >= b.rawValue) a else b
-
-/** Returns the smaller of two [DataSize] values (byte-based comparison). */
-public fun min(a: DataSize, b: DataSize): DataSize = if (a.rawValue <= b.rawValue) a else b
-
-/** Returns value or [DataSize.Zero] if null. */
-@Suppress("NOTHING_TO_INLINE")
-public inline fun DataSize?.orZero(): DataSize = this ?: DataSize.Zero
 
 internal val DefaultDataSizeUnitFormatter = SimpleDataSizeFormatter(
     format = SimpleDataSizeFormatter.createFormat(),

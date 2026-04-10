@@ -7,5 +7,11 @@
 package io.github.ardiien.datasize
 
 
+/**
+ * Represents a tag identifying a specific data size unit.
+ * This value is typically used for display or formatting purposes.
+ *
+ * @property value the string representation of the tag.
+ */
 @JvmInline
 public value class DataSizeTag(public val value: String)

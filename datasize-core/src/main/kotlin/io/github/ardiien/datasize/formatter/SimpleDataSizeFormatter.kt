@@ -17,14 +17,31 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 
+/**
+ * Default implementation of [DataSizeFormatter] that formats values
+ * using a configurable [DecimalFormat] and [DataSizeUnitLocalizer].
+ *
+ * This formatter supports both decimal (SI) and binary (IEC) units and
+ * automatically selects an appropriate unit when none is provided.
+ */
 public class SimpleDataSizeFormatter(
     private val format: DecimalFormat,
     private val localizer: DataSizeUnitLocalizer,
 ) : DataSizeFormatter {
 
+    /**
+     * Selects the most appropriate unit for the given [value] from the provided [units].
+     *
+     * The largest unit whose value is less than the given data size is selected.
+     * If no such unit exists, the smallest unit is returned.
+     */
     private fun unitFrom(value: DataSize, units: ImmutableList<DataSizeUnit>): DataSizeUnit =
         units.reversed().firstOrNull { value.rawValue > it.value() } ?: units.first()
 
+    /**
+     * Formats the given [value] using the specified [unit] and [fractionDigits].
+     * @throws IllegalArgumentException if [fractionDigits] is negative.
+     */
     private fun format(
         value: DataSize,
         unit: DataSizeUnit,
@@ -36,7 +53,6 @@ public class SimpleDataSizeFormatter(
         val actualFormatter = extendFormat(format, number, fractionDigits)
         return "${actualFormatter.format(number)} ${localizer.abbreviation(unit)}"
     }
-
 
     public override fun decimalFormat(
         value: DataSize,
@@ -58,6 +74,14 @@ public class SimpleDataSizeFormatter(
 
     public companion object {
 
+        /**
+         * Creates a configured [DecimalFormat] instance for formatting data sizes.
+         *
+         * @param roundingMode rounding strategy to apply.
+         * @param groupingSize number of digits in each group.
+         * @param isGroupingUsed whether digit grouping is enabled.
+         * @param decimalFormatSymbols symbols used for decimal and grouping separators.
+         */
         public fun createFormat(
             roundingMode: RoundingMode = RoundingMode.HALF_UP,
             groupingSize: Int = 3,
@@ -71,12 +95,19 @@ public class SimpleDataSizeFormatter(
                 this.decimalFormatSymbols = decimalFormatSymbols
             }
 
+        /** Extends the given [format] with settings derived from the provided [number] and [fractionDigits]. */
         internal fun extendFormat(format: DecimalFormat, number: Double, fractionDigits: Int): DecimalFormat =
             format.apply {
                 maximumFractionDigits = fractionDigits.coerceAtMost(2)
                 isGroupingUsed = number > 9999.999999999
             }
 
+        /**
+         * Creates [DecimalFormatSymbols] with the specified separators.
+         *
+         * @param decimalSeparator the character used as a decimal separator.
+         * @param groupingSeparator the character used as a grouping separator.
+         */
         public fun createFormatSymbols(
             decimalSeparator: Char = ',',
             groupingSeparator: Char = ' ',

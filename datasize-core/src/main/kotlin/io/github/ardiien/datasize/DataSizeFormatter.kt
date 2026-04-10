@@ -6,19 +6,19 @@
 package io.github.ardiien.datasize
 
 
-/** Provides utilities for formatting [DataSize] values into human-readable strings. */
+/** Provides formatting utilities for converting [DataSize] values into human-readable strings. */
 @ExperimentalDataSizeApi
 public interface DataSizeFormatter {
 
     /**
-     * Returns a string representation of the given [value] expressed in the specified [unit]
-     * and formatted with the given number of fractional [fractionDigits].
+     * Returns a formatted string representation of the given [value] using binary units.
      *
-     * If [unit] is not provided, a suitable unit is selected automatically.
+     * The value is expressed in the specified [unit] and formatted with the given number
+     * of fractional [fractionDigits]. If [unit] is `null`, a suitable unit is selected automatically.
      *
      * @param value the data size to format.
-     * @param unit the unit to express the value in.
-     * @param fractionDigits the number of digits to display after the decimal point.
+     * @param unit the binary unit to express the value in, or `null` to select automatically.
+     * @param fractionDigits number of digits to display after the decimal point (must be non-negative).
      *
      * @throws IllegalStateException if the value is not within the supported range.
      * @throws IllegalArgumentException if [fractionDigits] is negative.
@@ -30,14 +30,14 @@ public interface DataSizeFormatter {
     ): String
 
     /**
-     * Returns a string representation of the given [value] expressed in the specified [unit]
-     * and formatted with the given number of fractional [fractionDigits].
+     * Returns a formatted string representation of the given [value] using decimal units.
      *
-     * If [unit] is not provided, a suitable unit is selected automatically.
+     * The value is expressed in the specified [unit] and formatted with the given number
+     * of fractional [fractionDigits]. If [unit] is `null`, a suitable unit is selected automatically.
      *
      * @param value the data size to format.
-     * @param unit the unit to express the value in.
-     * @param fractionDigits the number of digits to display after the decimal point.
+     * @param unit the decimal unit to express the value in, or `null` to select automatically.
+     * @param fractionDigits number of digits to display after the decimal point (must be non-negative).
      *
      * @throws IllegalStateException if the value is not within the supported range.
      * @throws IllegalArgumentException if [fractionDigits] is negative.

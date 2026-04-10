@@ -6,13 +6,26 @@
 package io.github.ardiien.datasize
 
 
-/** Localization provider for data size units. */
+/**
+ * Provides localization for data size units.
+ *
+ * Implementations supply human-readable names and abbreviations
+ * for [DataSizeUnit] values, typically based on locale or formatting rules.
+ */
 @ExperimentalDataSizeApi
 public interface DataSizeUnitLocalizer {
 
-    /** Returns the full human-readable name of this unit. */
+    /**
+     * Returns the full human-readable name of the given [unit].
+     *
+     * @param unit the unit to localize.
+     */
     public fun name(unit: DataSizeUnit): String
 
-    /** Returns the abbreviated symbol of this unit. */
+    /**
+     * Returns the abbreviated symbol of the given [unit].
+     *
+     * @param unit the unit to localize.
+     */
     public fun abbreviation(unit: DataSizeUnit): String
 }
