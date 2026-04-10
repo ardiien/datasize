@@ -1,126 +1,211 @@
+public abstract class io/github/ardiien/datasize/BinaryUnit : io/github/ardiien/datasize/ByteUnit {
+	public static final field Companion Lio/github/ardiien/datasize/BinaryUnit$Companion;
+	public synthetic fun <init> (JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class io/github/ardiien/datasize/BinaryUnit$Companion {
+	public final fun entries ()Lkotlinx/collections/immutable/ImmutableList;
+}
+
+public final class io/github/ardiien/datasize/BinaryUnit$Gibibyte : io/github/ardiien/datasize/BinaryUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/BinaryUnit$Gibibyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/BinaryUnit$Kibibyte : io/github/ardiien/datasize/BinaryUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/BinaryUnit$Kibibyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/BinaryUnit$Mebibyte : io/github/ardiien/datasize/BinaryUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/BinaryUnit$Mebibyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/BinaryUnit$Pebibyte : io/github/ardiien/datasize/BinaryUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/BinaryUnit$Pebibyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/BinaryUnit$Tebibyte : io/github/ardiien/datasize/BinaryUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/BinaryUnit$Tebibyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class io/github/ardiien/datasize/ByteUnit : io/github/ardiien/datasize/DataSizeUnit {
+	public static final field Companion Lio/github/ardiien/datasize/ByteUnit$Companion;
+	public fun tag-Cox0Bto ()Ljava/lang/String;
+	public fun value ()J
+}
+
+public final class io/github/ardiien/datasize/ByteUnit$Companion {
+	public final fun getByte ()Lio/github/ardiien/datasize/ByteUnit;
+}
+
 public final class io/github/ardiien/datasize/DataSize : java/lang/Comparable {
 	public static final field Companion Lio/github/ardiien/datasize/DataSize$Companion;
-	public fun compareTo (Lio/github/ardiien/datasize/DataSize;)I
+	public static final synthetic fun box-impl (J)Lio/github/ardiien/datasize/DataSize;
 	public synthetic fun compareTo (Ljava/lang/Object;)I
-	public final fun div (D)Lio/github/ardiien/datasize/DataSize;
-	public final fun div (I)Lio/github/ardiien/datasize/DataSize;
+	public fun compareTo-BuKYR8w (J)I
+	public static fun compareTo-BuKYR8w (JJ)I
+	public static final fun div-_mO8CwU (JI)J
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getInBytes ()J
-	public final fun getInGibibytes ()D
-	public final fun getInGigabytes ()D
-	public final fun getInKibibytes ()D
-	public final fun getInKilobytes ()D
-	public final fun getInMebibytes ()D
-	public final fun getInMegabytes ()D
-	public final fun getInPebibytes ()D
-	public final fun getInPetabytes ()D
-	public final fun getInTebibytes ()D
-	public final fun getInTerabytes ()D
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public static final fun getInBytes-impl (J)J
+	public static final fun getInGibibytes-impl (J)D
+	public static final fun getInGigabytes-impl (J)D
+	public static final fun getInKibibytes-impl (J)D
+	public static final fun getInKilobytes-impl (J)D
+	public static final fun getInMebibytes-impl (J)D
+	public static final fun getInMegabytes-impl (J)D
+	public static final fun getInPebibytes-impl (J)D
+	public static final fun getInPetabytes-impl (J)D
+	public static final fun getInTebibytes-impl (J)D
+	public static final fun getInTerabytes-impl (J)D
 	public fun hashCode ()I
-	public final fun isBinary ()Z
-	public final fun isDecimal ()Z
-	public final fun isInfinite ()Z
-	public final fun isZero ()Z
-	public final fun minus (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
-	public final fun plus (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
-	public final fun rem (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
-	public final fun times (D)Lio/github/ardiien/datasize/DataSize;
-	public final fun times (I)Lio/github/ardiien/datasize/DataSize;
-	public final fun toDouble (Lio/github/ardiien/datasize/unit/DataSizeUnit;)D
-	public final fun toInt (Lio/github/ardiien/datasize/unit/DataSizeUnit;)I
-	public final fun toLong (Lio/github/ardiien/datasize/unit/DataSizeUnit;)J
+	public static fun hashCode-impl (J)I
+	public static final fun isZero-impl (J)Z
+	public static final fun minus-nBzHbaQ (JJ)J
+	public static final fun plus-nBzHbaQ (JJ)J
+	public static final fun rem-nBzHbaQ (JJ)J
+	public static final fun times-_mO8CwU (JI)J
+	public static final fun toDouble-impl (JLio/github/ardiien/datasize/DataSizeUnit;)D
+	public static final fun toLong-impl (J)J
 	public fun toString ()Ljava/lang/String;
-	public final fun toString (Lio/github/ardiien/datasize/unit/DataSizeUnit;ILio/github/ardiien/datasize/DataSizeFormatter;)Ljava/lang/String;
-	public static synthetic fun toString$default (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;ILio/github/ardiien/datasize/DataSizeFormatter;ILjava/lang/Object;)Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public static final fun toString-impl (JLio/github/ardiien/datasize/DataSizeUnit;ILio/github/ardiien/datasize/DataSizeFormatter;)Ljava/lang/String;
+	public static synthetic fun toString-impl$default (JLio/github/ardiien/datasize/DataSizeUnit;ILio/github/ardiien/datasize/DataSizeFormatter;ILjava/lang/Object;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
 }
 
 public final class io/github/ardiien/datasize/DataSize$Companion {
-	public final fun getBinary (D)Lio/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder;
-	public final fun getBinary (I)Lio/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder;
-	public final fun getBinary (J)Lio/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder;
-	public final fun getBinary ([B)Lio/github/ardiien/datasize/builder/BinaryArrayDataSizeBuilder;
-	public final fun getDecimal (D)Lio/github/ardiien/datasize/builder/DecimalNumberDataSizeBuilder;
-	public final fun getDecimal (I)Lio/github/ardiien/datasize/builder/DecimalNumberDataSizeBuilder;
-	public final fun getDecimal (J)Lio/github/ardiien/datasize/builder/DecimalNumberDataSizeBuilder;
-	public final fun getDecimal ([B)Lio/github/ardiien/datasize/builder/DecimalArrayDataSizeBuilder;
-}
-
-public final class io/github/ardiien/datasize/DataSize$binary {
-	public static final field INSTANCE Lio/github/ardiien/datasize/DataSize$binary;
-	public final fun getInfinite ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getZero ()Lio/github/ardiien/datasize/DataSize;
-}
-
-public final class io/github/ardiien/datasize/DataSize$decimal {
-	public static final field INSTANCE Lio/github/ardiien/datasize/DataSize$decimal;
-	public final fun getInfinite ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getZero ()Lio/github/ardiien/datasize/DataSize;
+	public final fun getBytes-_mO8CwU (I)J
+	public final fun getBytes-_mO8CwU (J)J
+	public final fun getBytes-_mO8CwU ([B)J
+	public final fun getGibibytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getGigabytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getKibibytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getKilobytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getMebibytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getMegabytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getPebibytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getPetabytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getTebibytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getTerabytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getZero-3VZmxlE ()J
+	public final fun toDataSize-jVM4Kqo (Ljava/lang/Number;Lio/github/ardiien/datasize/DataSizeUnit;)J
 }
 
 public abstract interface class io/github/ardiien/datasize/DataSizeFormatter {
-	public abstract fun format (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;I)Ljava/lang/String;
-	public static synthetic fun format$default (Lio/github/ardiien/datasize/DataSizeFormatter;Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;IILjava/lang/Object;)Ljava/lang/String;
-	public abstract fun unitFrom (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/unit/DataSizeUnit;
+	public abstract fun binaryFormat-wBTIb-E (JLio/github/ardiien/datasize/BinaryUnit;I)Ljava/lang/String;
+	public static synthetic fun binaryFormat-wBTIb-E$default (Lio/github/ardiien/datasize/DataSizeFormatter;JLio/github/ardiien/datasize/BinaryUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public abstract fun decimalFormat-wBTIb-E (JLio/github/ardiien/datasize/DecimalUnit;I)Ljava/lang/String;
+	public static synthetic fun decimalFormat-wBTIb-E$default (Lio/github/ardiien/datasize/DataSizeFormatter;JLio/github/ardiien/datasize/DecimalUnit;IILjava/lang/Object;)Ljava/lang/String;
 }
 
 public final class io/github/ardiien/datasize/DataSizeFormatter$DefaultImpls {
-	public static synthetic fun format$default (Lio/github/ardiien/datasize/DataSizeFormatter;Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public static synthetic fun binaryFormat-wBTIb-E$default (Lio/github/ardiien/datasize/DataSizeFormatter;JLio/github/ardiien/datasize/BinaryUnit;IILjava/lang/Object;)Ljava/lang/String;
+	public static synthetic fun decimalFormat-wBTIb-E$default (Lio/github/ardiien/datasize/DataSizeFormatter;JLio/github/ardiien/datasize/DecimalUnit;IILjava/lang/Object;)Ljava/lang/String;
 }
 
 public final class io/github/ardiien/datasize/DataSizeKt {
-	public static final fun max (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
-	public static final fun min (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
-	public static final fun orBinaryZero (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
-	public static final fun orDecimalZero (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/DataSize;
+	public static final fun max-yHBNY8A (JJ)J
+	public static final fun min-yHBNY8A (JJ)J
+	public static final fun orZero-SwkpY8w (Lio/github/ardiien/datasize/DataSize;)J
+}
+
+public final class io/github/ardiien/datasize/DataSizeTag {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ardiien/datasize/DataSizeTag;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ardiien/datasize/DataSizeUnit {
+	public abstract fun tag-Cox0Bto ()Ljava/lang/String;
+	public abstract fun value ()J
+}
+
+public final class io/github/ardiien/datasize/DataSizeUnitKt {
+	public static final fun isBinaryUnit (Lio/github/ardiien/datasize/DataSizeUnit;)Z
+	public static final fun isDecimalUnit (Lio/github/ardiien/datasize/DataSizeUnit;)Z
 }
 
 public abstract interface class io/github/ardiien/datasize/DataSizeUnitLocalizer {
-	public abstract fun abbreviation (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
-	public abstract fun name (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
+	public abstract fun abbreviation (Lio/github/ardiien/datasize/DataSizeUnit;)Ljava/lang/String;
+	public abstract fun name (Lio/github/ardiien/datasize/DataSizeUnit;)Ljava/lang/String;
+}
+
+public abstract class io/github/ardiien/datasize/DecimalUnit : io/github/ardiien/datasize/ByteUnit {
+	public static final field Companion Lio/github/ardiien/datasize/DecimalUnit$Companion;
+	public synthetic fun <init> (JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class io/github/ardiien/datasize/DecimalUnit$Companion {
+	public final fun entries ()Lkotlinx/collections/immutable/ImmutableList;
+}
+
+public final class io/github/ardiien/datasize/DecimalUnit$Gigabyte : io/github/ardiien/datasize/DecimalUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/DecimalUnit$Gigabyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/DecimalUnit$Kilobyte : io/github/ardiien/datasize/DecimalUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/DecimalUnit$Kilobyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/DecimalUnit$Megabyte : io/github/ardiien/datasize/DecimalUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/DecimalUnit$Megabyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/DecimalUnit$Petabyte : io/github/ardiien/datasize/DecimalUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/DecimalUnit$Petabyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ardiien/datasize/DecimalUnit$Terabyte : io/github/ardiien/datasize/DecimalUnit {
+	public static final field INSTANCE Lio/github/ardiien/datasize/DecimalUnit$Terabyte;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface annotation class io/github/ardiien/datasize/ExperimentalDataSizeApi : java/lang/annotation/Annotation {
 }
 
-public final class io/github/ardiien/datasize/builder/BinaryArrayDataSizeBuilder {
-	public fun <init> (Ljava/lang/Number;)V
-	public final fun getBytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun toDataSize (Lio/github/ardiien/datasize/unit/BinaryUnit;)Lio/github/ardiien/datasize/DataSize;
-}
-
-public final class io/github/ardiien/datasize/builder/BinaryNumberDataSizeBuilder {
-	public fun <init> (Ljava/lang/Number;)V
-	public final fun getBytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getGibibytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getKibibytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getMebibytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getPebibytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getTebibytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun toDataSize (Lio/github/ardiien/datasize/unit/BinaryUnit;)Lio/github/ardiien/datasize/DataSize;
-}
-
-public final class io/github/ardiien/datasize/builder/DecimalArrayDataSizeBuilder {
-	public fun <init> (Ljava/lang/Number;)V
-	public final fun getBytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun toDataSize (Lio/github/ardiien/datasize/unit/DecimalUnit;)Lio/github/ardiien/datasize/DataSize;
-}
-
-public final class io/github/ardiien/datasize/builder/DecimalNumberDataSizeBuilder {
-	public fun <init> (Ljava/lang/Number;)V
-	public final fun getBytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getGigabytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getKilobytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getMegabytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getPetabytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun getTerabytes ()Lio/github/ardiien/datasize/DataSize;
-	public final fun toDataSize (Lio/github/ardiien/datasize/unit/DecimalUnit;)Lio/github/ardiien/datasize/DataSize;
-}
-
 public final class io/github/ardiien/datasize/formatter/SimpleDataSizeFormatter : io/github/ardiien/datasize/DataSizeFormatter {
 	public static final field Companion Lio/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion;
 	public fun <init> (Ljava/text/DecimalFormat;Lio/github/ardiien/datasize/DataSizeUnitLocalizer;)V
-	public fun format (Lio/github/ardiien/datasize/DataSize;Lio/github/ardiien/datasize/unit/DataSizeUnit;I)Ljava/lang/String;
-	public fun unitFrom (Lio/github/ardiien/datasize/DataSize;)Lio/github/ardiien/datasize/unit/DataSizeUnit;
+	public fun binaryFormat-wBTIb-E (JLio/github/ardiien/datasize/BinaryUnit;I)Ljava/lang/String;
+	public fun decimalFormat-wBTIb-E (JLio/github/ardiien/datasize/DecimalUnit;I)Ljava/lang/String;
 }
 
 public final class io/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion {
@@ -130,113 +215,9 @@ public final class io/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$
 	public static synthetic fun createFormatSymbols$default (Lio/github/ardiien/datasize/formatter/SimpleDataSizeFormatter$Companion;CCILjava/lang/Object;)Ljava/text/DecimalFormatSymbols;
 }
 
-public abstract class io/github/ardiien/datasize/unit/BinaryUnit : io/github/ardiien/datasize/unit/DataSizeUnit {
-	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun entries ()Lkotlinx/collections/immutable/ImmutableList;
-}
-
-public final class io/github/ardiien/datasize/unit/BinaryUnit$Byte : io/github/ardiien/datasize/unit/BinaryUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/BinaryUnit$Byte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/BinaryUnit$Gibibyte : io/github/ardiien/datasize/unit/BinaryUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/BinaryUnit$Gibibyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/BinaryUnit$Kibibyte : io/github/ardiien/datasize/unit/BinaryUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/BinaryUnit$Kibibyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/BinaryUnit$Mebibyte : io/github/ardiien/datasize/unit/BinaryUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/BinaryUnit$Mebibyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/BinaryUnit$Pebibyte : io/github/ardiien/datasize/unit/BinaryUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/BinaryUnit$Pebibyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/BinaryUnit$Tebibyte : io/github/ardiien/datasize/unit/BinaryUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/BinaryUnit$Tebibyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public abstract class io/github/ardiien/datasize/unit/DataSizeUnit {
-	public fun entries ()Lkotlinx/collections/immutable/ImmutableList;
-	public final fun value ()Ljava/math/BigDecimal;
-}
-
-public final class io/github/ardiien/datasize/unit/DataSizeUnitKt {
-	public static final fun isBinaryUnit (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Z
-	public static final fun isDecimalUnit (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Z
-}
-
-public abstract class io/github/ardiien/datasize/unit/DecimalUnit : io/github/ardiien/datasize/unit/DataSizeUnit {
-	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun entries ()Lkotlinx/collections/immutable/ImmutableList;
-}
-
-public final class io/github/ardiien/datasize/unit/DecimalUnit$Byte : io/github/ardiien/datasize/unit/DecimalUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/DecimalUnit$Byte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/DecimalUnit$Gigabyte : io/github/ardiien/datasize/unit/DecimalUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/DecimalUnit$Gigabyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/DecimalUnit$Kilobyte : io/github/ardiien/datasize/unit/DecimalUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/DecimalUnit$Kilobyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/DecimalUnit$Megabyte : io/github/ardiien/datasize/unit/DecimalUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/DecimalUnit$Megabyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/DecimalUnit$Petabyte : io/github/ardiien/datasize/unit/DecimalUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/DecimalUnit$Petabyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/DecimalUnit$Terabyte : io/github/ardiien/datasize/unit/DecimalUnit {
-	public static final field INSTANCE Lio/github/ardiien/datasize/unit/DecimalUnit$Terabyte;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ardiien/datasize/unit/localaizer/SimpleDataSizeUnitLocalizer : io/github/ardiien/datasize/DataSizeUnitLocalizer {
+public final class io/github/ardiien/datasize/localizer/SimpleDataSizeUnitLocalizer : io/github/ardiien/datasize/DataSizeUnitLocalizer {
 	public fun <init> ()V
-	public fun abbreviation (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
-	public fun name (Lio/github/ardiien/datasize/unit/DataSizeUnit;)Ljava/lang/String;
+	public fun abbreviation (Lio/github/ardiien/datasize/DataSizeUnit;)Ljava/lang/String;
+	public fun name (Lio/github/ardiien/datasize/DataSizeUnit;)Ljava/lang/String;
 }
 

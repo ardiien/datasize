@@ -5,8 +5,6 @@
  */
 package io.github.ardiien.datasize
 
-import io.github.ardiien.datasize.unit.DataSizeUnit
-
 
 /** Localization provider for data size units. */
 @ExperimentalDataSizeApi

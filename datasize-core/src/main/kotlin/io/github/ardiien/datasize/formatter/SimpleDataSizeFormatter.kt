@@ -5,10 +5,13 @@
  */
 package io.github.ardiien.datasize.formatter
 
+import io.github.ardiien.datasize.BinaryUnit
 import io.github.ardiien.datasize.DataSize
 import io.github.ardiien.datasize.DataSizeFormatter
+import io.github.ardiien.datasize.DataSizeUnit
 import io.github.ardiien.datasize.DataSizeUnitLocalizer
-import io.github.ardiien.datasize.unit.DataSizeUnit
+import io.github.ardiien.datasize.DecimalUnit
+import kotlinx.collections.immutable.ImmutableList
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -19,12 +22,10 @@ public class SimpleDataSizeFormatter(
     private val localizer: DataSizeUnitLocalizer,
 ) : DataSizeFormatter {
 
-    public override fun unitFrom(value: DataSize): DataSizeUnit {
-        val units = value.unit.entries()
-        return units.firstOrNull { value.rawValue > it.value() } ?: units.last()
-    }
+    private fun unitFrom(value: DataSize, units: ImmutableList<DataSizeUnit>): DataSizeUnit =
+        units.reversed().firstOrNull { value.rawValue > it.value() } ?: units.first()
 
-    public override fun format(
+    private fun format(
         value: DataSize,
         unit: DataSizeUnit,
         fractionDigits: Int,
@@ -32,10 +33,27 @@ public class SimpleDataSizeFormatter(
         require(fractionDigits >= 0) { "fractionDigits must not be negative, but was $fractionDigits" }
 
         val number = value.toDouble(unit)
-        if (number.isInfinite()) return number.toString()
-
         val actualFormatter = extendFormat(format, number, fractionDigits)
         return "${actualFormatter.format(number)} ${localizer.abbreviation(unit)}"
+    }
+
+
+    public override fun decimalFormat(
+        value: DataSize,
+        unit: DecimalUnit?,
+        fractionDigits: Int,
+    ): String {
+        val unit = unit ?: unitFrom(value, DecimalUnit.entries())
+        return format(value, unit, fractionDigits)
+    }
+
+    public override fun binaryFormat(
+        value: DataSize,
+        unit: BinaryUnit?,
+        fractionDigits: Int,
+    ): String {
+        val unit = unit ?: unitFrom(value, BinaryUnit.entries())
+        return format(value, unit, fractionDigits)
     }
 
     public companion object {
