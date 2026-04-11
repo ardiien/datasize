@@ -12,7 +12,6 @@ package io.github.ardiien.datasize
  * Implementations supply human-readable names and abbreviations
  * for [DataSizeUnit] values, typically based on locale or formatting rules.
  */
-@ExperimentalDataSizeApi
 public interface DataSizeUnitLocalizer {
 
     /**

@@ -5,6 +5,7 @@
  */
 package io.github.ardiien.datasize
 
+import io.github.ardiien.datasize.DataSize.Companion.bytes
 import io.github.ardiien.datasize.DataSize.Companion.gibibytes
 import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,7 +23,7 @@ class SimpleDataSizeFormatterTest {
         val size = 5.32.gibibytes
         val actual = formatter.binaryFormat(
             value = size,
-            unit = BinaryUnit.Gibibyte,
+            unit = IecUnit.Gibibyte,
             fractionDigits = 0,
         )
 
@@ -36,7 +37,7 @@ class SimpleDataSizeFormatterTest {
         val size = 5.32.gibibytes
         val actual = formatter.binaryFormat(
             value = size,
-            unit = BinaryUnit.Gibibyte,
+            unit = IecUnit.Gibibyte,
             fractionDigits = 1,
         )
 
@@ -50,9 +51,19 @@ class SimpleDataSizeFormatterTest {
         val size = 5.32.gibibytes
         val actual = formatter.binaryFormat(
             value = size,
-            unit = BinaryUnit.Gibibyte,
+            unit = IecUnit.Gibibyte,
             fractionDigits = 2,
         )
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `binaryFormat returns correct string on zero bytes`() {
+        val expected = "0 B"
+
+        val size = 0.bytes
+        val actual = formatter.binaryFormat(value = size)
 
         assertEquals(expected, actual)
     }

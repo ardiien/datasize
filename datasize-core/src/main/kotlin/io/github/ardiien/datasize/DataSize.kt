@@ -41,43 +41,43 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
 
         /** Returns a [DataSize] representing this value in petabytes. */
         public inline val Number.petabytes: DataSize
-            get() = toDataSize(unit = DecimalUnit.Petabyte)
+            get() = toDataSize(unit = SiUnit.Petabyte)
 
         /** Returns a [DataSize] representing this value in pebibytes. */
         public inline val Number.pebibytes: DataSize
-            get() = toDataSize(unit = BinaryUnit.Pebibyte)
+            get() = toDataSize(unit = IecUnit.Pebibyte)
 
         /** Returns a [DataSize] representing this value in terabytes. */
         public inline val Number.terabytes: DataSize
-            get() = toDataSize(unit = DecimalUnit.Terabyte)
+            get() = toDataSize(unit = SiUnit.Terabyte)
 
         /** Returns a [DataSize] representing this value in tebibytes. */
         public inline val Number.tebibytes: DataSize
-            get() = toDataSize(unit = BinaryUnit.Tebibyte)
+            get() = toDataSize(unit = IecUnit.Tebibyte)
 
         /** Returns a [DataSize] representing this value in gigabytes. */
         public inline val Number.gigabytes: DataSize
-            get() = toDataSize(unit = DecimalUnit.Gigabyte)
+            get() = toDataSize(unit = SiUnit.Gigabyte)
 
         /** Returns a [DataSize] representing this value in gibibytes. */
         public inline val Number.gibibytes: DataSize
-            get() = toDataSize(unit = BinaryUnit.Gibibyte)
+            get() = toDataSize(unit = IecUnit.Gibibyte)
 
         /** Returns a [DataSize] representing this value in megabytes. */
         public inline val Number.megabytes: DataSize
-            get() = toDataSize(unit = DecimalUnit.Megabyte)
+            get() = toDataSize(unit = SiUnit.Megabyte)
 
         /** Returns a [DataSize] representing this value in mebibytes. */
         public inline val Number.mebibytes: DataSize
-            get() = toDataSize(unit = BinaryUnit.Mebibyte)
+            get() = toDataSize(unit = IecUnit.Mebibyte)
 
         /** Returns a [DataSize] representing this value in kilobytes. */
         public inline val Number.kilobytes: DataSize
-            get() = toDataSize(unit = DecimalUnit.Kilobyte)
+            get() = toDataSize(unit = SiUnit.Kilobyte)
 
         /** Returns a [DataSize] representing this value in kibibytes. */
         public inline val Number.kibibytes: DataSize
-            get() = toDataSize(unit = BinaryUnit.Kibibyte)
+            get() = toDataSize(unit = IecUnit.Kibibyte)
 
         /** Returns a [DataSize] representing this value in bytes. */
         public inline val Int.bytes: DataSize
@@ -174,43 +174,43 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
 
     /** Returns this value expressed in pebibytes. */
     public val inPebibytes: Double
-        get() = toDouble(unit = BinaryUnit.Pebibyte)
+        get() = toDouble(unit = IecUnit.Pebibyte)
 
     /** Returns this value expressed in petabytes. */
     public val inPetabytes: Double
-        get() = toDouble(unit = DecimalUnit.Petabyte)
+        get() = toDouble(unit = SiUnit.Petabyte)
 
     /** Returns this value expressed in tebibytes. */
     public val inTebibytes: Double
-        get() = toDouble(unit = BinaryUnit.Tebibyte)
+        get() = toDouble(unit = IecUnit.Tebibyte)
 
     /** Returns this value expressed in terabytes. */
     public val inTerabytes: Double
-        get() = toDouble(unit = DecimalUnit.Terabyte)
+        get() = toDouble(unit = SiUnit.Terabyte)
 
     /** Returns this value expressed in gibibytes. */
     public val inGibibytes: Double
-        get() = toDouble(unit = BinaryUnit.Gibibyte)
+        get() = toDouble(unit = IecUnit.Gibibyte)
 
     /** Returns this value expressed in gigabytes. */
     public val inGigabytes: Double
-        get() = toDouble(unit = DecimalUnit.Gigabyte)
+        get() = toDouble(unit = SiUnit.Gigabyte)
 
     /** Returns this value expressed in mebibytes. */
     public val inMebibytes: Double
-        get() = toDouble(unit = BinaryUnit.Mebibyte)
+        get() = toDouble(unit = IecUnit.Mebibyte)
 
     /** Returns this value expressed in megabytes. */
     public val inMegabytes: Double
-        get() = toDouble(unit = DecimalUnit.Megabyte)
+        get() = toDouble(unit = SiUnit.Megabyte)
 
     /** Returns this value expressed in kibibytes. */
     public val inKibibytes: Double
-        get() = toDouble(unit = BinaryUnit.Kibibyte)
+        get() = toDouble(unit = IecUnit.Kibibyte)
 
     /** Returns this value expressed in kilobytes. */
     public val inKilobytes: Double
-        get() = toDouble(unit = DecimalUnit.Kilobyte)
+        get() = toDouble(unit = SiUnit.Kilobyte)
 
     /** Returns this value expressed in bytes. */
     public val inBytes: Long
@@ -233,13 +233,53 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
         unit: DataSizeUnit,
         fractionDigits: Int = 0,
         formatter: DataSizeFormatter = DefaultDataSizeUnitFormatter,
-    ): String = if (unit.isBinaryUnit()) {
-        formatter.binaryFormat(this, unit, fractionDigits)
-    } else if (unit.isDecimalUnit()) {
-        formatter.decimalFormat(this, unit, fractionDigits)
-    } else {
-        error("Unknown unit: ${unit.tag()}")
+    ): String = when (unit) {
+        is IecCompatibleUnit -> {
+            toIecString(unit, fractionDigits, formatter)
+        }
+        is SiCompatibleUnit -> {
+            toSiString(unit, fractionDigits, formatter)
+        }
+        else -> {
+            error("Unknown unit: ${unit.tag()}")
+        }
     }
+
+    /**
+     * Returns a formatted string representation of this value using IEC (binary) units.
+     *
+     * The value is formatted using [formatter], optionally converted to the specified [unit].
+     * If [unit] is `null`, the formatter determines the most appropriate binary unit.
+     *
+     * @param unit the binary unit to express the value in, or `null` to let the formatter decide.
+     * @param fractionDigits number of digits after the decimal point (must be non-negative).
+     * @param formatter formatting strategy used to produce the output.
+     *
+     * @throws IllegalArgumentException if [fractionDigits] is negative.
+     */
+    public fun toIecString(
+        unit: IecCompatibleUnit? = null,
+        fractionDigits: Int = 0,
+        formatter: DataSizeFormatter = DefaultDataSizeUnitFormatter,
+    ): String = formatter.binaryFormat(this, unit, fractionDigits)
+
+    /**
+     * Returns a formatted string representation of this value using SI (decimal) units.
+     *
+     * The value is formatted using [formatter], optionally converted to the specified [unit].
+     * If [unit] is `null`, the formatter determines the most appropriate decimal unit.
+     *
+     * @param unit the decimal unit to express the value in, or `null` to let the formatter decide.
+     * @param fractionDigits number of digits after the decimal point (must be non-negative).
+     * @param formatter formatting strategy used to produce the output.
+     *
+     * @throws IllegalArgumentException if [fractionDigits] is negative.
+     */
+    public fun toSiString(
+        unit: SiCompatibleUnit? = null,
+        fractionDigits: Int = 0,
+        formatter: DataSizeFormatter = DefaultDataSizeUnitFormatter,
+    ): String = formatter.decimalFormat(this, unit, fractionDigits)
 }
 
 /** Returns the larger of two [DataSize] values based on byte magnitude. */
@@ -250,7 +290,7 @@ public fun min(a: DataSize, b: DataSize): DataSize = if (a.rawValue <= b.rawValu
 
 /** Returns this value or [DataSize.Zero] if it is `null`. */
 @Suppress("NOTHING_TO_INLINE")
-public inline fun DataSize?.orZero(): DataSize = this ?: DataSize.Zero
+public inline fun DataSize?.orZero(): DataSize = this ?: Zero
 
 private fun normalizedDataSizeOf(value: Long): DataSize =
     DataSize(value.coerceAtLeast(0L))

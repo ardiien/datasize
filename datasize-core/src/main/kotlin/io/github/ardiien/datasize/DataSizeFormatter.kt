@@ -7,7 +7,6 @@ package io.github.ardiien.datasize
 
 
 /** Provides formatting utilities for converting [DataSize] values into human-readable strings. */
-@ExperimentalDataSizeApi
 public interface DataSizeFormatter {
 
     /**
@@ -25,7 +24,7 @@ public interface DataSizeFormatter {
      */
     public fun binaryFormat(
         value: DataSize,
-        unit: BinaryUnit? = null,
+        unit: IecCompatibleUnit? = null,
         fractionDigits: Int = 0,
     ): String
 
@@ -44,7 +43,7 @@ public interface DataSizeFormatter {
      */
     public fun decimalFormat(
         value: DataSize,
-        unit: DecimalUnit? = null,
+        unit: SiCompatibleUnit? = null,
         fractionDigits: Int = 0,
     ): String
 }

@@ -5,12 +5,15 @@
  */
 package io.github.ardiien.datasize.formatter
 
-import io.github.ardiien.datasize.BinaryUnit
 import io.github.ardiien.datasize.DataSize
 import io.github.ardiien.datasize.DataSizeFormatter
 import io.github.ardiien.datasize.DataSizeUnit
 import io.github.ardiien.datasize.DataSizeUnitLocalizer
-import io.github.ardiien.datasize.DecimalUnit
+import io.github.ardiien.datasize.IecCompatibleUnit
+import io.github.ardiien.datasize.IecUnit
+import io.github.ardiien.datasize.SiCompatibleUnit
+import io.github.ardiien.datasize.SiUnit
+import io.github.ardiien.datasize.util.castTo
 import kotlinx.collections.immutable.ImmutableList
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -29,12 +32,7 @@ public class SimpleDataSizeFormatter(
     private val localizer: DataSizeUnitLocalizer,
 ) : DataSizeFormatter {
 
-    /**
-     * Selects the most appropriate unit for the given [value] from the provided [units].
-     *
-     * The largest unit whose value is less than the given data size is selected.
-     * If no such unit exists, the smallest unit is returned.
-     */
+    /** Selects the most appropriate unit for the given [value] from the provided [units]. */
     private fun unitFrom(value: DataSize, units: ImmutableList<DataSizeUnit>): DataSizeUnit =
         units.reversed().firstOrNull { value.rawValue > it.value() } ?: units.first()
 
@@ -56,19 +54,19 @@ public class SimpleDataSizeFormatter(
 
     public override fun decimalFormat(
         value: DataSize,
-        unit: DecimalUnit?,
+        unit: SiCompatibleUnit?,
         fractionDigits: Int,
     ): String {
-        val unit = unit ?: unitFrom(value, DecimalUnit.entries())
+        val unit = unit?.castTo() ?: unitFrom(value, SiUnit.entries().castTo())
         return format(value, unit, fractionDigits)
     }
 
     public override fun binaryFormat(
         value: DataSize,
-        unit: BinaryUnit?,
+        unit: IecCompatibleUnit?,
         fractionDigits: Int,
     ): String {
-        val unit = unit ?: unitFrom(value, BinaryUnit.entries())
+        val unit = unit?.castTo() ?: unitFrom(value, IecUnit.entries().castTo())
         return format(value, unit, fractionDigits)
     }
 

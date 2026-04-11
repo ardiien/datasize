@@ -6,6 +6,7 @@
 package io.github.ardiien.datasize
 
 import io.github.ardiien.datasize.localizer.SimpleDataSizeUnitLocalizer
+import io.github.ardiien.datasize.util.castTo
 import kotlinx.collections.immutable.ImmutableList
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -18,7 +19,7 @@ class SimpleDataSizeUnitLocalizerTest {
     @Test
     fun `name returns correct string for BinaryUnit`() {
         val (expected, actual) = createExpectedActualMaps(
-            entries = BinaryUnit.entries(),
+            entries = IecUnit.entries().castTo(),
             expectedString = { SimpleDataSizeUnitLocalizer.Labels[it]?.first.orEmpty() },
             actualString = { localizer.name(it) },
         )
@@ -29,7 +30,7 @@ class SimpleDataSizeUnitLocalizerTest {
     @Test
     fun `name returns correct string for DecimalUnit`() {
         val (expected, actual) = createExpectedActualMaps(
-            entries = DecimalUnit.entries(),
+            entries = SiUnit.entries().castTo(),
             expectedString = { SimpleDataSizeUnitLocalizer.Labels[it]?.first.orEmpty() },
             actualString = { localizer.name(it) },
         )
@@ -40,7 +41,7 @@ class SimpleDataSizeUnitLocalizerTest {
     @Test
     fun `abbreviation returns correct string for DecimalUnit`() {
         val (expected, actual) = createExpectedActualMaps(
-            entries = DecimalUnit.entries(),
+            entries = SiUnit.entries().castTo(),
             expectedString = { SimpleDataSizeUnitLocalizer.Labels[it]?.second.orEmpty() },
             actualString = { localizer.abbreviation(it) },
         )
@@ -51,7 +52,7 @@ class SimpleDataSizeUnitLocalizerTest {
     @Test
     fun `abbreviation returns correct string for BinaryUnit`() {
         val (expected, actual) = createExpectedActualMaps(
-            entries = BinaryUnit.entries(),
+            entries = IecUnit.entries().castTo(),
             expectedString = { SimpleDataSizeUnitLocalizer.Labels[it]?.second.orEmpty() },
             actualString = { localizer.abbreviation(it) },
         )

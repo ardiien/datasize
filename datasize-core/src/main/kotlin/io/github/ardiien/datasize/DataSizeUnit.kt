@@ -7,8 +7,6 @@ package io.github.ardiien.datasize
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
 
 
 /**
@@ -30,6 +28,14 @@ public interface DataSizeUnit {
     public fun tag(): DataSizeTag
 }
 
+/** Marker interface for data size units that follow the SI (International System of Units) standard. */
+@ExperimentalDataSizeApi
+public sealed interface SiCompatibleUnit
+
+/** Marker interface for data size units that follow the IEC (International Electrotechnical Commission) standard. */
+@ExperimentalDataSizeApi
+public sealed interface IecCompatibleUnit
+
 /**
  * Base implementation of [DataSizeUnit] representing units defined in bytes.
  *
@@ -37,15 +43,13 @@ public interface DataSizeUnit {
  * @property tag the identifier associated with this unit.
  */
 @ExperimentalDataSizeApi
-public open class ByteUnit internal constructor(
+public class ByteUnit internal constructor(
     private val value: Long,
     private val tag: DataSizeTag,
-) : DataSizeUnit {
+) : DataSizeUnit, SiCompatibleUnit, IecCompatibleUnit {
 
-    /** Returns the exact number of bytes represented by this unit. */
     public override fun value(): Long = value
 
-    /** Returns the tag identifying this unit. */
     public override fun tag(): DataSizeTag = tag
 
     public companion object {
@@ -60,19 +64,26 @@ public open class ByteUnit internal constructor(
  * Units range from [Kilobyte] to [Petabyte].
  */
 @ExperimentalDataSizeApi
-public sealed class DecimalUnit(value: Long, tag: DataSizeTag) : ByteUnit(value, tag) {
+public sealed class SiUnit(
+    private val value: Long,
+    private val tag: DataSizeTag,
+) : DataSizeUnit, SiCompatibleUnit {
 
-    public data object Kilobyte : DecimalUnit(value = 1_000L, tag = DataSizeTag("ds_kb"))
-    public data object Megabyte : DecimalUnit(value = 1_000_000L, tag = DataSizeTag("ds_mb"))
-    public data object Gigabyte : DecimalUnit(value = 1_000_000_000L, tag = DataSizeTag("ds_gb"))
-    public data object Terabyte : DecimalUnit(value = 1_000_000_000_000L, tag = DataSizeTag("ds_tb"))
-    public data object Petabyte : DecimalUnit(value = 1_000_000_000_000_000L, tag = DataSizeTag("ds_pb"))
+    public data object Kilobyte : SiUnit(value = 1_000L, tag = DataSizeTag("ds_kb"))
+    public data object Megabyte : SiUnit(value = 1_000_000L, tag = DataSizeTag("ds_mb"))
+    public data object Gigabyte : SiUnit(value = 1_000_000_000L, tag = DataSizeTag("ds_gb"))
+    public data object Terabyte : SiUnit(value = 1_000_000_000_000L, tag = DataSizeTag("ds_tb"))
+    public data object Petabyte : SiUnit(value = 1_000_000_000_000_000L, tag = DataSizeTag("ds_pb"))
+
+    public override fun value(): Long = value
+
+    public override fun tag(): DataSizeTag = tag
 
     public companion object {
 
         /** Returns all units belonging to the decimal (SI) system. */
-        public fun entries(): ImmutableList<DataSizeUnit> =
-            persistentListOf(Byte, Kilobyte, Megabyte, Gigabyte, Terabyte, Petabyte)
+        public fun entries(): ImmutableList<SiCompatibleUnit> =
+            persistentListOf(ByteUnit.Byte, Kilobyte, Megabyte, Gigabyte, Terabyte, Petabyte)
     }
 }
 
@@ -81,34 +92,25 @@ public sealed class DecimalUnit(value: Long, tag: DataSizeTag) : ByteUnit(value,
  * Units range from [Kibibyte] to [Pebibyte].
  */
 @ExperimentalDataSizeApi
-public sealed class BinaryUnit(value: Long, tag: DataSizeTag) : ByteUnit(value, tag) {
+public sealed class IecUnit(
+    private val value: Long,
+    private val tag: DataSizeTag,
+) : DataSizeUnit, IecCompatibleUnit {
 
-    public data object Kibibyte : BinaryUnit(value = 1L shl 10, tag = DataSizeTag("ds_kib"))
-    public data object Mebibyte : BinaryUnit(value = 1L shl 20, tag = DataSizeTag("ds_mib"))
-    public data object Gibibyte : BinaryUnit(value = 1L shl 30, tag = DataSizeTag("ds_gib"))
-    public data object Tebibyte : BinaryUnit(value = 1L shl 40, tag = DataSizeTag("ds_tib"))
-    public data object Pebibyte : BinaryUnit(value = 1L shl 50, tag = DataSizeTag("ds_pib"))
+    public data object Kibibyte : IecUnit(value = 1L shl 10, tag = DataSizeTag("ds_kib"))
+    public data object Mebibyte : IecUnit(value = 1L shl 20, tag = DataSizeTag("ds_mib"))
+    public data object Gibibyte : IecUnit(value = 1L shl 30, tag = DataSizeTag("ds_gib"))
+    public data object Tebibyte : IecUnit(value = 1L shl 40, tag = DataSizeTag("ds_tib"))
+    public data object Pebibyte : IecUnit(value = 1L shl 50, tag = DataSizeTag("ds_pib"))
+
+    public override fun value(): Long = value
+
+    public override fun tag(): DataSizeTag = tag
 
     public companion object {
 
         /** Returns all units belonging to the binary (IEC) system. */
-        public fun entries(): ImmutableList<DataSizeUnit> =
-            persistentListOf(Byte, Kibibyte, Mebibyte, Gibibyte, Tebibyte, Pebibyte)
+        public fun entries(): ImmutableList<IecCompatibleUnit> =
+            persistentListOf(ByteUnit.Byte, Kibibyte, Mebibyte, Gibibyte, Tebibyte, Pebibyte)
     }
-}
-
-/** Returns `true` if this unit belongs to the decimal (SI) system. */
-@ExperimentalDataSizeApi
-@OptIn(ExperimentalContracts::class)
-public fun DataSizeUnit.isDecimalUnit(): Boolean {
-    contract { returns(true) implies (this@isDecimalUnit is DecimalUnit) }
-    return this is DecimalUnit
-}
-
-/** Returns `true` if this unit belongs to the binary (IEC) system. */
-@ExperimentalDataSizeApi
-@OptIn(ExperimentalContracts::class)
-public fun DataSizeUnit.isBinaryUnit(): Boolean {
-    contract { returns(true) implies (this@isBinaryUnit is BinaryUnit) }
-    return this is BinaryUnit
 }

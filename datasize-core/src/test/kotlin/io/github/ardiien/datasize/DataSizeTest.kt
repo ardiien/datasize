@@ -34,10 +34,10 @@ class DataSizeTest {
     @Test
     fun `negative value throws on toDataSize`() {
         assertThrows(IllegalArgumentException::class.java) {
-            (-3).toDataSize(DecimalUnit.Kilobyte)
+            (-3).toDataSize(SiUnit.Kilobyte)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            (-3).toDataSize(BinaryUnit.Kibibyte)
+            (-3).toDataSize(IecUnit.Kibibyte)
         }
     }
 
@@ -83,7 +83,7 @@ class DataSizeTest {
     fun `toDataSize mebibytes converts correctly`() {
         val expectedBytes = 123207680L
         val expectedMegaBytes = 117.5
-        val subject = expectedMegaBytes.toDataSize(BinaryUnit.Mebibyte)
+        val subject = expectedMegaBytes.toDataSize(IecUnit.Mebibyte)
 
         val resultBytes = subject.inBytes
         assertEquals(expectedBytes, resultBytes)
@@ -98,7 +98,7 @@ class DataSizeTest {
         val expectedKilobytes = 120320.0 // 117.5 Mb
 
         val subject = expectedBytes.bytes
-        val result = subject.toDouble(BinaryUnit.Kibibyte)
+        val result = subject.toDouble(IecUnit.Kibibyte)
 
         assertEquals(expectedKilobytes, result, 0.01)
     }
@@ -198,7 +198,7 @@ class DataSizeTest {
     @Test
     fun `toString megabytes no decimals`() {
         val expected = "100 MB"
-        val result = 100.megabytes.toString(DecimalUnit.Megabyte)
+        val result = 100.megabytes.toString(SiUnit.Megabyte)
 
         assertEquals(expected, result)
     }
@@ -206,7 +206,7 @@ class DataSizeTest {
     @Test
     fun `toString mebibytes with decimals`() {
         val expected = "100,55 MB"
-        val result = 100.55.mebibytes.toString(BinaryUnit.Mebibyte, fractionDigits = 2)
+        val result = 100.55.mebibytes.toString(IecUnit.Mebibyte, fractionDigits = 2)
 
         assertEquals(expected, result)
     }
@@ -214,7 +214,7 @@ class DataSizeTest {
     @Test
     fun `toString mebibytes as kibibytes`() {
         val expected = "102 400 KB"
-        val result = 100.mebibytes.toString(BinaryUnit.Kibibyte)
+        val result = 100.mebibytes.toString(IecUnit.Kibibyte)
 
         assertEquals(expected, result)
     }
@@ -222,7 +222,7 @@ class DataSizeTest {
     @Test
     fun `toString tebibytes as gibibytes`() {
         val expected = "1024 GB"
-        val result = 1.tebibytes.toString(BinaryUnit.Gibibyte)
+        val result = 1.tebibytes.toString(IecUnit.Gibibyte)
 
         assertEquals(expected, result)
     }
@@ -230,7 +230,7 @@ class DataSizeTest {
     @Test
     fun `toString mebibytes as decimal megabytes`() {
         val expected = "500 MB"
-        val result = 476.84.mebibytes.toString(DecimalUnit.Megabyte)
+        val result = 476.84.mebibytes.toString(SiUnit.Megabyte)
 
         assertEquals(expected, result)
     }
@@ -238,7 +238,7 @@ class DataSizeTest {
     @Test
     fun `toString mebibytes as decimal megabytes with decimals`() {
         val expected = "512,5 MB"
-        val result = 488.755.mebibytes.toString(DecimalUnit.Megabyte, fractionDigits = 1)
+        val result = 488.755.mebibytes.toString(SiUnit.Megabyte, fractionDigits = 1)
 
         assertEquals(expected, result)
     }
@@ -246,7 +246,7 @@ class DataSizeTest {
     @Test
     fun `toString mebibytes as decimal kilobytes`() {
         val expected = "1000 KB"
-        val result = 0.954.mebibytes.toString(DecimalUnit.Kilobyte)
+        val result = 0.954.mebibytes.toString(SiUnit.Kilobyte)
 
         assertEquals(expected, result)
     }
@@ -254,7 +254,7 @@ class DataSizeTest {
     @Test
     fun `toString tebibytes as decimal gigabytes`() {
         val expected = "255 GB"
-        val result = 0.232.tebibytes.toString(DecimalUnit.Gigabyte)
+        val result = 0.232.tebibytes.toString(SiUnit.Gigabyte)
 
         assertEquals(expected, result)
     }
@@ -262,7 +262,7 @@ class DataSizeTest {
     @Test
     fun `ByteArray converts to DataSize correctly`() {
         val expected = "50 MB"
-        val result = ByteArray(50 * 1024 * 1024).bytes.toString(BinaryUnit.Mebibyte)
+        val result = ByteArray(50 * 1024 * 1024).bytes.toString(IecUnit.Mebibyte)
 
         assertEquals(expected, result)
     }
@@ -270,7 +270,7 @@ class DataSizeTest {
     @Test
     fun `decimal separator formats correctly`() {
         val expected = "1,1 MB"
-        val result = 1.1.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
+        val result = 1.1.mebibytes.toString(unit = IecUnit.Mebibyte, fractionDigits = 1)
 
         assertEquals(expected, result)
     }
@@ -278,7 +278,7 @@ class DataSizeTest {
     @Test
     fun `grouping separator formats correctly`() {
         val expected = "10 000 MB"
-        val result = 10_000.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
+        val result = 10_000.mebibytes.toString(unit = IecUnit.Mebibyte, fractionDigits = 1)
 
         assertEquals(expected, result)
     }
@@ -286,7 +286,7 @@ class DataSizeTest {
     @Test
     fun `grouping with decimals formats correctly`() {
         val expected = "100 000,5 MB"
-        val result = 100_000.5.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
+        val result = 100_000.5.mebibytes.toString(unit = IecUnit.Mebibyte, fractionDigits = 1)
 
         assertEquals(expected, result)
     }
@@ -294,7 +294,28 @@ class DataSizeTest {
     @Test
     fun `no grouping when size less than three`() {
         val expected = "1000 MB"
-        val result = 1000.mebibytes.toString(unit = BinaryUnit.Mebibyte, fractionDigits = 1)
+        val result = 1000.mebibytes.toString(unit = IecUnit.Mebibyte, fractionDigits = 1)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `toString correctly formats bytes`() {
+        val expected = "10 000 B"
+        val result = 10_000.bytes.toString(unit = ByteUnit.Byte, fractionDigits = 0)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `toBinaryString correctly formats bytes`() {
+        val expected = "500 B"
+        val result = 500.bytes.toIecString()
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `toDecimalString correctly formats bytes`() {
+        val expected = "500 B"
+        val result = 500.bytes.toSiString()
         assertEquals(expected, result)
     }
 

@@ -53,7 +53,7 @@ dependencies {
 
 Groovy DSL:
 
-```gradle
+```groovy
 repositories {
     mavenCentral()
 }
@@ -96,23 +96,23 @@ import io.github.ardiien.datasize.*
 
 fun main() {
     val addition: DataSize = 5.mebibytes + 15.mebibytes
-    val additionPreview: String = addition.toString(BinaryUnit.Mebibyte, fractionDigits = 1)
+    val additionPreview: String = addition.toString(IecUnit.Mebibyte, fractionDigits = 1)
     println(additionPreview)        // 20 MB
 
     val substraction: DataSize = 105.megabytes - 5.megabytes
-    val substractionPreview: String = substraction.toString(DecimalUnit.Megabyte, fractionDigits = 1)
+    val substractionPreview: String = substraction.toString(SiUnit.Megabyte, fractionDigits = 1)
     println(substractionPreview)    // 100 MB
 
     val multiplication: DataSize = 5.megabytes * 2
-    val multiplicationPreview: String = multiplication.toString(DecimalUnit.Megabyte, fractionDigits = 1)
+    val multiplicationPreview: String = multiplication.toString(SiUnit.Megabyte, fractionDigits = 1)
     println(multiplicationPreview)  // 10 MB
 
     val division: DataSize = 15.mebibytes / 2
-    val divisionPreview: String = division.toString(BinaryUnit.Mebibyte, fractionDigits = 1)
+    val divisionPreview: String = division.toString(IecUnit.Mebibyte, fractionDigits = 1)
     println(divisionPreview)        // 7,5 MB
 
     val remainder: DataSize = 11.megabytes % 2.megabytes
-    val remainderPreview: String = remainder.toString(DecimalUnit.Megabyte, fractionDigits = 1)
+    val remainderPreview: String = remainder.toString(SiUnit.Megabyte, fractionDigits = 1)
     println(remainderPreview)       // 1 MB
 }
 ```

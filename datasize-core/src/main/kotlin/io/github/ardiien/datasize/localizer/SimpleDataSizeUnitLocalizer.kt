@@ -5,11 +5,11 @@
  */
 package io.github.ardiien.datasize.localizer
 
-import io.github.ardiien.datasize.BinaryUnit
 import io.github.ardiien.datasize.ByteUnit
 import io.github.ardiien.datasize.DataSizeUnit
 import io.github.ardiien.datasize.DataSizeUnitLocalizer
-import io.github.ardiien.datasize.DecimalUnit
+import io.github.ardiien.datasize.IecUnit
+import io.github.ardiien.datasize.SiUnit
 import kotlinx.collections.immutable.persistentMapOf
 
 
@@ -44,16 +44,16 @@ public class SimpleDataSizeUnitLocalizer : DataSizeUnitLocalizer {
         /** Mapping between unit tags and their corresponding human-readable names and abbreviations. */
         val Labels = persistentMapOf(
             ByteUnit.Byte.tag() to Byte,
-            DecimalUnit.Kilobyte.tag() to Kilobyte,
-            DecimalUnit.Megabyte.tag() to Megabyte,
-            DecimalUnit.Gigabyte.tag() to Gigabyte,
-            DecimalUnit.Terabyte.tag() to Terabyte,
-            DecimalUnit.Petabyte.tag() to Petabyte,
-            BinaryUnit.Kibibyte.tag() to Kilobyte,
-            BinaryUnit.Mebibyte.tag() to Megabyte,
-            BinaryUnit.Gibibyte.tag() to Gigabyte,
-            BinaryUnit.Tebibyte.tag() to Terabyte,
-            BinaryUnit.Pebibyte.tag() to Petabyte,
+            SiUnit.Kilobyte.tag() to Kilobyte,
+            SiUnit.Megabyte.tag() to Megabyte,
+            SiUnit.Gigabyte.tag() to Gigabyte,
+            SiUnit.Terabyte.tag() to Terabyte,
+            SiUnit.Petabyte.tag() to Petabyte,
+            IecUnit.Kibibyte.tag() to Kilobyte,
+            IecUnit.Mebibyte.tag() to Megabyte,
+            IecUnit.Gibibyte.tag() to Gigabyte,
+            IecUnit.Tebibyte.tag() to Terabyte,
+            IecUnit.Pebibyte.tag() to Petabyte,
         )
     }
 }
