@@ -124,9 +124,36 @@ class DataSizeTest {
     }
 
     @Test
+    fun `plus adds max bytes correctly`() {
+        val expectedBytes = Long.MAX_VALUE
+        val subject = Long.MAX_VALUE.bytes + Long.MAX_VALUE.bytes
+
+        val result = subject.inBytes
+        assertEquals(expectedBytes, result)
+    }
+
+    @Test
     fun `minus subtracts mebibytes correctly`() {
         val expectedBytes = 2097152L
         val subject = 4.mebibytes - 2.mebibytes
+
+        val result = subject.inBytes
+        assertEquals(expectedBytes, result)
+    }
+
+    @Test
+    fun `minus subtracts max bytes correctly`() {
+        val expectedBytes = DataSize.Zero.inBytes
+        val subject = Long.MAX_VALUE.bytes - Long.MAX_VALUE.bytes
+
+        val result = subject.inBytes
+        assertEquals(expectedBytes, result)
+    }
+
+    @Test
+    fun `times int multiplies bytes`() {
+        val expectedBytes = Long.MAX_VALUE
+        val subject = Long.MAX_VALUE.bytes * 10
 
         val result = subject.inBytes
         assertEquals(expectedBytes, result)

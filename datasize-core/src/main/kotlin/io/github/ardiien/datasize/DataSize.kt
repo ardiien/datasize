@@ -99,7 +99,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
          */
         public fun Number.toDataSize(unit: DataSizeUnit): DataSize {
             val value = numberToDataSize(value = this, from = unit)
-            return DataSize(value)
+            return dataSizeOf(value)
         }
     }
 
@@ -134,8 +134,13 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
     public operator fun times(other: Int): DataSize {
         if (other == 0) return Zero
 
-        val newValue = rawValue * other
-        return normalizedDataSizeOf(newValue.coerceAtMost(Long.MAX_VALUE))
+        val newValue = try {
+            Math.multiplyExact(rawValue, other)
+        } catch (_: ArithmeticException) {
+            return dataSizeOf(Long.MAX_VALUE)
+        }
+
+        return normalizedDataSizeOf(newValue)
     }
 
     /**
@@ -143,8 +148,12 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
      * The result is normalized to ensure it is not negative or does not exceed [Long.MAX_VALUE].
      */
     public operator fun plus(other: DataSize): DataSize {
-        val newValue = rawValue + other.rawValue
-        return normalizedDataSizeOf(newValue.coerceAtMost(Long.MAX_VALUE))
+        val newValue = try {
+            Math.addExact(rawValue, other.rawValue)
+        } catch (_: ArithmeticException) {
+            return dataSizeOf(Long.MAX_VALUE)
+        }
+        return normalizedDataSizeOf(newValue)
     }
 
     /**
@@ -152,7 +161,11 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
      * The result is normalized to ensure it is not negative.
      */
     public operator fun minus(other: DataSize): DataSize {
-        val newValue = rawValue - other.rawValue
+        val newValue = try {
+            Math.subtractExact(rawValue, other.rawValue)
+        } catch (_: ArithmeticException) {
+            return Zero
+        }
         return normalizedDataSizeOf(newValue)
     }
 
@@ -293,7 +306,9 @@ public fun min(a: DataSize, b: DataSize): DataSize = if (a.rawValue <= b.rawValu
 public inline fun DataSize?.orZero(): DataSize = this ?: Zero
 
 private fun normalizedDataSizeOf(value: Long): DataSize =
-    DataSize(value.coerceAtLeast(0L))
+    dataSizeOf(value.coerceAtLeast(Zero.rawValue))
+
+private fun dataSizeOf(value: Long): DataSize = DataSize(value)
 
 private fun numberToDataSize(
     value: Number,
