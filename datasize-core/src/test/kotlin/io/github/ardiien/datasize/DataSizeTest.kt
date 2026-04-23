@@ -169,6 +169,14 @@ class DataSizeTest {
     }
 
     @Test
+    fun `times int multiplies by zero returns zero`() {
+        val expected = DataSize.Zero
+        val actual = 2.megabytes * 0
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     @Ignore("Unsupported operation")
     fun `times decimal multiplies kilobytes`() {
         //val expectedKilobytes = 3.0

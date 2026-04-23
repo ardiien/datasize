@@ -29,11 +29,9 @@ public interface DataSizeUnit {
 }
 
 /** Marker interface for data size units that follow the SI (International System of Units) standard. */
-@ExperimentalDataSizeApi
 public sealed interface SiCompatibleUnit
 
 /** Marker interface for data size units that follow the IEC (International Electrotechnical Commission) standard. */
-@ExperimentalDataSizeApi
 public sealed interface IecCompatibleUnit
 
 /**
@@ -42,7 +40,6 @@ public sealed interface IecCompatibleUnit
  * @property value the number of bytes represented by a single unit.
  * @property tag the identifier associated with this unit.
  */
-@ExperimentalDataSizeApi
 public class ByteUnit internal constructor(
     private val value: Long,
     private val tag: DataSizeTag,
@@ -63,7 +60,6 @@ public class ByteUnit internal constructor(
  * Represents decimal (SI) data size units based on powers of 10.
  * Units range from [Kilobyte] to [Petabyte].
  */
-@ExperimentalDataSizeApi
 public sealed class SiUnit(
     private val value: Long,
     private val tag: DataSizeTag,
@@ -91,7 +87,6 @@ public sealed class SiUnit(
  * Represents binary (IEC) data size units based on powers of 2.
  * Units range from [Kibibyte] to [Pebibyte].
  */
-@ExperimentalDataSizeApi
 public sealed class IecUnit(
     private val value: Long,
     private val tag: DataSizeTag,
