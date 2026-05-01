@@ -38,12 +38,21 @@ dependencies {
     testImplementation(libs.kotlin.test)
 }
 
+dokka {
+    dokkaSourceSets.main {
+        sourceLink {
+            localDirectory.set(file("src/main/kotlin"))
+            remoteUrl("https://github.com/ardiien/datasize")
+        }
+    }
+}
+
 mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
     configureBasedOnAppliedPlugins(
-        javadocJar = JavadocJar.Dokka("dokkaGenerateHtml"),
+        javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationHtml"),
         sourcesJar = SourcesJar.Sources()
     )
 
