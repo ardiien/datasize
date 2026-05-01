@@ -5,6 +5,7 @@
  */
 package io.github.ardiien.datasize
 
+import io.github.ardiien.datasize.DataSize.Companion.MaxValue
 import io.github.ardiien.datasize.DataSize.Companion.Zero
 import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
 import io.github.ardiien.datasize.localizer.SimpleDataSizeUnitLocalizer
@@ -38,6 +39,9 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
 
         /** A [DataSize] equal to exactly 0 bytes. */
         public val Zero: DataSize = DataSize(rawValue = 0L)
+
+        /** A [DataSize] equal to the maximum representable size of bytes. */
+        public val MaxValue: DataSize = DataSize(rawValue = Long.MAX_VALUE)
 
         /** Returns a [DataSize] representing this value in petabytes. */
         public inline val Number.petabytes: DataSize
@@ -129,7 +133,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
      * Returns the result of multiplying this value by [other].
      * If [other] is zero, [Zero] is returned.
      *
-     * The result is normalized to ensure it is not negative or does not exceed [Long.MAX_VALUE].
+     * The result is normalized to ensure it is not negative or does not exceed [MaxValue].
      */
     public operator fun times(other: Int): DataSize {
         if (other == 0) return Zero
@@ -137,7 +141,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
         val newValue = try {
             Math.multiplyExact(rawValue, other)
         } catch (_: ArithmeticException) {
-            return dataSizeOf(Long.MAX_VALUE)
+            return MaxValue
         }
 
         return normalizedDataSizeOf(newValue)
@@ -145,13 +149,13 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
 
     /**
      * Returns the sum of this value and [other].
-     * The result is normalized to ensure it is not negative or does not exceed [Long.MAX_VALUE].
+     * The result is normalized to ensure it is not negative or does not exceed [MaxValue].
      */
     public operator fun plus(other: DataSize): DataSize {
         val newValue = try {
             Math.addExact(rawValue, other.rawValue)
         } catch (_: ArithmeticException) {
-            return dataSizeOf(Long.MAX_VALUE)
+            return MaxValue
         }
         return normalizedDataSizeOf(newValue)
     }
@@ -304,6 +308,10 @@ public fun min(a: DataSize, b: DataSize): DataSize = if (a.rawValue <= b.rawValu
 /** Returns this value or [DataSize.Zero] if it is `null`. */
 @Suppress("NOTHING_TO_INLINE")
 public inline fun DataSize?.orZero(): DataSize = this ?: Zero
+
+/** Returns this value or [other] if it is `null`. */
+@Suppress("NOTHING_TO_INLINE")
+public inline fun DataSize?.orElse(other: DataSize): DataSize = this ?: other
 
 private fun normalizedDataSizeOf(value: Long): DataSize =
     dataSizeOf(value.coerceAtLeast(Zero.rawValue))

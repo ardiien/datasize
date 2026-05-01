@@ -57,6 +57,7 @@ public final class io/github/ardiien/datasize/DataSize$Companion {
 	public final fun getGigabytes-_mO8CwU (Ljava/lang/Number;)J
 	public final fun getKibibytes-_mO8CwU (Ljava/lang/Number;)J
 	public final fun getKilobytes-_mO8CwU (Ljava/lang/Number;)J
+	public final fun getMaxValue-3VZmxlE ()J
 	public final fun getMebibytes-_mO8CwU (Ljava/lang/Number;)J
 	public final fun getMegabytes-_mO8CwU (Ljava/lang/Number;)J
 	public final fun getPebibytes-_mO8CwU (Ljava/lang/Number;)J
@@ -82,6 +83,7 @@ public final class io/github/ardiien/datasize/DataSizeFormatter$DefaultImpls {
 public final class io/github/ardiien/datasize/DataSizeKt {
 	public static final fun max-yHBNY8A (JJ)J
 	public static final fun min-yHBNY8A (JJ)J
+	public static final fun orElse-AASBIKE (Lio/github/ardiien/datasize/DataSize;J)J
 	public static final fun orZero-SwkpY8w (Lio/github/ardiien/datasize/DataSize;)J
 }
 

@@ -5,6 +5,7 @@
  */
 package io.github.ardiien.datasize
 
+import io.github.ardiien.datasize.DataSize.Companion.MaxValue
 import io.github.ardiien.datasize.DataSize.Companion.bytes
 import io.github.ardiien.datasize.DataSize.Companion.gibibytes
 import io.github.ardiien.datasize.DataSize.Companion.kibibytes
@@ -125,8 +126,8 @@ class DataSizeTest {
 
     @Test
     fun `plus adds max bytes correctly`() {
-        val expectedBytes = Long.MAX_VALUE
-        val subject = Long.MAX_VALUE.bytes + Long.MAX_VALUE.bytes
+        val expectedBytes = MaxValue.inBytes
+        val subject = MaxValue + MaxValue
 
         val result = subject.inBytes
         assertEquals(expectedBytes, result)
@@ -152,8 +153,8 @@ class DataSizeTest {
 
     @Test
     fun `times int multiplies bytes`() {
-        val expectedBytes = Long.MAX_VALUE
-        val subject = Long.MAX_VALUE.bytes * 10
+        val expectedBytes = MaxValue.inBytes
+        val subject = MaxValue * 10
 
         val result = subject.inBytes
         assertEquals(expectedBytes, result)
