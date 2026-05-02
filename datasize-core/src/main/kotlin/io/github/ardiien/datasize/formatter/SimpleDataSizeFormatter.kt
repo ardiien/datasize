@@ -34,7 +34,7 @@ public class SimpleDataSizeFormatter(
 
     /** Selects the most appropriate unit for the given [value] from the provided [units]. */
     private fun unitFrom(value: DataSize, units: ImmutableList<DataSizeUnit>): DataSizeUnit =
-        units.reversed().firstOrNull { value.rawValue > it.value() } ?: units.first()
+        units.reversed().firstOrNull { value.rawValue >= it.value() } ?: units.first()
 
     /**
      * Formats the given [value] using the specified [unit] and [fractionDigits].
