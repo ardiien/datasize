@@ -12,7 +12,5 @@ kotlin {
 
 dependencies {
     implementation(projects.datasizeCore)
-
-    implementation(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
 }

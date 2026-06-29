@@ -1,7 +1,7 @@
 # Kotlin Data Size
 
 [![License](https://img.shields.io/badge/license-Apache%20License%202.0-fedcba.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Kotlin](https://img.shields.io/badge/kotlin-2.3.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.4.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/github/v/tag/ardiien/datasize?label=datasize&color=64748B)](https://central.sonatype.com/artifact/io.github.ardiien.datasize/datasize)
 ![Build](https://img.shields.io/github/actions/workflow/status/ardiien/datasize/datasize.yml?branch=main&style=flat&color=limegreen&logo=github)
 
