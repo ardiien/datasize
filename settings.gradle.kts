@@ -1,7 +1,8 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
+        google()
         mavenCentral()
+        gradlePluginPortal()
     }
 
     plugins {
@@ -11,7 +12,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        gradlePluginPortal()
+        google()
         mavenCentral()
     }
 }

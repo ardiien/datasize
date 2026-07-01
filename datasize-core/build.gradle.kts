@@ -4,7 +4,7 @@ import com.vanniktech.maven.publish.SourcesJar
 plugins {
     alias(libs.plugins.bcv)
     alias(libs.plugins.dokka)
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.mcentral.publish)
 }
 
@@ -23,29 +23,35 @@ kotlin {
         optIn.add("io.github.ardiien.datasize.ExperimentalDataSizeApi")
     }
 
-    sourceSets.all {
-        kotlin.srcDirs("$name/src")
-        resources.srcDirs("$name/resources")
+    jvm()
+
+    sourceSets {
+        //val commonMain by getting {}
     }
+
+    //sourceSets.all {
+        //kotlin.srcDirs("$name/src")
+        //resources.srcDirs("$name/resources")
+    //}
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+//tasks.test {
+//    useJUnitPlatform()
+//}
 
-dependencies {
-    implementation(libs.kotlinx.collections)
-    testImplementation(libs.kotlin.test)
-}
+//dependencies {
+//    implementation(libs.kotlinx.collections)
+//    testImplementation(libs.kotlin.test)
+//}
 
-dokka {
-    dokkaSourceSets.main {
-        sourceLink {
-            localDirectory.set(file("src/main/kotlin"))
-            remoteUrl("https://github.com/ardiien/datasize")
-        }
-    }
-}
+//dokka {
+//    dokkaSourceSets.main {
+//        sourceLink {
+//            localDirectory.set(file("src/main/kotlin"))
+//            remoteUrl("https://github.com/ardiien/datasize")
+//        }
+//    }
+//}
 
 mavenPublishing {
     publishToMavenCentral()
