@@ -14,10 +14,10 @@ import io.github.ardiien.datasize.DataSize.Companion.mebibytes
 import io.github.ardiien.datasize.DataSize.Companion.megabytes
 import io.github.ardiien.datasize.DataSize.Companion.tebibytes
 import io.github.ardiien.datasize.DataSize.Companion.toDataSize
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.Assert.assertThrows
 import kotlin.test.Ignore
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 class DataSizeTest {

@@ -3,13 +3,16 @@
  * Licensed under the Apache License, Version 2.0.
  * See http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.github.ardiien.datasize
+package io.github.ardiien.datasize.localizer
 
-import io.github.ardiien.datasize.localizer.SimpleDataSizeUnitLocalizer
+import io.github.ardiien.datasize.DataSizeTag
+import io.github.ardiien.datasize.DataSizeUnit
+import io.github.ardiien.datasize.IecUnit
+import io.github.ardiien.datasize.SiUnit
 import io.github.ardiien.datasize.util.castTo
 import kotlinx.collections.immutable.ImmutableList
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 class SimpleDataSizeUnitLocalizerTest {
