@@ -10,9 +10,13 @@ kotlin {
     compilerOptions {
         optIn.add("io.github.ardiien.datasize.ExperimentalDataSizeApi")
     }
-}
 
-//dependencies {
-//    implementation(projects.datasizeCore)
-//    testImplementation(libs.kotlin.test)
-//}
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.datasizeCore)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+    }
+}

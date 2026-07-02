@@ -26,32 +26,23 @@ kotlin {
     jvm()
 
     sourceSets {
-        //val commonMain by getting {}
+        commonMain.dependencies {
+            implementation(libs.kotlinx.collections)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
     }
-
-    //sourceSets.all {
-        //kotlin.srcDirs("$name/src")
-        //resources.srcDirs("$name/resources")
-    //}
 }
 
-//tasks.test {
-//    useJUnitPlatform()
-//}
-
-//dependencies {
-//    implementation(libs.kotlinx.collections)
-//    testImplementation(libs.kotlin.test)
-//}
-
-//dokka {
-//    dokkaSourceSets.main {
-//        sourceLink {
-//            localDirectory.set(file("src/main/kotlin"))
-//            remoteUrl("https://github.com/ardiien/datasize")
-//        }
-//    }
-//}
+dokka {
+    dokkaSourceSets.configureEach {
+        sourceLink {
+            localDirectory.set(file("src/$name/kotlin"))
+            remoteUrl("https://github.com/ardiien/datasize/tree/main/datasize-core/src/$name/kotlin")
+        }
+    }
+}
 
 mavenPublishing {
     publishToMavenCentral()
