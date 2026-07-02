@@ -7,10 +7,10 @@ package io.github.ardiien.datasize.util
 
 
 @Throws(ArithmeticException::class)
-public actual fun multiplyExact(x: Long, y: Long): Long = Math.multiplyExact(x, y)
+internal actual fun multiplyExact(x: Long, y: Long): Long = Math.multiplyExact(x, y)
 
 @Throws(ArithmeticException::class)
-public actual fun addExact(x: Long, y: Long): Long = Math.addExact(x, y)
+internal actual fun addExact(x: Long, y: Long): Long = Math.addExact(x, y)
 
 @Throws(ArithmeticException::class)
-public actual fun subtractExact(x: Long, y: Long): Long = Math.subtractExact(x, y)
+internal actual fun subtractExact(x: Long, y: Long): Long = Math.subtractExact(x, y)

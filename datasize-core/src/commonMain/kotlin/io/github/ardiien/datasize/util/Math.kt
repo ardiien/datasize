@@ -17,7 +17,7 @@ package io.github.ardiien.datasize.util
  * @throws ArithmeticException if the result overflows a long
  */
 @Throws(ArithmeticException::class)
-public expect fun multiplyExact(x: Long, y: Long): Long
+internal expect fun multiplyExact(x: Long, y: Long): Long
 
 /**
  * Returns the sum of its arguments,
@@ -29,7 +29,7 @@ public expect fun multiplyExact(x: Long, y: Long): Long
  * @throws ArithmeticException if the result overflows a long
  */
 @Throws(ArithmeticException::class)
-public expect fun addExact(x: Long, y: Long): Long
+internal expect fun addExact(x: Long, y: Long): Long
 
 /**
  * Returns the difference of the arguments,
@@ -41,4 +41,4 @@ public expect fun addExact(x: Long, y: Long): Long
  * @throws ArithmeticException if the result overflows a long
  */
 @Throws(ArithmeticException::class)
-public expect fun subtractExact(x: Long, y: Long): Long
+internal expect fun subtractExact(x: Long, y: Long): Long
