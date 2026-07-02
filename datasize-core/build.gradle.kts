@@ -27,11 +27,6 @@ kotlin {
         }
     }
 
-    sourceSets.all {
-        kotlin.setSrcDirs(listOf("$name/src"))
-        resources.setSrcDirs(listOf("$name/resources"))
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.collections)
