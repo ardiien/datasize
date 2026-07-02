@@ -9,6 +9,9 @@ import io.github.ardiien.datasize.DataSize.Companion.MaxValue
 import io.github.ardiien.datasize.DataSize.Companion.Zero
 import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
 import io.github.ardiien.datasize.localizer.SimpleDataSizeUnitLocalizer
+import io.github.ardiien.datasize.util.addExact
+import io.github.ardiien.datasize.util.multiplyExact
+import io.github.ardiien.datasize.util.subtractExact
 import kotlin.math.roundToLong
 
 
@@ -139,7 +142,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
         if (other == 0) return Zero
 
         val newValue = try {
-            Math.multiplyExact(rawValue, other)
+            multiplyExact(rawValue, other.toLong())
         } catch (_: ArithmeticException) {
             return MaxValue
         }
@@ -153,7 +156,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
      */
     public operator fun plus(other: DataSize): DataSize {
         val newValue = try {
-            Math.addExact(rawValue, other.rawValue)
+            addExact(rawValue, other.rawValue)
         } catch (_: ArithmeticException) {
             return MaxValue
         }
@@ -166,7 +169,7 @@ public value class DataSize internal constructor(internal val rawValue: Long) : 
      */
     public operator fun minus(other: DataSize): DataSize {
         val newValue = try {
-            Math.subtractExact(rawValue, other.rawValue)
+            subtractExact(rawValue, other.rawValue)
         } catch (_: ArithmeticException) {
             return Zero
         }
