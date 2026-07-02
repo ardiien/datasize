@@ -1,5 +1,6 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.bcv)
@@ -11,19 +12,25 @@ plugins {
 group = "io.github.ardiien.datasize"
 version = "2.1.0"
 
-java {
-    withSourcesJar()
-}
-
 kotlin {
-    jvmToolchain(17)
-
     explicitApi()
     compilerOptions {
         optIn.add("io.github.ardiien.datasize.ExperimentalDataSizeApi")
     }
 
-    jvm()
+    jvmToolchain(17)
+    jvm {
+        withSourcesJar()
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+            freeCompilerArgs.add("-Xjdk-release=8")
+        }
+    }
+
+    sourceSets.all {
+        kotlin.setSrcDirs(listOf("$name/src"))
+        resources.setSrcDirs(listOf("$name/resources"))
+    }
 
     sourceSets {
         commonMain.dependencies {
@@ -37,9 +44,11 @@ kotlin {
 
 dokka {
     dokkaSourceSets.configureEach {
+        skipDeprecated.set(true)
+
         sourceLink {
             localDirectory.set(file("src/$name/kotlin"))
-            remoteUrl("https://github.com/ardiien/datasize/tree/main/datasize-core/src/$name/kotlin")
+            remoteUrl("https://github.com/ardiien/datasize/tree/main")
         }
     }
 }
