@@ -5,67 +5,62 @@
  */
 package io.github.ardiien.datasize.formatter
 
+import de.infix.testBalloon.framework.core.testSuite
 import io.github.ardiien.datasize.DataSize.Companion.bytes
 import io.github.ardiien.datasize.DataSize.Companion.gibibytes
 import io.github.ardiien.datasize.DefaultDataSizeUnitFormatter
 import io.github.ardiien.datasize.IecUnit
-import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class SimpleDataSizeFormatterTest {
+val SimpleDataSizeFormatterTestSuite by testSuite {
+    testFixture { DefaultDataSizeUnitFormatter } asContextForEach {
+        test("binaryFormat with zero fraction digits returns correct string") {
+            val expected = "5 GB"
 
-    private val formatter: SimpleDataSizeFormatter = DefaultDataSizeUnitFormatter
+            val size = 5.32.gibibytes
+            val actual = binaryFormat(
+                value = size,
+                unit = IecUnit.Gibibyte,
+                fractionDigits = 0,
+            )
 
-    @Test
-    fun `binaryFormat with zero fraction digits returns correct string`() {
-        val expected = "5 GB"
+            assertEquals(expected, actual)
+        }
 
-        val size = 5.32.gibibytes
-        val actual = formatter.binaryFormat(
-            value = size,
-            unit = IecUnit.Gibibyte,
-            fractionDigits = 0,
-        )
+        test("binaryFormat with one fraction digit returns correct string") {
+            val expected = "5,3 GB"
 
-        assertEquals(expected, actual)
-    }
+            val size = 5.32.gibibytes
+            val actual = binaryFormat(
+                value = size,
+                unit = IecUnit.Gibibyte,
+                fractionDigits = 1,
+            )
 
-    @Test
-    fun `binaryFormat with one fraction digit returns correct string`() {
-        val expected = "5,3 GB"
+            assertEquals(expected, actual)
+        }
 
-        val size = 5.32.gibibytes
-        val actual = formatter.binaryFormat(
-            value = size,
-            unit = IecUnit.Gibibyte,
-            fractionDigits = 1,
-        )
+        test("binaryFormat with two fraction digits returns correct string") {
+            val expected = "5,32 GB"
 
-        assertEquals(expected, actual)
-    }
+            val size = 5.32.gibibytes
+            val actual = binaryFormat(
+                value = size,
+                unit = IecUnit.Gibibyte,
+                fractionDigits = 2,
+            )
 
-    @Test
-    fun `binaryFormat with two fraction digits returns correct string`() {
-        val expected = "5,32 GB"
+            assertEquals(expected, actual)
+        }
 
-        val size = 5.32.gibibytes
-        val actual = formatter.binaryFormat(
-            value = size,
-            unit = IecUnit.Gibibyte,
-            fractionDigits = 2,
-        )
+        test("binaryFormat returns correct string on zero bytes") {
+            val expected = "0 B"
 
-        assertEquals(expected, actual)
-    }
+            val size = 0.bytes
+            val actual = binaryFormat(value = size)
 
-    @Test
-    fun `binaryFormat returns correct string on zero bytes`() {
-        val expected = "0 B"
-
-        val size = 0.bytes
-        val actual = formatter.binaryFormat(value = size)
-
-        assertEquals(expected, actual)
+            assertEquals(expected, actual)
+        }
     }
 }

@@ -5,10 +5,12 @@ kotlin = "2.4.0"
 kotlinCollections = "0.5.0"
 shadow = "9.4.1"
 publish = "0.36.0"
+testBalloon = "1.0.1-K2.4.0"
 
 [libraries]
 kotlinx-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinCollections" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+test-balloon = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "testBalloon" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -17,3 +19,4 @@ shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 bcv = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "bcv" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mcentral-publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
+test-balloon = {id = "de.infix.testBalloon", version.ref = "testBalloon"}
