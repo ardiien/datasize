@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.bcv) apply false
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.mcentral.publish) apply false
+    alias(libs.plugins.test.balloon) apply false
 }

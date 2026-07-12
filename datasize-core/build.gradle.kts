@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.mcentral.publish)
+    alias(libs.plugins.test.balloon)
 }
 
 group = "io.github.ardiien.datasize"
@@ -33,6 +34,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.test.balloon)
         }
     }
 }
