@@ -3,13 +3,14 @@
  * Licensed under the Apache License, Version 2.0.
  * See http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.github.ardiien.datasize
+package io.github.ardiien.datasize.formatter
 
 import io.github.ardiien.datasize.DataSize.Companion.bytes
 import io.github.ardiien.datasize.DataSize.Companion.gibibytes
-import io.github.ardiien.datasize.formatter.SimpleDataSizeFormatter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import io.github.ardiien.datasize.DefaultDataSizeUnitFormatter
+import io.github.ardiien.datasize.IecUnit
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 class SimpleDataSizeFormatterTest {
