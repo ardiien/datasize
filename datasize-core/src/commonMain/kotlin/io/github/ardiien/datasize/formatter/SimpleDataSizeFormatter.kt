@@ -48,7 +48,7 @@ public class SimpleDataSizeFormatter(
         require(fractionDigits >= 0) { "fractionDigits must not be negative, but was $fractionDigits" }
 
         val number = value.toDouble(unit)
-        val actualFormatter = extendFormat(format, number, fractionDigits)
+        val actualFormatter = extendFormat(format.clone().castTo(), number, fractionDigits)
         return "${actualFormatter.format(number)} ${localizer.abbreviation(unit)}"
     }
 
