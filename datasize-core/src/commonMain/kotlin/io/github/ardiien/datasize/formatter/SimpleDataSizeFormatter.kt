@@ -97,7 +97,7 @@ public class SimpleDataSizeFormatter(
         internal fun extendFormat(format: DecimalFormat, number: Double, fractionDigits: Int): DecimalFormat =
             format.apply {
                 maximumFractionDigits = fractionDigits.coerceAtMost(2)
-                isGroupingUsed = number > 9999.999999999
+                isGroupingUsed = number > 9999.99999999999
             }
 
         /**
